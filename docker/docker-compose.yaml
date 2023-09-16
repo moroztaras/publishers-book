@@ -1,0 +1,20 @@
+version: "3.9"
+
+services:
+  database:
+    container_name: publisher_book_postgres
+    image: postgres:13.3-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-app}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      # Trust all connections
+      POSTGRES_HOST_AUTH_METHOD: trust
+    ports:
+      - ${POSTGRES_PORT}:5432
+    volumes:
+      - database_data:/var/lib/postgresql/data:rw
+      # - ./docker/db/data:/var/lib/postgresql/data:rw
+
+volumes:
+  database_data:
