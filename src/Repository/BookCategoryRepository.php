@@ -18,4 +18,14 @@ class BookCategoryRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, BookCategory::class);
     }
+
+    public function getById(int $id): BookCategory
+    {
+        $category = $this->find($id);
+        if (null === $category) {
+            throw new BookCategoryNotFoundException();
+        }
+
+        return $category;
+    }
 }
