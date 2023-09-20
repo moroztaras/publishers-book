@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\BookCategory;
+use App\Exception\BookCategoryNotFoundException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
