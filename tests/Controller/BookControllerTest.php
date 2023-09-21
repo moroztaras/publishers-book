@@ -5,7 +5,6 @@ namespace App\Tests\Controller;
 use App\Entity\Book;
 use App\Entity\BookCategory;
 use App\Tests\AbstractControllerTest;
-use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class BookControllerTest extends AbstractControllerTest
@@ -59,7 +58,7 @@ class BookControllerTest extends AbstractControllerTest
             ->setTitle('Test book')
             ->setImage('http://localhost.png')
             ->setMeap(true)
-            ->setPublicationDate(new DateTime())
+            ->setPublicationDate(new \DateTime())
             ->setAuthors(['Tester'])
             ->setCategories(new ArrayCollection([$bookCategory]))
             ->setSlug('test-book'));
