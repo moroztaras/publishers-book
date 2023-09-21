@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\BookCategory;
 use App\Exception\BookCategoryNotFoundException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -28,5 +29,13 @@ class BookCategoryRepository extends ServiceEntityRepository
         }
 
         return $category;
+    }
+
+    /**
+     * @return BookCategory[]
+     */
+    public function findAllSortByTitle(): array
+    {
+        return $this->findBy([], ['title' => Criteria::ASC]);
     }
 }
