@@ -8,7 +8,6 @@ use App\Model\BookCategoryListItem;
 use App\Model\BookCategoryListResponse;
 use App\Repository\BookCategoryRepository;
 use App\Tests\AbstractTestCase;
-use Doctrine\Common\Collections\Criteria;
 
 class BookCategoryManagerTest extends AbstractTestCase
 {
@@ -24,8 +23,7 @@ class BookCategoryManagerTest extends AbstractTestCase
 
         // Set the behavior of BookCategoryRepository
         $repository->expects($this->once())
-            ->method('findBy')
-            ->with([], ['title' => Criteria::ASC])
+            ->method('findAllSortByTitle')
             ->willReturn([$category]);
 
         // Create BookCategoryManager
