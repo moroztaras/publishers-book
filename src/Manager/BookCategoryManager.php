@@ -6,7 +6,6 @@ use App\Entity\BookCategory;
 use App\Model\BookCategoryListItem;
 use App\Model\BookCategoryListResponse;
 use App\Repository\BookCategoryRepository;
-use Doctrine\Common\Collections\Criteria;
 
 class BookCategoryManager implements BookCategoryManagerInterface
 {
@@ -16,7 +15,7 @@ class BookCategoryManager implements BookCategoryManagerInterface
 
     public function getCategories(): BookCategoryListResponse
     {
-        $categories = $this->bookCategoryRepository->findBy([], ['title' => Criteria::ASC]);
+        $categories = $this->bookCategoryRepository->findAllSortByTitle();
 
         // The list of categories from entity must be remapped to the list of models.
         $items = array_map(

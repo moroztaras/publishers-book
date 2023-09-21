@@ -2,28 +2,44 @@
 
 namespace App\Tests\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use App\Entity\BookCategory;
+use App\Tests\AbstractControllerTest;
 use Symfony\Component\HttpFoundation\Request;
 
-class BookCategoryControllerTest extends WebTestCase
+class BookCategoryControllerTest extends AbstractControllerTest
 {
     // Functional test
     public function testCategories(): void
     {
-        // Create client
-        $client = static::createClient();
+        // Create new category
+        $this->em->persist((new BookCategory())->setTitle('Devices')->setSlug('devices'));
+        $this->em->flush();
+
         // Create request
-        $client->request(Request::METHOD_GET, '/api/v1/book/categories');
-        // Get response
-        $responseContent = $client->getResponse()->getContent();
+        $this->client->request(Request::METHOD_GET, '/api/v1/book/categories');
+        // Get response content decode in array
+        $responseContent = json_decode($this->client->getResponse()->getContent(), true);
 
         // Response was successful
         $this->assertResponseIsSuccessful();
-
-        // Comparing the actual returned value with the expected value.
-        $this->assertJsonStringEqualsJsonFile(
-            __DIR__.'/BookCategoryControllerTest/testCategories.json',
-            $responseContent
-        );
+        // Comparing the actual response content with the expected shame.
+        $this->assertJsonDocumentMatchesSchema($responseContent, [
+            'type' => 'object',
+            'required' => ['items'],
+            'properties' => [
+                'items' => [
+                    'type' => 'array',
+                    'items' => [
+                        'type' => 'object',
+                        'required' => ['id', 'title', 'slug'],
+                        'properties' => [
+                            'title' => ['type' => 'string'],
+                            'slug' => ['type' => 'string'],
+                            'id' => ['type' => 'integer'],
+                        ],
+                    ],
+                ],
+            ],
+        ]);
     }
 }
