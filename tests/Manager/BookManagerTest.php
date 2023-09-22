@@ -3,7 +3,6 @@
 namespace App\Tests\Manager;
 
 use App\Entity\Book;
-use App\Entity\BookCategory;
 use App\Exception\BookCategoryNotFoundException;
 use App\Manager\BookManager;
 use App\Model\BookListItem;
@@ -25,9 +24,10 @@ class BookManagerTest extends AbstractTestCase
         $bookCategoryRepository = $this->createMock(BookCategoryRepository::class);
         // Set behavior for BookCategoryRepository
         $bookCategoryRepository->expects($this->once())
-            ->method('getById')
+            ->method('existsById')
             ->with(130)
-            ->willThrowException(new BookCategoryNotFoundException());
+            ->willReturn(false)
+        ;
 
         // Expect exception
         $this->expectException(BookCategoryNotFoundException::class);
@@ -44,15 +44,17 @@ class BookManagerTest extends AbstractTestCase
         $bookRepository->expects($this->once())
             ->method('findBooksByCategoryId')
             ->with(130)
-            ->willReturn([$this->createBookEntity()]);
+            ->willReturn([$this->createBookEntity()])
+        ;
 
         // Mock for BookCategoryRepository
         $bookCategoryRepository = $this->createMock(BookCategoryRepository::class);
         // Set behavior for BookCategoryRepository
         $bookCategoryRepository->expects($this->once())
-            ->method('getById')
+            ->method('existsById')
             ->with(130)
-            ->willReturn(new BookCategory());
+            ->willReturn(true)
+        ;
 
         // Create manager
         $manager = new BookManager($bookRepository, $bookCategoryRepository);
