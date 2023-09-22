@@ -3,6 +3,7 @@
 namespace App\Manager;
 
 use App\Entity\Book;
+use App\Exception\BookCategoryNotFoundException;
 use App\Model\BookListItem;
 use App\Model\BookListResponse;
 use App\Repository\BookCategoryRepository;
@@ -19,7 +20,9 @@ class BookManager implements BookManagerInterface
     // Receiving books in the specified category.
     public function getBooksByCategory(int $categoryId): BookListResponse
     {
-        $this->bookCategoryRepository->getById($categoryId);
+        if (!$this->bookCategoryRepository->existsById($categoryId)) {
+            throw new BookCategoryNotFoundException();
+        }
 
         // Remap the books from the repository to the model
         return new BookListResponse(array_map(
