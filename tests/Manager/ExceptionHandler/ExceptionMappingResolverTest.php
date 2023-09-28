@@ -51,4 +51,15 @@ class ExceptionMappingResolverTest extends AbstractTestCase
         // Comparing the actual returned value with the expected value.
         $this->assertEquals(Response::HTTP_INTERNAL_SERVER_ERROR, $mapping->getCode());
     }
+
+    // Check Resolve Hidden
+    public function testResolvesHidden(): void
+    {
+        // Create resolver
+        $resolver = new ExceptionMappingResolver([\LogicException::class => ['code' => Response::HTTP_INTERNAL_SERVER_ERROR, 'hidden' => false]]);
+        // To resolve
+        $mapping = $resolver->resolve(\LogicException::class);
+
+        $this->assertFalse($mapping->isHidden());
+    }
 }
