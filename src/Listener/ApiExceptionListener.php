@@ -2,9 +2,9 @@
 
 namespace App\Listener;
 
-use App\Model\ErrorResponse;
 use App\Manager\ExceptionHandler\ExceptionMapping;
 use App\Manager\ExceptionHandler\ExceptionMappingResolver;
+use App\Model\ErrorResponse;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
