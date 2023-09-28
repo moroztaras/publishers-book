@@ -12,8 +12,16 @@ class ExceptionMappingResolverTest extends AbstractTestCase
     public function testThrowsExceptionOnEmptyCode(): void
     {
         // expect InvalidArgumentException
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
 
         new ExceptionMappingResolver(['someClass' => ['hidden' => true]]);
+    }
+
+    // If not found class in settings
+    public function testResolvesToNullWhenNotFound(): void
+    {
+        $resolver = new ExceptionMappingResolver([]);
+
+        $this->assertNull($resolver->resolve(\InvalidArgumentException::class));
     }
 }
