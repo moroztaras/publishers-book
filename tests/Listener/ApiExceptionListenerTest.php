@@ -134,6 +134,40 @@ class ApiExceptionListenerTest extends AbstractTestCase
         $this->assertResponse(Response::HTTP_NOT_FOUND, $responseBody, $event->getResponse());
     }
 
+    // Test with configured logger end error 500.
+    public function test500IsLoggable(): void
+    {
+        // Create mapping
+        $mapping = ExceptionMapping::fromCode(Response::HTTP_GATEWAY_TIMEOUT);
+        // Create response message
+        $responseMessage = Response::$statusTexts[$mapping->getCode()];
+        // Create response body
+        $responseBody = json_encode(['error' => $responseMessage]);
+
+        // Set the behavior of the method - resolve
+        $this->resolver->expects($this->once())
+            ->method('resolve')
+            ->with(\InvalidArgumentException::class)
+            ->willReturn($mapping);
+
+        // Set the behavior of the method - serialize
+        $this->serializer->expects($this->once())
+            ->method('serialize')
+            ->with(new ErrorResponse($responseMessage), JsonEncoder::FORMAT)
+            ->willReturn($responseBody);
+
+        // Logger settings
+        $this->logger->expects($this->once())
+            ->method('error')
+            ->with('error message', $this->anything());
+
+        $event = $this->createEvent(new \InvalidArgumentException('error message'));
+
+        $this->runListener($event);
+
+        $this->assertResponse(Response::HTTP_GATEWAY_TIMEOUT, $responseBody, $event->getResponse());
+    }
+
     private function createEvent(\InvalidArgumentException $e): ExceptionEvent
     {
         return new ExceptionEvent(
