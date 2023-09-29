@@ -156,16 +156,54 @@ class ApiExceptionListenerTest extends AbstractTestCase
             ->with(new ErrorResponse($responseMessage), JsonEncoder::FORMAT)
             ->willReturn($responseBody);
 
-        // Logger settings
+        // Set the behavior logger and the method - error with arguments
         $this->logger->expects($this->once())
             ->method('error')
             ->with('error message', $this->anything());
 
+        // Create event
         $event = $this->createEvent(new \InvalidArgumentException('error message'));
 
+        // Run listener
         $this->runListener($event);
 
+        // Comparing the expected value with the actual returned response.
         $this->assertResponse(Response::HTTP_GATEWAY_TIMEOUT, $responseBody, $event->getResponse());
+    }
+
+    // When resolve return null
+    public function test500IsDefaultWhenMappingNotFound(): void
+    {
+        // Create response message
+        $responseMessage = Response::$statusTexts[Response::HTTP_INTERNAL_SERVER_ERROR];
+        // Create response body
+        $responseBody = json_encode(['error' => $responseMessage]);
+
+        // Set the behavior of the method - resolve
+        $this->resolver->expects($this->once())
+            ->method('resolve')
+            ->with(\InvalidArgumentException::class)
+            ->willReturn(null);
+
+        // Set the behavior of the method - serialize
+        $this->serializer->expects($this->once())
+            ->method('serialize')
+            ->with(new ErrorResponse($responseMessage), JsonEncoder::FORMAT)
+            ->willReturn($responseBody);
+
+        // Set the behavior logger and the method - error with arguments
+        $this->logger->expects($this->once())
+            ->method('error')
+            ->with('error message', $this->anything());
+
+        // Create event
+        $event = $this->createEvent(new \InvalidArgumentException('error message'));
+
+        // Run Listener
+        $this->runListener($event);
+
+        // Comparing the expected value with the actual returned response.
+        $this->assertResponse(Response::HTTP_INTERNAL_SERVER_ERROR, $responseBody, $event->getResponse());
     }
 
     private function createEvent(\InvalidArgumentException $e): ExceptionEvent
