@@ -37,6 +37,6 @@ class SubscribeController extends AbstractController
     {
         $this->subscriberManager->subscribe($subscriberRequest);
 
-        return $this->json(null);
+        return $this->json('Subscribe email to newsletter mailing list');
     }
 }
