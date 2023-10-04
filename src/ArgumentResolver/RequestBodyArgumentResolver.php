@@ -27,16 +27,19 @@ class RequestBodyArgumentResolver implements ArgumentValueResolverInterface
         return count($argument->getAttributes(RequestBody::class, ArgumentMetadata::IS_INSTANCEOF)) > 0;
     }
 
-    public function resolve(Request $request, ArgumentMetadata $argument): ?Generator
+    public function resolve(Request $request, ArgumentMetadata $argument): iterable
     {
+        if (!$argument->getAttributesOfType(RequestBody::class, ArgumentMetadata::IS_INSTANCEOF)) {
+            return [];
+        }
+
         try {
-            // Deserialize body request
             $model = $this->serializer->deserialize(
                 $request->getContent(),
                 $argument->getType(),
                 JsonEncoder::FORMAT
             );
-        } catch (Throwable $throwable) {
+        } catch (\Throwable $throwable) {
             throw new RequestBodyConvertException($throwable);
         }
 
@@ -45,6 +48,6 @@ class RequestBodyArgumentResolver implements ArgumentValueResolverInterface
             throw new ValidationException($errors);
         }
 
-        yield $model;
+        return [$model];
     }
 }
