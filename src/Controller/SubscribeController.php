@@ -4,14 +4,13 @@ namespace App\Controller;
 
 use App\Attribute\RequestBody;
 use App\Manager\SubscriberManager;
+use App\Model\ErrorResponse;
 use App\Model\SubscriberRequest;
-use App\Service\SubscriberService;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use OpenApi\Annotations as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use OpenApi\Annotations as OA;
-use Nelmio\ApiDocBundle\Annotation\Model;
-use App\Model\ErrorResponse;
 
 class SubscribeController extends AbstractController
 {
@@ -28,8 +27,10 @@ class SubscribeController extends AbstractController
      * @OA\Response(
      *     response="400",
      *     description="Validation failed",
+     *
      *     @Model(type=ErrorResponse::class)
      * )
+     *
      * @OA\RequestBody(@Model(type=SubscriberRequest::class))
      */
     #[Route(path: '/api/v1/subscribe', methods: ['POST'])]
