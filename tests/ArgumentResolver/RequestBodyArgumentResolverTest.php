@@ -37,6 +37,16 @@ class RequestBodyArgumentResolverTest extends AbstractTestCase
         $this->assertTrue($this->createResolver()->supports(new Request(), $meta));
     }
 
+    // Test for check Request and ArgumentMetadata without attributes
+    public function testNotSupports(): void
+    {
+        // Expected metadata
+        $meta = new ArgumentMetadata('some', null, false, false, null);
+
+        // Comparing the actual returned response with the expected metadata.
+        $this->assertFalse($this->createResolver()->supports(new Request(), $meta));
+    }
+
     // Helper method for create resolver
     private function createResolver(): RequestBodyArgumentResolver
     {
