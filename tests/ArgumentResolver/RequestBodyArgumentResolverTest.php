@@ -108,6 +108,31 @@ class RequestBodyArgumentResolverTest extends AbstractTestCase
         $this->createResolver()->resolve($request, $meta)->next();
     }
 
+    public function testResolve(): void
+    {
+        $body = ['test' => true];
+        $encodedBody = json_encode($body);
+
+        $request = new Request([], [], [], [], [], [], $encodedBody);
+        $meta = new ArgumentMetadata('some', \stdClass::class, false, false, null, false, [
+            new RequestBody(),
+        ]);
+
+        $this->serializer->expects($this->once())
+            ->method('deserialize')
+            ->with($encodedBody, \stdClass::class, JsonEncoder::FORMAT)
+            ->willReturn($body);
+
+        $this->validator->expects($this->once())
+            ->method('validate')
+            ->with($body)
+            ->willReturn(new ConstraintViolationList([]));
+
+        $actual = $this->createResolver()->resolve($request, $meta);
+
+        $this->assertEquals($body, $actual[0]);
+    }
+
     // Helper method for create resolver
     private function createResolver(): RequestBodyArgumentResolver
     {
