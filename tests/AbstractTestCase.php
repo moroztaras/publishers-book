@@ -38,7 +38,7 @@ abstract class AbstractTestCase extends TestCase
     }
 
     // Exception event
-    protected function createExceptionEvent(\InvalidArgumentException $e): ExceptionEvent
+    protected function createExceptionEvent(\Throwable $e): ExceptionEvent
     {
         return new ExceptionEvent(
             $this->createTestKernel(),
