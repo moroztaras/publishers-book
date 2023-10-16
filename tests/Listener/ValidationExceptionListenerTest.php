@@ -7,7 +7,6 @@ use App\Listener\ValidationExceptionListener;
 use App\Model\ErrorResponse;
 use App\Model\ErrorValidationDetails;
 use App\Tests\AbstractTestCase;
-use Exception;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -16,6 +15,8 @@ use Symfony\Component\Validator\ConstraintViolationList;
 
 class ValidationExceptionListenerTest extends AbstractTestCase
 {
+    private const VALIDATION_MESSAGE = 'Validation failed';
+
     private SerializerInterface $serializer;
 
     protected function setUp(): void
@@ -38,11 +39,12 @@ class ValidationExceptionListenerTest extends AbstractTestCase
         (new ValidationExceptionListener($this->serializer))($event);
     }
 
+    // Checking for correct error format in exception
     public function testInvoke(): void
     {
         // Data expected
         $serialized = json_encode([
-            'message' => 'Validation failed',
+            'message' => self::VALIDATION_MESSAGE,
             'details' => [
                 'violations' => [
                     ['field' => 'name', 'message' => 'error'],
@@ -68,7 +70,7 @@ class ValidationExceptionListenerTest extends AbstractTestCase
                     }
 
                     $violations = $details->getViolations();
-                    if (1 !== count($violations) || 'Validation failed' !== $response->getMessage()) {
+                    if (1 !== count($violations) || self::VALIDATION_MESSAGE !== $response->getMessage()) {
                         return false;
                     }
 

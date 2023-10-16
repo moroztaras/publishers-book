@@ -10,7 +10,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
-use Throwable;
 
 abstract class AbstractTestCase extends TestCase
 {
@@ -39,7 +38,7 @@ abstract class AbstractTestCase extends TestCase
     }
 
     // Exception event
-    protected function createExceptionEvent(Throwable $e): ExceptionEvent
+    protected function createExceptionEvent(\Throwable $e): ExceptionEvent
     {
         return new ExceptionEvent(
             $this->createTestKernel(),
