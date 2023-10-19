@@ -76,7 +76,7 @@ class BookManagerTest extends AbstractTestCase
             ->setAuthors(['Tester'])
             ->setImage('http://localhost/test.png')
             ->setCategories(new ArrayCollection())
-            ->setPublicationDate(new \DateTime('2020-10-10'));
+            ->setPublicationDate(new \DateTimeImmutable('2020-10-10'));
 
         $this->setEntityId($book, 123);
 

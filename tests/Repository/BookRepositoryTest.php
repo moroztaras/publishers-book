@@ -40,7 +40,7 @@ class BookRepositoryTest extends AbstractRepositoryTest
     private function createBook(string $title, BookCategory $category): Book
     {
         return (new Book())
-            ->setPublicationDate(new \DateTime())
+            ->setPublicationDate(new \DateTimeImmutable())
             ->setAuthors(['author'])
             ->setMeap(false)
             ->setSlug($title)
