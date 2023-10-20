@@ -4,7 +4,7 @@ namespace App\Tests\Manager;
 
 use App\Entity\BookCategory;
 use App\Manager\BookCategoryManager;
-use App\Model\BookCategoryListItem;
+use App\Model\BookCategory as BookCategoryModel;
 use App\Model\BookCategoryListResponse;
 use App\Repository\BookCategoryRepository;
 use App\Tests\AbstractTestCase;
@@ -30,7 +30,7 @@ class BookCategoryManagerTest extends AbstractTestCase
         $manager = new BookCategoryManager($repository);
 
         // Expected value
-        $expected = new BookCategoryListResponse([new BookCategoryListItem(7, 'Test', 'test')]);
+        $expected = new BookCategoryListResponse([new BookCategoryModel(7, 'Test', 'test')]);
 
         // Comparing the actual returned value with the expected value.
         $this->assertEquals($expected, $manager->getCategories());
