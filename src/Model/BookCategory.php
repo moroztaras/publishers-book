@@ -2,7 +2,7 @@
 
 namespace App\Model;
 
-class BookCategoryListItem
+class BookCategory
 {
     public function __construct(
         private int $id,
