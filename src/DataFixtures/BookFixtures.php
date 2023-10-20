@@ -20,6 +20,8 @@ class BookFixtures extends Fixture implements DependentFixtureInterface
             ->setTitle('RxJava for Android Developers')
             ->setPublicationDate(new \DateTimeImmutable('2019-04-01'))
             ->setMeap(false)
+            ->setIsbn('123321')
+            ->setDescription('Test description')
             ->setAuthors(['Timo Tuominen'])
             ->setSlug('rxjava-for-android-developers')
             ->setCategories(new ArrayCollection([$androidCategory, $devicesCategory]))
