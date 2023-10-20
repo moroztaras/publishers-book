@@ -22,7 +22,7 @@ class BookCategoryControllerTest extends AbstractControllerTest
 
         // Response was successful
         $this->assertResponseIsSuccessful();
-        // Comparing the actual response content with the expected shame.
+        // Comparing the actual response content with the expected schema.
         $this->assertJsonDocumentMatchesSchema($responseContent, [
             'type' => 'object',
             'required' => ['items'],

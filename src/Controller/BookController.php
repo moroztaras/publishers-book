@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Manager\BookManager;
+use App\Model\BookDetails;
 use App\Model\BookListResponse;
 use App\Model\ErrorResponse;
 use Nelmio\ApiDocBundle\Annotation\Model;
@@ -36,5 +37,26 @@ class BookController extends AbstractController
     public function booksByCategory(int $id): Response
     {
         return $this->json($this->bookManager->getBooksByCategory($id));
+    }
+
+    /**
+     * @OA\Response(
+     *     response=200,
+     *     description="Returns book detail information",
+     *
+     *     @Model(type=BookDetails::class)
+     * )
+     *
+     * @OA\Response(
+     *     response=404,
+     *     description="Book not found",
+     *
+     *     @Model(type=ErrorResponse::class)
+     * )
+     */
+    #[Route(path: '/api/v1/book/{id}', methods: ['GET'])]
+    public function bookById(int $id): Response
+    {
+        return $this->json($this->bookManager->getBookById($id));
     }
 }

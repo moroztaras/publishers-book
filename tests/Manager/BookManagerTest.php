@@ -9,6 +9,7 @@ use App\Model\BookListItem;
 use App\Model\BookListResponse;
 use App\Repository\BookCategoryRepository;
 use App\Repository\BookRepository;
+use App\Repository\ReviewRepository;
 use App\Tests\AbstractTestCase;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -18,6 +19,8 @@ class BookManagerTest extends AbstractTestCase
     // Category Not Found
     public function testGetBooksByCategoryNotFound(): void
     {
+        // Mock for ReviewRepository
+        $reviewRepository = $this->createMock(ReviewRepository::class);
         // Mock for BookRepository
         $bookRepository = $this->createMock(BookRepository::class);
         // Mock for BookCategoryRepository
@@ -33,11 +36,13 @@ class BookManagerTest extends AbstractTestCase
         $this->expectException(BookCategoryNotFoundException::class);
 
         // Run manager
-        (new BookManager($bookRepository, $bookCategoryRepository))->getBooksByCategory(130);
+        (new BookManager($bookRepository, $bookCategoryRepository, $reviewRepository))->getBooksByCategory(130);
     }
 
     public function testGetBooksByCategory(): void
     {
+        // Mock for ReviewRepository
+        $reviewRepository = $this->createMock(ReviewRepository::class);
         // Mock for BookRepository
         $bookRepository = $this->createMock(BookRepository::class);
         // Set behavior for BookRepository
@@ -57,7 +62,7 @@ class BookManagerTest extends AbstractTestCase
         ;
 
         // Create manager
-        $manager = new BookManager($bookRepository, $bookCategoryRepository);
+        $manager = new BookManager($bookRepository, $bookCategoryRepository, $reviewRepository);
 
         // Expected value
         $expected = new BookListResponse([$this->createBookItemModel()]);
@@ -73,10 +78,12 @@ class BookManagerTest extends AbstractTestCase
             ->setTitle('Test Book')
             ->setSlug('test-book')
             ->setMeap(false)
+            ->setIsbn('123321')
+            ->setDescription('Test description')
             ->setAuthors(['Tester'])
             ->setImage('http://localhost/test.png')
             ->setCategories(new ArrayCollection())
-            ->setPublicationDate(new \DateTime('2020-10-10'));
+            ->setPublicationDate(new \DateTimeImmutable('2020-10-10'));
 
         $this->setEntityId($book, 123);
 

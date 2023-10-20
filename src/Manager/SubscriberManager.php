@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Manager;
 
 use App\Entity\Subscriber;
