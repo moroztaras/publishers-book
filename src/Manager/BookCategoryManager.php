@@ -3,7 +3,7 @@
 namespace App\Manager;
 
 use App\Entity\BookCategory;
-use App\Model\BookCategoryListItem;
+use App\Model\BookCategory as BookCategoryModel;
 use App\Model\BookCategoryListResponse;
 use App\Repository\BookCategoryRepository;
 
@@ -19,8 +19,10 @@ class BookCategoryManager implements BookCategoryManagerInterface
 
         // The list of categories from entity must be remapped to the list of models.
         $items = array_map(
-            fn (BookCategory $bookCategory) => new BookCategoryListItem(
-                $bookCategory->getId(), $bookCategory->getTitle(), $bookCategory->getSlug()
+            fn (BookCategory $bookCategory) => new BookCategoryModel(
+                $bookCategory->getId(),
+                $bookCategory->getTitle(),
+                $bookCategory->getSlug()
             ),
             $categories
         );
