@@ -22,7 +22,8 @@ class BookManager implements BookManagerInterface
     public function __construct(
         private BookRepository $bookRepository,
         private BookCategoryRepository $bookCategoryRepository,
-        private ReviewRepository $reviewRepository)
+        private ReviewRepository $reviewRepository,
+        private RatingManager $ratingManager)
     {
     }
 
@@ -44,12 +45,7 @@ class BookManager implements BookManagerInterface
     {
         $book = $this->bookRepository->getById($id);
         $reviews = $this->reviewRepository->countByBookId($id);
-        $rating = 0;
 
-        // Calculate rating for book
-        if ($reviews > 0) {
-            $rating = $this->reviewRepository->getBookTotalRatingSum($id) / $reviews;
-        }
         // Remap the categories from field of book categories to the model
         $categories = $book->getCategories()
             ->map(fn (BookCategory $bookCategory) => new BookCategoryModel(
@@ -59,6 +55,7 @@ class BookManager implements BookManagerInterface
             ));
 
         return BookMapper::map($book, new BookDetails())
+            ->setRating($this->ratingManager->calcReviewRatingForBook($id, $reviews))
             ->setReviews($reviews)
             ->setFormats($this->mapFormats($book->getFormats()))
             ->setCategories($categories->toArray())

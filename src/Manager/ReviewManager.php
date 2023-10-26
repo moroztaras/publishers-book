@@ -11,8 +11,10 @@ class ReviewManager
 {
     private const PAGE_LIMIT = 5;
 
-    public function __construct(private ReviewRepository $reviewRepository)
-    {
+    public function __construct(
+        private ReviewRepository $reviewRepository,
+        private RatingManager $ratingManager
+    ) {
     }
 
     public function getReviewPageByBookId(int $id, int $page): ReviewPage
@@ -21,20 +23,19 @@ class ReviewManager
         $offset = max($page - 1, 0) * self::PAGE_LIMIT;
         $paginator = $this->reviewRepository->getPageByBookId($id, $offset, self::PAGE_LIMIT);
         $total = count($paginator);
-        $rating = 0;
+        $items = [];
 
-        // Calculate rating for book
-        if ($total > 0) {
-            $rating = $this->reviewRepository->getBookTotalRatingSum($id) / $total;
+        foreach ($paginator as $item) {
+            $items[] = $this->map($item);
         }
 
         return (new ReviewPage())
-            ->setRating($rating)
+            ->setRating($this->ratingManager->calcReviewRatingForBook($id, $total))
             ->setTotal($total)
             ->setPage($page)
             ->setPerPage(self::PAGE_LIMIT)
             ->setPages(ceil($total / self::PAGE_LIMIT))
-            ->setItems(array_map([$this, 'map'], $paginator->getIterator()->getArrayCopy()));
+            ->setItems($items);
     }
 
     // Remap the entity review to model
