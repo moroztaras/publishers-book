@@ -2,8 +2,8 @@
 
 namespace App\Tests\Manager;
 
-use App\Repository\ReviewRepository;
 use App\Manager\RatingManager;
+use App\Repository\ReviewRepository;
 use App\Tests\AbstractTestCase;
 
 class RatingManagerTest extends AbstractTestCase
@@ -39,6 +39,16 @@ class RatingManagerTest extends AbstractTestCase
         $this->assertEquals(
             $expectedRating,
             (new RatingManager($this->reviewRepository))->calcReviewRatingForBook(1, $total)
+        );
+    }
+
+    public function testCalcReviewRatingForBookZeroTotal(): void
+    {
+        $this->reviewRepository->expects($this->never())->method('getBookTotalRatingSum');
+
+        $this->assertEquals(
+            0,
+            (new RatingManager($this->reviewRepository))->calcReviewRatingForBook(1, 0)
         );
     }
 }
