@@ -70,7 +70,7 @@ class BookManagerTest extends AbstractTestCase
         // Expected value
         $expected = new BookListResponse([$this->createBookItemModel()]);
 
-        // Comparing the actual returned value with the expected value.
+        // Comparing the expected value with the actual returned value .
         $this->assertEquals($expected, $this->createBookManager()->getBooksByCategory(130));
     }
 
