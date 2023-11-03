@@ -26,5 +26,17 @@ services:
       - database_data:/var/lib/postgresql/data:rw
       # - ./docker/db/data:/var/lib/postgresql/data:rw
 
+  hoverfly:
+    container_name: hoverfly
+    image: spectolabs/hoverfly:v1.3.4
+    command:
+      - "-webserver"
+      - "-response-body-files-path=/hoverfly_app/responses"
+      - "-import=/hoverfly_app/simulations/recommend.simulation.json"
+    volumes:
+      - "$PWD/hoverfly:/hoverfly_app:ro"
+    ports:
+      - ${HOVERFLY_PORT}:8500
+
 volumes:
   database_data:

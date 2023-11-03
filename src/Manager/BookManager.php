@@ -6,6 +6,8 @@ use App\Entity\Book;
 use App\Entity\BookCategory;
 use App\Entity\BookToBookFormat;
 use App\Exception\BookCategoryNotFoundException;
+use App\Manager\Recommendation\Model\RecommendationItem;
+use App\Manager\Recommendation\RecommendationManager;
 use App\Mapper\BookMapper;
 use App\Model\BookCategory as BookCategoryModel;
 use App\Model\BookDetails;
@@ -16,6 +18,8 @@ use App\Repository\BookCategoryRepository;
 use App\Repository\BookRepository;
 use App\Repository\ReviewRepository;
 use Doctrine\Common\Collections\Collection;
+use Exception;
+use Psr\Log\LoggerInterface;
 
 class BookManager implements BookManagerInterface
 {
@@ -23,7 +27,9 @@ class BookManager implements BookManagerInterface
         private BookRepository $bookRepository,
         private BookCategoryRepository $bookCategoryRepository,
         private ReviewRepository $reviewRepository,
-        private RatingManager $ratingManager)
+        private RatingManager $ratingManager,
+        private RecommendationManager $recommendationManager,
+        private LoggerInterface $logger)
     {
     }
 
@@ -45,6 +51,7 @@ class BookManager implements BookManagerInterface
     {
         $book = $this->bookRepository->getById($id);
         $reviews = $this->reviewRepository->countByBookId($id);
+        $recommendations = [];
 
         // Remap the categories from field of book categories to the model
         $categories = $book->getCategories()
@@ -54,9 +61,19 @@ class BookManager implements BookManagerInterface
                 $bookCategory->getSlug()
             ));
 
+        try {
+            $recommendations = $this->getRecommendations($id);
+        } catch (Exception $ex) {
+            $this->logger->error('Error while fetching recommendations', [
+                'exception' => $ex->getMessage(),
+                'bookId' => $id,
+            ]);
+        }
+
         return BookMapper::map($book, new BookDetails())
             ->setRating($this->ratingManager->calcReviewRatingForBook($id, $reviews))
             ->setReviews($reviews)
+            ->setRecommendations($recommendations)
             ->setFormats($this->mapFormats($book->getFormats()))
             ->setCategories($categories->toArray())
         ;
@@ -76,5 +93,15 @@ class BookManager implements BookManagerInterface
             ->setDiscountPercent(
                 $formatJoin->getDiscountPercent()
             ))->toArray();
+    }
+
+    private function getRecommendations(int $bookId): array
+    {
+        $ids = array_map(
+            fn (RecommendationItem $item) => $item->getId(),
+            $this->recommendationManager->getRecommendationsByBookId($bookId)->getRecommendations()
+        );
+
+        return array_map([BookMapper::class, 'mapRecommended'], $this->bookRepository->findBooksByIds($ids));
     }
 }
