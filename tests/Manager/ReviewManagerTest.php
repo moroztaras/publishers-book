@@ -3,14 +3,12 @@
 namespace App\Tests\Manager;
 
 use App\Entity\Review;
-use App\Model\Review as ReviewModel;
 use App\Manager\RatingManager;
 use App\Manager\ReviewManager;
+use App\Model\Review as ReviewModel;
 use App\Model\ReviewPage;
 use App\Repository\ReviewRepository;
 use App\Tests\AbstractTestCase;
-use ArrayIterator;
-use DateTimeImmutable;
 
 class ReviewManagerTest extends AbstractTestCase
 {
@@ -77,7 +75,7 @@ class ReviewManagerTest extends AbstractTestCase
 
         // Create entity & set id
         $entity = (new Review())->setAuthor('tester')->setContent('test content')
-            ->setCreatedAt(new DateTimeImmutable('2020-10-10'))->setRating(4);
+            ->setCreatedAt(new \DateTimeImmutable('2020-10-10'))->setRating(4);
 
         $this->setEntityId($entity, 1);
 
@@ -85,7 +83,7 @@ class ReviewManagerTest extends AbstractTestCase
         $this->reviewRepository->expects($this->once())
             ->method('getPageByBookId')
             ->with(self::BOOK_ID, 0, self::PER_PAGE)
-            ->willReturn(new ArrayIterator([$entity]));
+            ->willReturn(new \ArrayIterator([$entity]));
 
         // Create ReviewManager
         $manager = new ReviewManager($this->reviewRepository, $this->ratingManager);

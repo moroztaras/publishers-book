@@ -11,7 +11,6 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
-use Throwable;
 
 class RecommendationManager
 {
@@ -35,7 +34,7 @@ class RecommendationManager
                 RecommendationResponse::class,
                 JsonEncoder::FORMAT
             );
-        } catch (Throwable $ex) {
+        } catch (\Throwable $ex) {
             if ($ex instanceof TransportExceptionInterface && Response::HTTP_FORBIDDEN === $ex->getCode()) {
                 throw new AccessDeniedException($ex);
             }

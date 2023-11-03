@@ -18,7 +18,6 @@ use App\Repository\BookCategoryRepository;
 use App\Repository\BookRepository;
 use App\Repository\ReviewRepository;
 use Doctrine\Common\Collections\Collection;
-use Exception;
 use Psr\Log\LoggerInterface;
 
 class BookManager implements BookManagerInterface
@@ -63,7 +62,7 @@ class BookManager implements BookManagerInterface
 
         try {
             $recommendations = $this->getRecommendations($id);
-        } catch (Exception $ex) {
+        } catch (\Exception $ex) {
             $this->logger->error('Error while fetching recommendations', [
                 'exception' => $ex->getMessage(),
                 'bookId' => $id,
