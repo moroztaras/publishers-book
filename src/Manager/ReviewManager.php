@@ -22,15 +22,17 @@ class ReviewManager
         // Calculate offset
         $offset = max($page - 1, 0) * self::PAGE_LIMIT;
         $paginator = $this->reviewRepository->getPageByBookId($id, $offset, self::PAGE_LIMIT);
-        $total = count($paginator);
         $items = [];
 
         foreach ($paginator as $item) {
             $items[] = $this->map($item);
         }
 
+        $rating = $this->ratingManager->calcReviewRatingForBook($id);
+        $total = $rating->getTotal();
+
         return (new ReviewPage())
-            ->setRating($this->ratingManager->calcReviewRatingForBook($id, $total))
+            ->setRating($rating->getRating())
             ->setTotal($total)
             ->setPage($page)
             ->setPerPage(self::PAGE_LIMIT)
