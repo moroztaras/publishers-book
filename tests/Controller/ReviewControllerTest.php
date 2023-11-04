@@ -5,7 +5,6 @@ namespace App\Tests\Controller;
 use App\Entity\Book;
 use App\Entity\Review;
 use App\Tests\AbstractControllerTest;
-use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class ReviewControllerTest extends AbstractControllerTest
@@ -62,7 +61,7 @@ class ReviewControllerTest extends AbstractControllerTest
             ->setMeap(true)
             ->setIsbn('123321')
             ->setDescription('test')
-            ->setPublicationDate(new DateTimeImmutable())
+            ->setPublicationDate(new \DateTimeImmutable())
             ->setAuthors(['Tester'])
             ->setCategories(new ArrayCollection([]))
             ->setSlug('test-book');
@@ -77,7 +76,7 @@ class ReviewControllerTest extends AbstractControllerTest
         $this->em->persist((new Review())
             ->setAuthor('tester')
             ->setContent('test content')
-            ->setCreatedAt(new DateTimeImmutable())
+            ->setCreatedAt(new \DateTimeImmutable())
             ->setRating(5)
             ->setBook($book));
     }

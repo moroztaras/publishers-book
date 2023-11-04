@@ -3,11 +3,10 @@
 namespace App\Tests\Controller;
 
 use App\Entity\Book;
-use App\Entity\BookFormat;
 use App\Entity\BookCategory;
+use App\Entity\BookFormat;
 use App\Entity\BookToBookFormat;
 use App\Tests\AbstractControllerTest;
-use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -64,7 +63,7 @@ class BookControllerTest extends AbstractControllerTest
 
         // Response was successful
         $this->assertResponseIsSuccessful();
-        
+
         // Comparing the actual response content with the expected schema.
         $this->assertJsonDocumentMatchesSchema($responseContent, [
             'type' => 'object',
@@ -143,7 +142,7 @@ class BookControllerTest extends AbstractControllerTest
             ->setMeap(true)
             ->setIsbn('123321')
             ->setDescription('test')
-            ->setPublicationDate(new DateTimeImmutable())
+            ->setPublicationDate(new \DateTimeImmutable())
             ->setAuthors(['Tester'])
             ->setCategories(new ArrayCollection([$bookCategory]))
             ->setSlug('test-book');
