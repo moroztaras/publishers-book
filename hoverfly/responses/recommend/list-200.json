@@ -3,7 +3,7 @@
   "id": {{ Request.Path.[3] }},
   "recommendations": [
     {
-      "id": {{ randomIntegerRange 43 45 }}
+      "id": 1
     }
   ]
 }
