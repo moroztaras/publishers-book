@@ -3,15 +3,22 @@
 namespace App\Tests\Manager;
 
 use App\Entity\Book;
+use App\Entity\BookCategory;
+use App\Entity\BookFormat;
+use App\Entity\BookToBookFormat;
 use App\Exception\BookCategoryNotFoundException;
-use App\Manager\BookManager;
-use App\Manager\RatingManager;
+use App\Model\BookCategory as BookCategoryModel;
+use App\Model\BookDetails;
+use App\Model\BookFormat as BookFormatModel;
 use App\Model\BookListItem;
 use App\Model\BookListResponse;
 use App\Repository\BookCategoryRepository;
 use App\Repository\BookRepository;
-use App\Repository\ReviewRepository;
+use App\Manager\BookManager;
+use App\Manager\Rating;
+use App\Manager\RatingManager;
 use App\Tests\AbstractTestCase;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 
 // Unit teats
@@ -72,6 +79,47 @@ class BookManagerTest extends AbstractTestCase
         $this->assertEquals($expected, $this->createBookManager()->getBooksByCategory(130));
     }
 
+    //  Testing book by id
+    public function testGetBookById(): void
+    {
+        // Set the expectation from the method - getById
+        $this->bookRepository->expects($this->once())
+            ->method('getById')
+            ->with(123)
+            ->willReturn($this->createBookEntity());
+
+        // Set the expectation from the method - calcReviewRatingForBook
+        $this->ratingManager->expects($this->once())
+            ->method('calcReviewRatingForBook')
+            ->with(123)
+            ->willReturn(new Rating(10, 5.5));
+
+        $format = (new BookFormatModel())
+            ->setId(1)
+            ->setTitle('format')
+            ->setDescription('description format')
+            ->setComment(null)
+            ->setPrice(123.55)
+            ->setDiscountPercent(5);
+
+         // Expected BookDetails model
+        $expected = (new BookDetails())->setId(123)
+            ->setRating(5.5)
+            ->setReviews(10)
+            ->setSlug('test-book')
+            ->setTitle('Test Book')
+            ->setImage('http://localhost/test.png')
+            ->setAuthors(['Tester'])
+            ->setMeap(false)
+            ->setCategories([
+                new BookCategoryModel(1, 'Category', 'category'),
+            ])
+            ->setPublicationDate(1602288000)
+            ->setFormats([$format]);
+
+        $this->assertEquals($expected, $this->createBookManager()->getBookById(123));
+    }
+
     // Create Book Manager
     private function createBookManager(): BookManager
     {
@@ -85,6 +133,24 @@ class BookManagerTest extends AbstractTestCase
     // Create new Book entity
     private function createBookEntity(): Book
     {
+        // Create category
+        $category = (new BookCategory())->setTitle('Category')->setSlug('category');
+        // Set id for category
+        $this->setEntityId($category, 1);
+
+        // Create format
+        $format = (new BookFormat())->setTitle('format')->setDescription('description format')->setComment(null);
+        // Set id for format
+        $this->setEntityId($format, 1);
+
+        // Create join to BookToBookFormat
+        $join = (new BookToBookFormat())
+            ->setPrice(123.55)
+            ->setFormat($format)
+            ->setDiscountPercent(5);
+        // Set id for BookToBookFormat
+        $this->setEntityId($join, 1);
+
         $book = (new Book())
             ->setTitle('Test Book')
             ->setSlug('test-book')
@@ -93,8 +159,10 @@ class BookManagerTest extends AbstractTestCase
             ->setDescription('Test description')
             ->setAuthors(['Tester'])
             ->setImage('http://localhost/test.png')
-            ->setCategories(new ArrayCollection())
-            ->setPublicationDate(new \DateTimeImmutable('2020-10-10'));
+            ->setCategories(new ArrayCollection([$category]))
+            ->setPublicationDate(new DateTimeImmutable('2020-10-10'))
+            ->setFormats(new ArrayCollection([$join]))
+        ;
 
         $this->setEntityId($book, 123);
 
