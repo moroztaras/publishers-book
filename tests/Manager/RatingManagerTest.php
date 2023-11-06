@@ -2,6 +2,7 @@
 
 namespace App\Tests\Manager;
 
+use App\Manager\Rating;
 use App\Manager\RatingManager;
 use App\Repository\ReviewRepository;
 use App\Tests\AbstractTestCase;
@@ -36,19 +37,31 @@ class RatingManagerTest extends AbstractTestCase
             ->with(1)
             ->willReturn($repositoryRatingSum);
 
+        // Set behavior for countByBookId method
+        $this->reviewRepository->expects($this->once())
+            ->method('countByBookId')
+            ->with(1)
+            ->willReturn($total);
+
         $this->assertEquals(
-            $expectedRating,
-            (new RatingManager($this->reviewRepository))->calcReviewRatingForBook(1, $total)
+            new Rating($total, $expectedRating),
+            (new RatingManager($this->reviewRepository))->calcReviewRatingForBook(1)
         );
     }
 
     public function testCalcReviewRatingForBookZeroTotal(): void
     {
+        // Set behavior for getBookTotalRatingSum method
         $this->reviewRepository->expects($this->never())->method('getBookTotalRatingSum');
 
+        // Set behavior for countByBookId method
+        $this->reviewRepository->expects($this->once())
+            ->method('countByBookId')
+            ->with(1)
+            ->willReturn(0);
+
         $this->assertEquals(
-            0,
-            (new RatingManager($this->reviewRepository))->calcReviewRatingForBook(1, 0)
-        );
+            new Rating(0, 0),
+            (new RatingManager($this->reviewRepository))->calcReviewRatingForBook(1)   );
     }
 }
