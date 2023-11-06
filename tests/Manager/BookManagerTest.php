@@ -17,8 +17,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 // Unit teats
 class BookManagerTest extends AbstractTestCase
 {
-    private ReviewRepository $reviewRepository;
-
     private BookRepository $bookRepository;
 
     private BookCategoryRepository $bookCategoryRepository;
@@ -29,7 +27,7 @@ class BookManagerTest extends AbstractTestCase
     {
         parent::setUp();
 
-        $this->reviewRepository = $this->createMock(ReviewRepository::class);
+        // Mock dependencies
         $this->bookRepository = $this->createMock(BookRepository::class);
         $this->bookCategoryRepository = $this->createMock(BookCategoryRepository::class);
         $this->ratingManager = $this->createMock(RatingManager::class);
@@ -80,7 +78,6 @@ class BookManagerTest extends AbstractTestCase
         return new BookManager(
             $this->bookRepository,
             $this->bookCategoryRepository,
-            $this->reviewRepository,
             $this->ratingManager
         );
     }
