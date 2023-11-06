@@ -3,6 +3,7 @@
 namespace App\Tests\Manager;
 
 use App\Entity\Review;
+use App\Manager\Rating;
 use App\Manager\RatingManager;
 use App\Manager\ReviewManager;
 use App\Model\Review as ReviewModel;
@@ -46,8 +47,8 @@ class ReviewManagerTest extends AbstractTestCase
         // Set the behavior & expected for the method - calcReviewRatingForBook
         $this->ratingManager->expects($this->once())
             ->method('calcReviewRatingForBook')
-            ->with(self::BOOK_ID, 0)
-            ->willReturn(0.0);
+            ->with(self::BOOK_ID)
+            ->willReturn(new Rating(0, 0.0));
 
         // Set the behavior & expected for the method - getPageByBookId
         $this->reviewRepository->expects($this->once())
@@ -70,8 +71,8 @@ class ReviewManagerTest extends AbstractTestCase
         // Set the behavior & expected for the method - calcReviewRatingForBook
         $this->ratingManager->expects($this->once())
             ->method('calcReviewRatingForBook')
-            ->with(self::BOOK_ID, 1)
-            ->willReturn(4.0);
+            ->with(self::BOOK_ID)
+            ->willReturn(new Rating(1, 4.0));
 
         // Create entity & set id
         $entity = (new Review())->setAuthor('tester')->setContent('test content')

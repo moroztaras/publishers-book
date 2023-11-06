@@ -32,7 +32,7 @@ class BookCategoryManagerTest extends AbstractTestCase
         // Expected value
         $expected = new BookCategoryListResponse([new BookCategoryModel(7, 'Test', 'test')]);
 
-        // Comparing the actual returned value with the expected value.
+        // Comparing the expected value with the actual returned value
         $this->assertEquals($expected, $manager->getCategories());
     }
 }

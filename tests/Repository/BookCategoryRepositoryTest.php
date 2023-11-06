@@ -37,6 +37,6 @@ class BookCategoryRepositoryTest extends AbstractRepositoryTest
         );
 
         // Comparing the expected value with the actual returned value.
-        $this->assertEquals(['Android', 'Networking', 'Devices'], $titles);
+        $this->assertEquals(['Android', 'Devices', 'Networking'], $titles);
     }
 }
