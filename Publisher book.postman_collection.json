@@ -134,7 +134,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/v1/category/79/books",
+							"raw": "http://127.0.0.1:8000/api/v1/category/47/books",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -147,7 +147,7 @@
 								"api",
 								"v1",
 								"category",
-								"79",
+								"47",
 								"books"
 							]
 						}
@@ -160,7 +160,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/v1/book/62",
+							"raw": "http://127.0.0.1:8000/api/v1/book/43",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -173,7 +173,7 @@
 								"api",
 								"v1",
 								"book",
-								"62"
+								"43"
 							]
 						}
 					},
@@ -211,6 +211,116 @@
 									"key": "page",
 									"value": "1"
 								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Recommendations",
+			"item": [
+				{
+					"name": "api book recommendations",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/v1/book/43/recommendations",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"book",
+								"43",
+								"recommendations"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "User auth signUp",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"firstName\": \"Taras\",\n  \"lastName\": \"Moroz\",\n  \"email\": \"admin@publisher.com\",\n  \"password\": \"qwerty123\",\n  \"confirmPassword\": \"qwerty123\"\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/v1/auth/signUp",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"signUp"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User auth login",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-length": true,
+							"user-agent": true,
+							"accept": true,
+							"accept-encoding": true,
+							"connection": true,
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"admin@publisher.com\",\n    \"password\": \"qwerty123\"\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/v1/auth/login",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"login"
 							]
 						}
 					},
