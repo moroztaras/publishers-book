@@ -17,7 +17,7 @@ services:
       # - ./docker/db/data:/var/lib/postgresql/data:rw
 
   hoverfly:
-    container_name: hoverfly
+    container_name: publisher_book_hoverfly
     image: spectolabs/hoverfly:v1.3.4
     command:
       - "-webserver"
