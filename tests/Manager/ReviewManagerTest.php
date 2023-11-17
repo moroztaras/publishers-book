@@ -62,7 +62,7 @@ class ReviewManagerTest extends AbstractTestCase
         $expected = (new ReviewPage())->setTotal(0)->setRating(0)->setPage($page)->setPages(0)
             ->setPerPage(self::PER_PAGE)->setItems([]);
 
-        // Comparing the expected value with the actual returned value .
+        // Comparing the expected value with the actual returned value.
         $this->assertEquals($expected, $manager->getReviewPageByBookId(self::BOOK_ID, $page));
     }
 

@@ -47,7 +47,7 @@ class RoleManagerTest extends AbstractTestCase
         $this->assertEquals([User::ROLE_AUTHOR], $this->user->getRoles());
     }
 
-    // helper for create manager
+    // Helper for create manager
     private function createManager(): RoleManager
     {
         return new RoleManager($this->userRepository, $this->em);
