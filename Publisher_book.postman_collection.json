@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "6c1167f9-4f9f-4c7d-bf1a-ae374f89b8f8",
-		"name": "Publisher book",
+		"name": "Publisher_book",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "4867612"
 	},
@@ -253,7 +253,7 @@
 			"name": "Auth",
 			"item": [
 				{
-					"name": "User auth signUp",
+					"name": "1 User auth signUp",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -276,6 +276,93 @@
 								"v1",
 								"auth",
 								"signUp"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2 User auth signUp",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"firstName\": \"Author\",\n  \"lastName\": \"Author\",\n  \"email\": \"author@publisher.com\",\n  \"password\": \"qwerty123\",\n  \"confirmPassword\": \"qwerty123\"\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/v1/auth/signUp",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"signUp"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3 User auth signUp",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"firstName\": \"First Name\",\n  \"lastName\": \"Last Name\",\n  \"email\": \"user@publisher.com\",\n  \"password\": \"qwerty123\",\n  \"confirmPassword\": \"qwerty123\"\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/v1/auth/signUp",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"signUp"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User auth refresh",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"refresh_token\": \"806c367313e3068a17223aa6bf2b4481dc55311f77c7ce0e62540eb53dddf0a7cbf79166a99efa6c3a8b939207076bee58ecfb69137bd39e706aaf2e6432edf0\"}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/v1/auth/refresh",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"refresh"
 							]
 						}
 					},
@@ -327,6 +414,47 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "User profile",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"firstName\": \"Taras\",\n  \"lastName\": \"Moroz\",\n  \"email\": \"admin@publisher.com\",\n  \"password\": \"qwerty123\",\n  \"confirmPassword\": \"qwerty123\"\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/v1/user/profile",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"user",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Admin",
+			"item": []
 		}
 	]
 }

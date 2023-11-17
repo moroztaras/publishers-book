@@ -51,6 +51,9 @@ symfony serve:start
 ```bash
 http://127.0.0.1:8000/api/doc
 ```
+or
+### You can download the postman collection
+[Publisher book postman collection](https://github.com/moroztaras/publishers-book/blob/master/Publisher_book.postman_collection.json)
 
 ### Run tests
 ```bash
