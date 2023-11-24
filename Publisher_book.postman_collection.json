@@ -346,7 +346,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"refresh_token\": \"806c367313e3068a17223aa6bf2b4481dc55311f77c7ce0e62540eb53dddf0a7cbf79166a99efa6c3a8b939207076bee58ecfb69137bd39e706aaf2e6432edf0\"}"
+							"raw": "{\"refresh_token\": \"6f214c7097b1e9ea6721439756fbebe09a2ed8033eb0b7a74e463ef9a7156f0a17ada0765cdf396618536af9f6898206522db342837e228f12fca053a35cff47\"}"
 						},
 						"url": {
 							"raw": "http://127.0.0.1:8000/api/v1/auth/refresh",
@@ -455,6 +455,139 @@
 		{
 			"name": "Admin",
 			"item": []
+		},
+		{
+			"name": "Author",
+			"item": [
+				{
+					"name": "api author list books",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE3MDA4MzMwOTMsImV4cCI6MTcwMDgzMzY5Mywicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoiYWRtaW4yQHB1Ymxpc2hlci5jb20iLCJpZCI6OX0.C05ZdMRC4tP1a683bPl2g-1_z5u3uZx1Sa-kIX4NL-XSK1a5Nt7W4g_Zbb0mh-vjtQjzikrmIucBmu475vk_gNx-GM0kTPDrSgGyVCmCiPqBSqbaxJ84r2QVXa0OQsh0giN0p-yu-qCJcYp0hJbtQf3ue8qA_1zVYtmsjs07jqKDLYuDatGGqyxDrEGCsx3wZdHqVVAszkTd6vf9oKfaC9UKqygtU17qe_Ow-qKvbbClfio9jyR3r6klLIJaWBAQR4HwbJIv81AtuVhXLbRLry8ijfeNZNVfk2KfQf4lR5kFEgqnr8iuyqlLI-RJTSnsYkHQHNC8v-4a87uBrJyQSg",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/v1/author/books",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"author",
+								"books"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api author create book",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE3MDA4MzMwOTMsImV4cCI6MTcwMDgzMzY5Mywicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoiYWRtaW4yQHB1Ymxpc2hlci5jb20iLCJpZCI6OX0.C05ZdMRC4tP1a683bPl2g-1_z5u3uZx1Sa-kIX4NL-XSK1a5Nt7W4g_Zbb0mh-vjtQjzikrmIucBmu475vk_gNx-GM0kTPDrSgGyVCmCiPqBSqbaxJ84r2QVXa0OQsh0giN0p-yu-qCJcYp0hJbtQf3ue8qA_1zVYtmsjs07jqKDLYuDatGGqyxDrEGCsx3wZdHqVVAszkTd6vf9oKfaC9UKqygtU17qe_Ow-qKvbbClfio9jyR3r6klLIJaWBAQR4HwbJIv81AtuVhXLbRLry8ijfeNZNVfk2KfQf4lR5kFEgqnr8iuyqlLI-RJTSnsYkHQHNC8v-4a87uBrJyQSg",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"New title of book\"\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/v1/author/book",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"author",
+								"book"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api author delete book",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE3MDA4MzMwOTMsImV4cCI6MTcwMDgzMzY5Mywicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoiYWRtaW4yQHB1Ymxpc2hlci5jb20iLCJpZCI6OX0.C05ZdMRC4tP1a683bPl2g-1_z5u3uZx1Sa-kIX4NL-XSK1a5Nt7W4g_Zbb0mh-vjtQjzikrmIucBmu475vk_gNx-GM0kTPDrSgGyVCmCiPqBSqbaxJ84r2QVXa0OQsh0giN0p-yu-qCJcYp0hJbtQf3ue8qA_1zVYtmsjs07jqKDLYuDatGGqyxDrEGCsx3wZdHqVVAszkTd6vf9oKfaC9UKqygtU17qe_Ow-qKvbbClfio9jyR3r6klLIJaWBAQR4HwbJIv81AtuVhXLbRLry8ijfeNZNVfk2KfQf4lR5kFEgqnr8iuyqlLI-RJTSnsYkHQHNC8v-4a87uBrJyQSg",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/v1/author/book/7",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"author",
+								"book",
+								"7"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }

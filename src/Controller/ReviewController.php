@@ -18,6 +18,7 @@ class ReviewController extends AbstractController
     }
 
     /**
+     * @OA\Tag(name="Review API")
      * @OA\Parameter(name="page", in="query", description="Page number", @OA\Schema(type="integer"))
      *
      * @OA\Response(

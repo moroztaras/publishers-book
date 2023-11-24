@@ -60,7 +60,7 @@ class BookManagerTest extends AbstractTestCase
     {
         // Set behavior for BookRepository
         $this->bookRepository->expects($this->once())
-            ->method('findBooksByCategoryId')
+            ->method('findPublishedBooksByCategoryId')
             ->with(130)
             ->willReturn([$this->createBookEntity()])
         ;
@@ -82,9 +82,9 @@ class BookManagerTest extends AbstractTestCase
     //  Testing book by id
     public function testGetBookById(): void
     {
-        // Set the expectation from the method - getById
+        // Set the expectation from the method - getPublishedById
         $this->bookRepository->expects($this->once())
-            ->method('getById')
+            ->method('getPublishedById')
             ->with(123)
             ->willReturn($this->createBookEntity());
 

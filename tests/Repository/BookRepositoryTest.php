@@ -33,7 +33,7 @@ class BookRepositoryTest extends AbstractRepositoryTest
 
         $this->em->flush();
         // Comparing the expected value with the actual returned value.
-        $this->assertCount(5, $this->bookRepository->findBooksByCategoryId($devicesCategory->getId()));
+        $this->assertCount(5, $this->bookRepository->findPublishedBooksByCategoryId($devicesCategory->getId()));
     }
 
     // Generate book for test
