@@ -20,6 +20,7 @@ class SubscribeController extends AbstractController
     }
 
     /**
+     * @OA\Tag(name="Subscriber API")
      * @OA\Response(
      *     response=200,
      *     description="Subscribe email to newsletter mailing list"
