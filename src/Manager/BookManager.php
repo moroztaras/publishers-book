@@ -35,13 +35,13 @@ class BookManager implements BookManagerInterface
         // Remap the books from the repository to the model
         return new BookListResponse(array_map(
             fn (Book $book) => BookMapper::map($book, new BookListItem()),
-            $this->bookRepository->findBooksByCategoryId($categoryId)
+            $this->bookRepository->findPublishedBooksByCategoryId($categoryId)
         ));
     }
 
     public function getBookById(int $id): BookDetails
     {
-        $book = $this->bookRepository->getById($id);
+        $book = $this->bookRepository->getPublishedById($id);
 
         // Remap the categories from field of book categories to the model
         $categories = $book->getCategories()
