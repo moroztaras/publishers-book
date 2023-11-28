@@ -20,6 +20,7 @@ class BookController extends AbstractController
 
     /**
      * @OA\Tag(name="Book API")
+     *
      * @OA\Response(
      *     response=200,
      *     description="Returns published books inside a category",
