@@ -4,7 +4,6 @@ namespace App\Tests\Controller;
 
 use App\Entity\Book;
 use App\Tests\AbstractControllerTest;
-use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Hoverfly\Client as HoverflyClient;
 use Hoverfly\Model\RequestFieldMatcher;
@@ -78,7 +77,7 @@ class RecommendationControllerTest extends AbstractControllerTest
             ->setMeap(true)
             ->setIsbn('123321')
             ->setDescription('test')
-            ->setPublicationDate(new DateTimeImmutable())
+            ->setPublicationDate(new \DateTimeImmutable())
             ->setAuthors(['Tester'])
             ->setCategories(new ArrayCollection([]))
             ->setSlug('test-book');

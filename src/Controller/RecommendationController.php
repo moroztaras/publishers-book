@@ -18,6 +18,7 @@ class RecommendationController extends AbstractController
 
     /**
      * @OA\Tag(name="Recommendation API")
+     *
      * @OA\Response(
      *     response=200,
      *     description="Returns recommendations for the book",

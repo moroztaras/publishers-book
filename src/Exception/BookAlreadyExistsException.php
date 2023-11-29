@@ -2,9 +2,7 @@
 
 namespace App\Exception;
 
-use RuntimeException;
-
-class BookAlreadyExistsException extends RuntimeException
+class BookAlreadyExistsException extends \RuntimeException
 {
     public function __construct()
     {
