@@ -7,7 +7,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
-use DateTimeInterface;
 
 #[ORM\Entity(repositoryClass: BookRepository::class)]
 class Book
@@ -36,7 +35,7 @@ class Book
     private ?string $description;
 
     #[ORM\Column(type: 'date_immutable', nullable: true)]
-    private ?DateTimeInterface $publicationDate;
+    private ?\DateTimeInterface $publicationDate;
 
     #[ORM\Column(type: 'boolean', options: ['default' => false])]
     private bool $meap;
@@ -124,12 +123,12 @@ class Book
         return $this;
     }
 
-    public function getPublicationDate(): ?DateTimeInterface
+    public function getPublicationDate(): ?\DateTimeInterface
     {
         return $this->publicationDate;
     }
 
-    public function setPublicationDate(?DateTimeInterface $publicationDate): self
+    public function setPublicationDate(?\DateTimeInterface $publicationDate): self
     {
         $this->publicationDate = $publicationDate;
 
@@ -158,6 +157,7 @@ class Book
 
     /**
      * @param Collection<BookCategory> $categories
+     *
      * @return $this
      */
     public function setCategories(Collection $categories): self

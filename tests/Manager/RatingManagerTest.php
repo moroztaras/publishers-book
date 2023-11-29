@@ -62,6 +62,6 @@ class RatingManagerTest extends AbstractTestCase
 
         $this->assertEquals(
             new Rating(0, 0),
-            (new RatingManager($this->reviewRepository))->calcReviewRatingForBook(1)   );
+            (new RatingManager($this->reviewRepository))->calcReviewRatingForBook(1));
     }
 }

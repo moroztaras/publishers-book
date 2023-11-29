@@ -3,8 +3,8 @@
 namespace App\Tests\Manager;
 
 use App\Entity\User;
-use App\Repository\UserRepository;
 use App\Manager\RoleManager;
+use App\Repository\UserRepository;
 use App\Tests\AbstractTestCase;
 use Doctrine\ORM\EntityManagerInterface;
 

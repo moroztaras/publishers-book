@@ -2,9 +2,7 @@
 
 namespace App\Exception;
 
-use RuntimeException;
-
-class UserNotFoundException extends RuntimeException
+class UserNotFoundException extends \RuntimeException
 {
     public function __construct()
     {

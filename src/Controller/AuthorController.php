@@ -28,14 +28,18 @@ class AuthorController extends AbstractController
 
     /**
      * @OA\Tag(name="Author API")
+     *
      * @OA\Response(
      *     response=200,
      *     description="Upload book cover",
+     *
      *     @Model(type=UploadCoverResponse::class)
      * )
+     *
      * @OA\Response(
      *     response="400",
      *     description="Validation failed",
+     *
      *     @Model(type=ErrorResponse::class)
      * )
      */

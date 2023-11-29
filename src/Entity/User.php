@@ -11,9 +11,9 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    const ROLE_ADMIN = 'ROLE_ADMIN';
-    const ROLE_USER = 'ROLE_USER';
-    const ROLE_AUTHOR = 'ROLE_AUTHOR';
+    public const ROLE_ADMIN = 'ROLE_ADMIN';
+    public const ROLE_USER = 'ROLE_USER';
+    public const ROLE_AUTHOR = 'ROLE_AUTHOR';
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -114,10 +114,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->email;
     }
 
-
     public function getUserIdentifier(): string
     {
         return $this->email;
     }
 }
-
