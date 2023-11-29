@@ -28,6 +28,31 @@ class AuthorController extends AbstractController
 
     /**
      * @OA\Tag(name="Author API")
+     * @OA\Response(
+     *     response=200,
+     *     description="Upload book cover",
+     *     @Model(type=UploadCoverResponse::class)
+     * )
+     * @OA\Response(
+     *     response="400",
+     *     description="Validation failed",
+     *     @Model(type=ErrorResponse::class)
+     * )
+     */
+    #[Route(path: '/api/v1/author/book/{id}/upload-cover', methods: ['POST'])]
+    public function uploadCover(
+        int $id,
+        #[RequestFile(field: 'cover', constraints: [
+                new NotNull(),
+                new Image(maxSize: '1M', mimeTypes: ['image/jpeg', 'image/png', 'image/jpg']),
+            ])]
+        UploadedFile $file
+    ): Response {
+        return $this->json($this->authorManager->uploadCover($id, $file));
+    }
+
+    /**
+     * @OA\Tag(name="Author API")
      *
      * @OA\Response(
      *     response=200,

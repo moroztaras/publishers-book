@@ -1,4 +1,5 @@
 parameters:
+    uploadDir: '%kernel.project_dir%/public/upload'
     exceptions:
         Symfony\Component\HttpKernel\Exception\NotFoundHttpException: { code: 404 }
         App\Exception\BookNotFoundException: { code: 404, hidden: false }
@@ -8,6 +9,7 @@ parameters:
         App\Exception\BookAlreadyExistsException: { code: 409, hidden: false }
         App\Exception\RequestBodyConvertException: { code: 400, hidden: false }
         App\Exception\UserNotFoundException: { code: 404, hidden: false }
+        App\Exception\UploadFileInvalidTypeException: { code: 404, hidden: false }
 
 services:
     # default configuration for services in *this* file
@@ -31,6 +33,9 @@ services:
 
     App\Manager\ExceptionHandler\ExceptionMappingResolver:
         arguments: ['%exceptions%']
+
+    App\Manager\UploadFileManager:
+        arguments: ['@filesystem', '%uploadDir%']
 
     App\Listener\ApiExceptionListener:
         tags:
