@@ -43,7 +43,7 @@ class AuthorController extends AbstractController
      *     @Model(type=ErrorResponse::class)
      * )
      */
-    #[Route(path: '/api/v1/author/book/{id}/upload-cover', methods: ['POST'])]
+    #[Route(path: '/api/v1/author/book/{id}/cover', methods: ['POST'])]
     public function uploadCover(
         int $id,
         #[RequestFile(field: 'cover', constraints: [
@@ -53,6 +53,24 @@ class AuthorController extends AbstractController
         UploadedFile $file
     ): Response {
         return $this->json($this->authorManager->uploadCover($id, $file));
+    }
+
+    /**
+     * @OA\Tag(name="Author API")
+     *
+     * @OA\Response(
+     *     response=200,
+     *     description="Remove book cover"
+     * )
+     * @OA\Response(
+     *     response="404",
+     *     description="Book cover not found."
+     * )
+     */
+    #[Route(path: '/api/v1/author/book/{id}/cover', methods: ['DELETE'])]
+    public function removeCover(int $id): Response
+    {
+        return $this->json($this->authorManager->removeCover($id));
     }
 
     /**

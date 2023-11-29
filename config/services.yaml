@@ -3,6 +3,7 @@ parameters:
     exceptions:
         Symfony\Component\HttpKernel\Exception\NotFoundHttpException: { code: 404 }
         App\Exception\BookNotFoundException: { code: 404, hidden: false }
+        App\Exception\BookCoverNotFoundException: { code: 404, hidden: false }
         App\Exception\BookCategoryNotFoundException: { code: 404, hidden: false }
         App\Exception\SubscriberAlreadyExistsException: { code: 409, hidden: false }
         App\Exception\UserAlreadyExistsException: { code: 409, hidden: false }

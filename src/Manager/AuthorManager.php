@@ -4,6 +4,7 @@ namespace App\Manager;
 
 use App\Entity\Book;
 use App\Exception\BookAlreadyExistsException;
+use App\Exception\BookCoverNotFoundException;
 use App\Model\Author\BookListItem;
 use App\Model\Author\BookListResponse;
 use App\Model\Author\CreateBookRequest;
@@ -84,6 +85,24 @@ class AuthorManager
         }
 
         return new UploadCoverResponse($link);
+    }
+
+    public function removeCover(int $id)
+    {
+        $book = $this->bookRepository->getUserBookById($id, $this->security->getUser());
+        $image = $book->getImage();
+
+        if (null === $image) {
+            throw new BookCoverNotFoundException();
+        }
+
+        $book->setImage(null);
+
+        $this->em->flush();
+
+        $this->uploadFileManager->deleteBookFile($id, basename($image));
+
+        return null;
     }
 
     public function deleteBook(int $id): void
