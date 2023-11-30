@@ -4,9 +4,9 @@ namespace App\Tests\Manager;
 
 use App\Entity\User;
 use App\Exception\UserAlreadyExistsException;
+use App\Manager\SignUpManager;
 use App\Model\SignUpRequest;
 use App\Repository\UserRepository;
-use App\Manager\SignUpManager;
 use App\Tests\AbstractTestCase;
 use Doctrine\ORM\EntityManagerInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Security\Http\Authentication\AuthenticationSuccessHandler;

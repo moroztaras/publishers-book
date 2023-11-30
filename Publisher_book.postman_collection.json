@@ -476,7 +476,7 @@
 							},
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE3MDA4MzMwOTMsImV4cCI6MTcwMDgzMzY5Mywicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoiYWRtaW4yQHB1Ymxpc2hlci5jb20iLCJpZCI6OX0.C05ZdMRC4tP1a683bPl2g-1_z5u3uZx1Sa-kIX4NL-XSK1a5Nt7W4g_Zbb0mh-vjtQjzikrmIucBmu475vk_gNx-GM0kTPDrSgGyVCmCiPqBSqbaxJ84r2QVXa0OQsh0giN0p-yu-qCJcYp0hJbtQf3ue8qA_1zVYtmsjs07jqKDLYuDatGGqyxDrEGCsx3wZdHqVVAszkTd6vf9oKfaC9UKqygtU17qe_Ow-qKvbbClfio9jyR3r6klLIJaWBAQR4HwbJIv81AtuVhXLbRLry8ijfeNZNVfk2KfQf4lR5kFEgqnr8iuyqlLI-RJTSnsYkHQHNC8v-4a87uBrJyQSg",
+								"value": "{{jwt_aut_token}}",
 								"type": "text"
 							}
 						],
@@ -517,7 +517,7 @@
 							},
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE3MDA4MzMwOTMsImV4cCI6MTcwMDgzMzY5Mywicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoiYWRtaW4yQHB1Ymxpc2hlci5jb20iLCJpZCI6OX0.C05ZdMRC4tP1a683bPl2g-1_z5u3uZx1Sa-kIX4NL-XSK1a5Nt7W4g_Zbb0mh-vjtQjzikrmIucBmu475vk_gNx-GM0kTPDrSgGyVCmCiPqBSqbaxJ84r2QVXa0OQsh0giN0p-yu-qCJcYp0hJbtQf3ue8qA_1zVYtmsjs07jqKDLYuDatGGqyxDrEGCsx3wZdHqVVAszkTd6vf9oKfaC9UKqygtU17qe_Ow-qKvbbClfio9jyR3r6klLIJaWBAQR4HwbJIv81AtuVhXLbRLry8ijfeNZNVfk2KfQf4lR5kFEgqnr8iuyqlLI-RJTSnsYkHQHNC8v-4a87uBrJyQSg",
+								"value": "{{jwt_aut_token}}",
 								"type": "text"
 							}
 						],
@@ -540,6 +540,139 @@
 								"v1",
 								"author",
 								"book"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api author book remove cover",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{jwt_aut_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/v1/author/book/{{id_book}}/cover",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"author",
+								"book",
+								"{{id_book}}",
+								"cover"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api author publish book",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE3MDEyNTM2OTAsImV4cCI6MTc1MTI1MzY5MCwicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoiYXV0aG9yQHB1Ymxpc2hlci5jb20iLCJpZCI6MTJ9.zyXQFSMnC5h6nsKu9KjFmrhlfTK3Y5_gIFrFTi5aRuiDv63dJSnHcK4-VpWrdoy93P7Lc7i5jU35PkObPQ3Rof8FwwPYiF5mTEDt4rkgwIYAFj2QSITT0D0ffxVZwKv612fSulCU4LWIZvcPW82WjWeLsIC3-k28SD9_yfJw6fJbowmkacr6U1CXejEUIEGIRuVxQ-8iuQFV8OzVs1NsckjcIZ_ufCZ9uesP187kIuhbBVIQsJkoctVf4Z2Cl5Y01PxlIbgq1XAml9uSTiIqufSCpUUJMidYDYqE-FVcWzOWAmo3soTkuIZ9K0Iak5z4JKAgdYkKV942a6ucIXAQew",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"date\": \"2023-11-29\"\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/v1/author/book/9/publish",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"author",
+								"book",
+								"9",
+								"publish"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api author unpublish book",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE3MDExODAzMDMsImV4cCI6MTc1MTE4MDMwMywicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoiYXV0aG9yQHB1Ymxpc2hlci5jb20iLCJpZCI6MTF9.NaUJEEXe9NFj1qdgm3nTxRln8_mrKVRG2rEt5wveJvfHXFIRUIxBXDdzCRSrPnI_jGMhU2C9Oom0Y6U1RIPR1W8R-6CeXDzUmEV4Hz_PFWrEErIPTlMkW_ha0-wAHzs5ERIV5mehyLSiMJ9Dda4Wseijf-t-DFXniRkQqd25xhDbPJO1UMYrR2857XnoDgN2VER1fgb2hFLR48Q2Pc7QaXUe1TVuaeh0irdc2KF6A7KAPzPofTlOhlR2LrcyTNnux7Rh4DmKn8cJstcFIXHkyUFjI16cy8wM-w_mvbuT4KTx3DlUA3nVjVTpbt8jlohutDg2G-IkZ0nbF2JMX8a3xw",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/v1/author/book/8/unpublish",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"author",
+								"book",
+								"8",
+								"unpublish"
 							]
 						}
 					},

@@ -7,6 +7,9 @@ use App\Entity\BookCategory;
 use App\Entity\BookFormat;
 use App\Entity\BookToBookFormat;
 use App\Exception\BookCategoryNotFoundException;
+use App\Manager\BookManager;
+use App\Manager\Rating;
+use App\Manager\RatingManager;
 use App\Model\BookCategory as BookCategoryModel;
 use App\Model\BookDetails;
 use App\Model\BookFormat as BookFormatModel;
@@ -14,11 +17,7 @@ use App\Model\BookListItem;
 use App\Model\BookListResponse;
 use App\Repository\BookCategoryRepository;
 use App\Repository\BookRepository;
-use App\Manager\BookManager;
-use App\Manager\Rating;
-use App\Manager\RatingManager;
 use App\Tests\AbstractTestCase;
-use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 
 // Unit teats
@@ -102,7 +101,7 @@ class BookManagerTest extends AbstractTestCase
             ->setPrice(123.55)
             ->setDiscountPercent(5);
 
-         // Expected BookDetails model
+        // Expected BookDetails model
         $expected = (new BookDetails())->setId(123)
             ->setRating(5.5)
             ->setReviews(10)
@@ -160,7 +159,7 @@ class BookManagerTest extends AbstractTestCase
             ->setAuthors(['Tester'])
             ->setImage('http://localhost/test.png')
             ->setCategories(new ArrayCollection([$category]))
-            ->setPublicationDate(new DateTimeImmutable('2020-10-10'))
+            ->setPublicationDate(new \DateTimeImmutable('2020-10-10'))
             ->setFormats(new ArrayCollection([$join]))
         ;
 

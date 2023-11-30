@@ -18,6 +18,7 @@ class BookCategoryController extends AbstractController
 
     /**
      * @OA\Tag(name="Book category API")
+     *
      * @OA\Response(
      *     response=200,
      *     description="Returns book categories",

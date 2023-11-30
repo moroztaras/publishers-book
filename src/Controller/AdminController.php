@@ -3,12 +3,12 @@
 namespace App\Controller;
 
 use App\Manager\RoleManager;
+use App\Model\ErrorResponse;
 use Nelmio\ApiDocBundle\Annotation\Model;
+use OpenApi\Annotations as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use OpenApi\Annotations as OA;
-use App\Model\ErrorResponse;
 
 class AdminController extends AbstractController
 {
@@ -18,6 +18,7 @@ class AdminController extends AbstractController
 
     /**
      * @OA\Tag(name="Admin category API")
+     *
      * @OA\Response(
      *     response=200,
      *     description="Grants ROLE_AUTHOR to a user"
@@ -25,6 +26,7 @@ class AdminController extends AbstractController
      * @OA\Response(
      *     response=404,
      *     description="User not found",
+     *
      *     @Model(type=ErrorResponse::class)
      * )
      */
