@@ -43,4 +43,11 @@ class BookCategoryRepository extends ServiceEntityRepository
     {
         return null !== $this->find($id);
     }
+
+    public function countBooksInCategory(int $categoryId): int
+    {
+        return $this->_em->createQuery('SELECT COUNT(b.id) FROM App\Entity\Book b WHERE :categoryId MEMBER OF b.categories')
+            ->setParameter('categoryId', $categoryId)
+            ->getSingleScalarResult();
+    }
 }
