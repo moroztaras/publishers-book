@@ -2,8 +2,11 @@
 
 namespace App\Controller;
 
+use App\Attribute\RequestBody;
 use App\Manager\BookCategoryManager;
 use App\Manager\RoleManager;
+use App\Model\IdResponse;
+use App\Model\BookCategoryUpdateRequest;
 use App\Model\ErrorResponse;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Annotations as OA;
@@ -29,7 +32,6 @@ class AdminController extends AbstractController
      * @OA\Response(
      *     response=404,
      *     description="User not found",
-     *
      *     @Model(type=ErrorResponse::class)
      * )
      */
@@ -42,7 +44,32 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @OA\Tag(name="Admin category API")
+     * @OA\Tag(name="Admin API")
+     * @OA\Response(
+     *     response=200,
+     *     description="Create a new category",
+     *     @Model(type=IdResponse::class)
+     * )
+     * @OA\Response(
+     *     response="400",
+     *     description="Validation failed",
+     *     @Model(type=ErrorResponse::class)
+     * )
+     * @OA\Response(
+     *     response=409,
+     *     description="Book category already exists",
+     *     @Model(type=ErrorResponse::class)
+     * )
+     * @OA\RequestBody(@Model(type=BookCategoryUpdateRequest::class))
+     */
+    #[Route(path: '/api/v1/admin/bookCategory', methods: ['POST'])]
+    public function createCategory(#[RequestBody] BookCategoryUpdateRequest $request): Response
+    {
+        return $this->json($this->bookCategoryManager->createCategory($request));
+    }
+
+    /**
+     * @OA\Tag(name="Admin API")
      * @OA\Response(
      *     response=200,
      *     description="Delete a book category"
@@ -58,7 +85,7 @@ class AdminController extends AbstractController
      *     @Model(type=ErrorResponse::class)
      * )
      */
-    #[Route(path: '/api/v1/admin/book-category/{id}', methods: ['DELETE'])]
+    #[Route(path: '/api/v1/admin/bookCategory/{id}', methods: ['DELETE'])]
     public function deleteCategory(int $id): Response
     {
         $this->bookCategoryManager->deleteCategory($id);

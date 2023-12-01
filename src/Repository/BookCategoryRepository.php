@@ -50,4 +50,9 @@ class BookCategoryRepository extends ServiceEntityRepository
             ->setParameter('categoryId', $categoryId)
             ->getSingleScalarResult();
     }
+
+    public function existsBySlug(string $slug): bool
+    {
+        return null !== $this->findOneBy(['slug' => $slug]);
+    }
 }
