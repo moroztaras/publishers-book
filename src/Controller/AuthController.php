@@ -19,7 +19,7 @@ class AuthController extends AbstractController
     }
 
     /**
-     * @OA\Tag(name="Auth category API")
+     * @OA\Tag(name="Auth API")
      *
      * @OA\Response(
      *     response=200,
