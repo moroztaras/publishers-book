@@ -74,6 +74,7 @@ class BookCategoryManager implements BookCategoryManagerInterface
 
         $category->setTitle($updateRequest->getTitle())->setSlug($slug);
 
+        $this->em->persist($category);
         $this->em->flush();
     }
 }
