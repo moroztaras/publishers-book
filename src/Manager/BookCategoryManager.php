@@ -31,6 +31,11 @@ class BookCategoryManager implements BookCategoryManagerInterface
         return new IdResponse($category->getId());
     }
 
+    public function updateCategory(int $id, BookCategoryUpdateRequest $updateRequest): void
+    {
+        $this->upsertCategory($this->bookCategoryRepository->getById($id), $updateRequest);
+    }
+
     public function getCategories(): BookCategoryListResponse
     {
         $categories = $this->bookCategoryRepository->findAllSortByTitle();
@@ -69,7 +74,6 @@ class BookCategoryManager implements BookCategoryManagerInterface
 
         $category->setTitle($updateRequest->getTitle())->setSlug($slug);
 
-        $this->em->persist($category);
         $this->em->flush();
     }
 }

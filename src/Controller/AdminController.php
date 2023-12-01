@@ -72,6 +72,33 @@ class AdminController extends AbstractController
      * @OA\Tag(name="Admin API")
      * @OA\Response(
      *     response=200,
+     *     description="Update a book category",
+     *     @Model(type=IdResponse::class)
+     * )
+     * @OA\Response(
+     *     response="400",
+     *     description="Validation failed",
+     *     @Model(type=ErrorResponse::class)
+     * )
+     * @OA\Response(
+     *     response=409,
+     *     description="Book category already exists",
+     *     @Model(type=ErrorResponse::class)
+     * )
+     * @OA\RequestBody(@Model(type=BookCategoryUpdateRequest::class))
+     */
+    #[Route(path: '/api/v1/admin/bookCategory/{id}', methods: ['PUT'])]
+    public function updateCategory(int $id, #[RequestBody] BookCategoryUpdateRequest $request): Response
+    {
+        $this->bookCategoryManager->updateCategory($id, $request);
+
+        return $this->json(null);
+    }
+
+    /**
+     * @OA\Tag(name="Admin API")
+     * @OA\Response(
+     *     response=200,
      *     description="Delete a book category"
      * )
      * @OA\Response(
