@@ -3,14 +3,20 @@
 namespace App\Manager;
 
 use App\Entity\Book;
+use App\Entity\BookToBookFormat;
 use App\Exception\BookAlreadyExistsException;
 use App\Exception\BookCoverNotFoundException;
+use App\Model\Author\BookFormatOptions;
 use App\Model\Author\BookListItem;
 use App\Model\Author\BookListResponse;
 use App\Model\Author\CreateBookRequest;
+use App\Model\Author\UpdateBookRequest;
 use App\Model\Author\UploadCoverResponse;
 use App\Model\IdResponse;
 use App\Repository\BookRepository;
+use App\Repository\BookCategoryRepository;
+use App\Repository\BookFormatRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -21,6 +27,8 @@ class AuthorBookManager
     public function __construct(
         private EntityManagerInterface $em,
         private BookRepository $bookRepository,
+        private BookFormatRepository $bookFormatRepository,
+        private BookCategoryRepository $bookCategoryRepository,
         private SluggerInterface $slugger,
         private UploadFileManager $uploadFileManager,
     ) {
@@ -91,6 +99,44 @@ class AuthorBookManager
         return null;
     }
 
+    public function updateBook(int $id, UpdateBookRequest $request): void
+    {
+        // Get book by id
+        $book = $this->bookRepository->getBookById($id);
+        $title = $request->getTitle();
+        if (!empty($title)) {
+            $book->setTitle($title)->setSlug($this->slugifyOfThrow($title));
+        }
+
+        $formats = array_map(function (BookFormatOptions $options) use ($book): BookToBookFormat {
+            // The creation a new relationship from the book to the format
+            $format = (new BookToBookFormat())
+                ->setPrice($options->getPrice())
+                ->setDiscountPercent($options->getDiscountPercent())
+                ->setBook($book)
+                ->setFormat($this->bookFormatRepository->getById($options->getId()));
+            // Save reference
+            $this->bookRepository->saveBookFormatReference($format);
+
+            return $format;
+        }, $request->getFormats());
+
+        // Remove book old formats
+        foreach ($book->getFormats() as $format) {
+            $this->bookRepository->removeBookFormatReference($format);
+        }
+
+        $book->setAuthors($request->getAuthors())
+            ->setIsbn($request->getIsbn())
+            ->setDescription($request->getDescription())
+            ->setCategories(new ArrayCollection(
+                $this->bookCategoryRepository->findBookCategoriesByIds($request->getCategories())
+            ))
+            ->setFormats(new ArrayCollection($formats));
+
+        $this->bookRepository->commit();
+    }
+
     public function deleteBook(int $id): void
     {
         $book = $this->bookRepository->getBookById($id);
@@ -103,6 +149,17 @@ class AuthorBookManager
     {
         $this->em->persist($book);
         $this->em->flush();
+    }
+
+    // Slug for book
+    private function slugifyOfThrow(string $title): string
+    {
+        $slug = $this->slugger->slug($title);
+        if ($this->bookRepository->existsBySlug($slug)) {
+            throw new BookAlreadyExistsException();
+        }
+
+        return $slug;
     }
 
     // Remap the books from the repository to the model

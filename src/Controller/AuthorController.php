@@ -5,8 +5,10 @@ namespace App\Controller;
 use App\Attribute\RequestBody;
 use App\Attribute\RequestFile;
 use App\Model\Author\BookListResponse;
+use App\Model\Author\UploadCoverResponse;
 use App\Model\Author\CreateBookRequest;
 use App\Model\Author\PublishBookRequest;
+use App\Model\Author\UpdateBookRequest;
 use App\Model\ErrorResponse;
 use App\Model\IdResponse;
 use App\Security\Voter\AuthorBookVoter;
@@ -22,7 +24,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Validator\Constraints\Image;
-use App\Model\Author\UploadCoverResponse;
 use Symfony\Component\Validator\Constraints\NotNull;
 
 class AuthorController extends AbstractController
@@ -126,6 +127,28 @@ class AuthorController extends AbstractController
     public function createBook(#[RequestBody] CreateBookRequest $request, #[CurrentUser] UserInterface $user): Response
     {
         return $this->json($this->authorBookManager->createBook($request, $user));
+    }
+
+    /**
+     * @OA\Tag(name="Author API")
+     * @OA\Response(
+     *     response=200,
+     *     description="Update a book"
+     * )
+     * @OA\Response(
+     *     response="400",
+     *     description="Validation failed",
+     *     @Model(type=ErrorResponse::class)
+     * )
+     * @OA\RequestBody(@Model(type=UpdateBookRequest::class))
+     */
+    #[Route(path: '/api/v1/author/book/{id}', methods: ['PUT'])]
+    #[IsGranted(AuthorBookVoter::IS_AUTHOR, subject: 'id')]
+    public function updateBook(int $id, #[RequestBody] UpdateBookRequest $request): Response
+    {
+        $this->authorBookManager->updateBook($id, $request);
+
+        return $this->json(null);
     }
 
     /**

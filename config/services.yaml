@@ -2,13 +2,14 @@ parameters:
     uploadDir: '%kernel.project_dir%/public/upload'
     exceptions:
         Symfony\Component\HttpKernel\Exception\NotFoundHttpException: { code: 404 }
+        App\Exception\UserAlreadyExistsException: { code: 409, hidden: false }
         App\Exception\BookNotFoundException: { code: 404, hidden: false }
+        App\Exception\BookFormatNotFoundException: { code: 404, hidden: false }
         App\Exception\BookCoverNotFoundException: { code: 404, hidden: false }
         App\Exception\BookCategoryNotFoundException: { code: 404, hidden: false }
         App\Exception\BookCategoryNotEmptyException: { code: 400, hidden: false }
         App\Exception\BookCategoryAlreadyExistsException: { code: 409, hidden: false }
         App\Exception\SubscriberAlreadyExistsException: { code: 409, hidden: false }
-        App\Exception\UserAlreadyExistsException: { code: 409, hidden: false }
         App\Exception\BookAlreadyExistsException: { code: 409, hidden: false }
         App\Exception\RequestBodyConvertException: { code: 400, hidden: false }
         App\Exception\UserNotFoundException: { code: 404, hidden: false }

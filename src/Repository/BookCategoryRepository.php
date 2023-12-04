@@ -31,6 +31,15 @@ class BookCategoryRepository extends ServiceEntityRepository
         return $category;
     }
 
+
+    /**
+     * @return BookCategory[]
+     */
+    public function findBookCategoriesByIds(array $ids): array
+    {
+        return $this->findBy(['id' => $ids]);
+    }
+
     /**
      * @return BookCategory[]
      */
