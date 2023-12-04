@@ -6,14 +6,11 @@ use App\Entity\Subscriber;
 use App\Exception\SubscriberAlreadyExistsException;
 use App\Model\SubscriberRequest;
 use App\Repository\SubscriberRepository;
-use Doctrine\ORM\EntityManagerInterface;
 
 class SubscriberManager implements SubscriberManagerInterface
 {
-    public function __construct(
-        private SubscriberRepository $subscriberRepository,
-        private EntityManagerInterface $em
-    ) {
+    public function __construct(private SubscriberRepository $subscriberRepository)
+    {
     }
 
     // Create new subscribe
@@ -24,10 +21,6 @@ class SubscriberManager implements SubscriberManagerInterface
             throw new SubscriberAlreadyExistsException();
         }
 
-        $subscriber = new Subscriber();
-        $subscriber->setEmail($request->getEmail());
-
-        $this->em->persist($subscriber);
-        $this->em->flush();
+        $this->subscriberRepository->saveAndCommit((new Subscriber())->setEmail($request->getEmail()));
     }
 }

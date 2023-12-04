@@ -17,7 +17,6 @@ use App\Repository\BookRepository;
 use App\Repository\BookCategoryRepository;
 use App\Repository\BookFormatRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
@@ -25,7 +24,6 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 class AuthorBookManager
 {
     public function __construct(
-        private EntityManagerInterface $em,
         private BookRepository $bookRepository,
         private BookFormatRepository $bookFormatRepository,
         private BookCategoryRepository $bookCategoryRepository,
@@ -58,7 +56,7 @@ class AuthorBookManager
             ->setUser($user)
         ;
 
-        $this->saveBook($book);
+        $this->bookRepository->saveAndCommit($book);
 
         return new IdResponse($book->getId());
     }
@@ -71,7 +69,7 @@ class AuthorBookManager
 
         $book->setImage($link);
 
-        $this->em->flush();
+        $this->bookRepository->commit();
 
         // Check & remove old file book cover
         if (null !== $oldImage) {
@@ -92,7 +90,7 @@ class AuthorBookManager
 
         $book->setImage(null);
 
-        $this->em->flush();
+        $this->bookRepository->commit();
 
         $this->uploadFileManager->deleteBookFile($id, basename($image));
 
@@ -141,14 +139,7 @@ class AuthorBookManager
     {
         $book = $this->bookRepository->getBookById($id);
 
-        $this->em->remove($book);
-        $this->em->flush();
-    }
-
-    private function saveBook(Book $book): void
-    {
-        $this->em->persist($book);
-        $this->em->flush();
+        $this->bookRepository->removeAndCommit($book);
     }
 
     // Slug for book

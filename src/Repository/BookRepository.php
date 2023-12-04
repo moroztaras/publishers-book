@@ -22,21 +22,6 @@ class BookRepository extends ServiceEntityRepository
         parent::__construct($registry, Book::class);
     }
 
-    public function saveBookFormatReference(BookToBookFormat $bookToBookFormat): void
-    {
-        $this->_em->persist($bookToBookFormat);
-    }
-
-    public function removeBookFormatReference(BookToBookFormat $bookToBookFormat): void
-    {
-        $this->_em->remove($bookToBookFormat);
-    }
-
-    public function commit(): void
-    {
-        $this->_em->flush();
-    }
-
     /**
      * @return Book[]
      */
@@ -97,5 +82,42 @@ class BookRepository extends ServiceEntityRepository
     public function existsUserBookById(int $id, UserInterface $user): bool
     {
         return null !== $this->findOneBy(['id' => $id, 'user' => $user]);
+    }
+
+    public function save(Book $book): void
+    {
+        $this->_em->persist($book);
+    }
+
+    public function remove(Book $book): void
+    {
+        $this->_em->remove($book);
+    }
+
+    public function saveAndCommit(Book $book): void
+    {
+        $this->save($book);
+        $this->commit();
+    }
+
+    public function removeAndCommit(Book $book): void
+    {
+        $this->remove($book);
+        $this->commit();
+    }
+
+    public function commit(): void
+    {
+        $this->_em->flush();
+    }
+
+    public function saveBookFormatReference(BookToBookFormat $bookToBookFormat): void
+    {
+        $this->_em->persist($bookToBookFormat);
+    }
+
+    public function removeBookFormatReference(BookToBookFormat $bookToBookFormat): void
+    {
+        $this->_em->remove($bookToBookFormat);
     }
 }
