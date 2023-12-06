@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Attribute\RequestBody;
 use App\Attribute\RequestFile;
 use App\Model\Author\BookListResponse;
+use App\Model\Author\BookDetails;
 use App\Model\Author\UploadCoverResponse;
 use App\Model\Author\CreateBookRequest;
 use App\Model\Author\PublishBookRequest;
@@ -110,6 +111,22 @@ class AuthorController extends AbstractController
     public function books(#[CurrentUser] UserInterface $user): Response
     {
         return $this->json($this->authorBookManager->getBooks($user));
+    }
+
+    /**
+     * @OA\Tag(name="Author API")
+     * @OA\Response(response=200, description="Get authors owned book",
+     *     @Model(type=BookDetails::class)
+     * )
+     * @OA\Response(response=404, description="Book not found",
+     *     @Model(type=ErrorResponse::class)
+     * )
+     */
+    #[Route(path: '/api/v1/author/book/{id}', methods: ['GET'])]
+    #[IsGranted(AuthorBookVoter::IS_AUTHOR, subject: 'id')]
+    public function book(int $id): Response
+    {
+        return $this->json($this->authorBookManager->getBook($id));
     }
 
     /**
