@@ -46,17 +46,11 @@ class AuthorBookManager
 
     public function createBook(CreateBookRequest $request, UserInterface $user): IdResponse
     {
-        $slug = $this->slugger->slug($request->getTitle());
-        if ($this->bookRepository->existsBySlug($slug)) {
-            throw new BookAlreadyExistsException();
-        }
-
         $book = (new Book())
-            ->setTitle($request->getTitle())
-            ->setMeap(false)
-            ->setSlug($slug)
-            ->setUser($user)
-        ;
+             ->setTitle($request->getTitle())
+             ->setMeap(false)
+             ->setSlug($this->slugifyOfThrow($request->getTitle()))
+             ->setUser($user);
 
         $this->bookRepository->saveAndCommit($book);
 
