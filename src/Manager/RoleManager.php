@@ -4,14 +4,11 @@ namespace App\Manager;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
-use Doctrine\ORM\EntityManagerInterface;
 
 class RoleManager
 {
-    public function __construct(
-        private UserRepository $userRepository,
-        private EntityManagerInterface $em
-    ) {
+    public function __construct(private UserRepository $userRepository)
+    {
     }
 
     public function grantAdmin(int $userId): void
@@ -31,6 +28,6 @@ class RoleManager
 
         $user->setRoles([$role]);
 
-        $this->em->flush();
+        $this->userRepository->commit();
     }
 }

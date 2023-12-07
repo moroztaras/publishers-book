@@ -4,14 +4,11 @@ namespace App\Manager;
 
 use App\Model\Author\PublishBookRequest;
 use App\Repository\BookRepository;
-use Doctrine\ORM\EntityManagerInterface;
 
 class BookPublishManager
 {
-    public function __construct(
-        private EntityManagerInterface $em,
-        private BookRepository $bookRepository
-    ) {
+    public function __construct(private BookRepository $bookRepository)
+    {
     }
 
     // Set date publish
@@ -31,7 +28,7 @@ class BookPublishManager
         $book = $this->bookRepository->getBookById($id);
         $book->setPublicationDate($dateTime);
 
-        $this->em->flush();
+        $this->bookRepository->commit();
     }
 
 }
