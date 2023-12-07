@@ -19,15 +19,10 @@
 							"raw": "{\n    \"email\":\"test\",\n    \"agreed\": true\n}"
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/v1/subscribe",
-							"protocol": "http",
+							"raw": "{{host}}/api/v1/subscribe",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{host}}"
 							],
-							"port": "8000",
 							"path": [
 								"api",
 								"v1",
@@ -47,15 +42,10 @@
 							"raw": "{\n    \"email\":\"moroztaras@i.ua\",\n    \"agreed\": true\n}\n    "
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/v1/subscribe",
-							"protocol": "http",
+							"raw": "{{host}}/api/v1/subscribe",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{host}}"
 							],
-							"port": "8000",
 							"path": [
 								"api",
 								"v1",
@@ -75,15 +65,10 @@
 							"raw": "{\n    \n}"
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/v1/subscribe",
-							"protocol": "http",
+							"raw": "{{host}}/api/v1/subscribe",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{host}}"
 							],
-							"port": "8000",
 							"path": [
 								"api",
 								"v1",
@@ -104,15 +89,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/v1/book/categories",
-							"protocol": "http",
+							"raw": "{{host}}/api/v1/book/categories",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{host}}"
 							],
-							"port": "8000",
 							"path": [
 								"api",
 								"v1",
@@ -149,15 +129,10 @@
 							"raw": "{\n  \"title\": \"Testing new category\"\n}"
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/v1/admin/bookCategory",
-							"protocol": "http",
+							"raw": "{{host}}/api/v1/admin/bookCategory",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{host}}"
 							],
-							"port": "8000",
 							"path": [
 								"api",
 								"v1",
@@ -194,15 +169,10 @@
 							"raw": "{\n  \"title\": \"Edit testing new category\"\n}"
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/v1/admin/bookCategory/{{id_category}}",
-							"protocol": "http",
+							"raw": "{{host}}/api/v1/admin/bookCategory/{{id_category}}",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{host}}"
 							],
-							"port": "8000",
 							"path": [
 								"api",
 								"v1",
@@ -236,15 +206,10 @@
 							}
 						],
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/v1/admin/bookCategory/{{id_category}}",
-							"protocol": "http",
+							"raw": "{{host}}/api/v1/admin/bookCategory/{{id_category}}",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{host}}"
 							],
-							"port": "8000",
 							"path": [
 								"api",
 								"v1",
@@ -267,20 +232,15 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/v1/category/47/books",
-							"protocol": "http",
+							"raw": "{{host}}/api/v1/category/{{id_category}}/books",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{host}}"
 							],
-							"port": "8000",
 							"path": [
 								"api",
 								"v1",
 								"category",
-								"47",
+								"{{id_category}}",
 								"books"
 							]
 						}
@@ -293,20 +253,15 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/v1/book/43",
-							"protocol": "http",
+							"raw": "{{host}}/api/v1/book/{{id_book}}",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{host}}"
 							],
-							"port": "8000",
 							"path": [
 								"api",
 								"v1",
 								"book",
-								"43"
+								"{{id_book}}"
 							]
 						}
 					},
@@ -323,20 +278,15 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/v1/book/62/reviews?page=1",
-							"protocol": "http",
+							"raw": "{{host}}/api/v1/book/{{id_book}}/reviews?page=1",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{host}}"
 							],
-							"port": "8000",
 							"path": [
 								"api",
 								"v1",
 								"book",
-								"62",
+								"{{id_book}}",
 								"reviews"
 							],
 							"query": [
@@ -360,20 +310,15 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/v1/book/43/recommendations",
-							"protocol": "http",
+							"raw": "{{host}}/api/v1/book/{{id_book}}/recommendations",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{host}}"
 							],
-							"port": "8000",
 							"path": [
 								"api",
 								"v1",
 								"book",
-								"43",
+								"{{id_book}}",
 								"recommendations"
 							]
 						}
@@ -395,15 +340,10 @@
 							"raw": "{\n  \"firstName\": \"Taras\",\n  \"lastName\": \"Moroz\",\n  \"email\": \"admin@publisher.com\",\n  \"password\": \"qwerty123\",\n  \"confirmPassword\": \"qwerty123\"\n}"
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/v1/auth/signUp",
-							"protocol": "http",
+							"raw": "{{host}}/api/v1/auth/signUp",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{host}}"
 							],
-							"port": "8000",
 							"path": [
 								"api",
 								"v1",
@@ -424,15 +364,10 @@
 							"raw": "{\n  \"firstName\": \"Author\",\n  \"lastName\": \"Author\",\n  \"email\": \"author@publisher.com\",\n  \"password\": \"qwerty123\",\n  \"confirmPassword\": \"qwerty123\"\n}"
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/v1/auth/signUp",
-							"protocol": "http",
+							"raw": "{{host}}/api/v1/auth/signUp",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{host}}"
 							],
-							"port": "8000",
 							"path": [
 								"api",
 								"v1",
@@ -453,15 +388,10 @@
 							"raw": "{\n  \"firstName\": \"First Name\",\n  \"lastName\": \"Last Name\",\n  \"email\": \"user@publisher.com\",\n  \"password\": \"qwerty123\",\n  \"confirmPassword\": \"qwerty123\"\n}"
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/v1/auth/signUp",
-							"protocol": "http",
+							"raw": "{{host}}/api/v1/auth/signUp",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{host}}"
 							],
-							"port": "8000",
 							"path": [
 								"api",
 								"v1",
@@ -482,15 +412,10 @@
 							"raw": "{\"refresh_token\": \"6f214c7097b1e9ea6721439756fbebe09a2ed8033eb0b7a74e463ef9a7156f0a17ada0765cdf396618536af9f6898206522db342837e228f12fca053a35cff47\"}"
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/v1/auth/refresh",
-							"protocol": "http",
+							"raw": "{{host}}/api/v1/auth/refresh",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{host}}"
 							],
-							"port": "8000",
 							"path": [
 								"api",
 								"v1",
@@ -527,15 +452,10 @@
 							"raw": "{\n    \"username\": \"admin@publisher.com\",\n    \"password\": \"qwerty123\"\n}"
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/v1/auth/login",
-							"protocol": "http",
+							"raw": "{{host}}/api/v1/auth/login",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{host}}"
 							],
-							"port": "8000",
 							"path": [
 								"api",
 								"v1",
@@ -564,15 +484,10 @@
 							"raw": "{\n  \"firstName\": \"Taras\",\n  \"lastName\": \"Moroz\",\n  \"email\": \"admin@publisher.com\",\n  \"password\": \"qwerty123\",\n  \"confirmPassword\": \"qwerty123\"\n}"
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/v1/user/profile",
-							"protocol": "http",
+							"raw": "{{host}}/api/v1/user/profile",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{host}}"
 							],
-							"port": "8000",
 							"path": [
 								"api",
 								"v1",
@@ -614,15 +529,10 @@
 							}
 						],
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/v1/author/books",
-							"protocol": "http",
+							"raw": "{{host}}/api/v1/author/books",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{host}}"
 							],
-							"port": "8000",
 							"path": [
 								"api",
 								"v1",
@@ -659,15 +569,10 @@
 							"raw": "{\n  \"title\": \"New title of book\"\n}"
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/v1/author/book",
-							"protocol": "http",
+							"raw": "{{host}}/api/v1/author/book",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{host}}"
 							],
-							"port": "8000",
 							"path": [
 								"api",
 								"v1",
@@ -679,7 +584,85 @@
 					"response": []
 				},
 				{
-					"name": "api author book remove cover",
+					"name": "api author book by id",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{jwt_aut_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/api/v1/author/book/{{id_book}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"author",
+								"book",
+								"{{id_book}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api author edit book",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{jwt_aut_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Testing edit title of book\",\n  \"description\": \"Testing description title of book\",\n  \"isbn\": \"test\",\n  \"authors\": [\"first\"],\n  \"categories\": [4],\n  \"formats\":[\n      {\n          \"id\":1,\n          \"price\":10.0,\n          \"discount_percent\":20\n      },\n      {\n          \"id\":2,\n          \"price\":12.5\n      }\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/author/book/{{id_book}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"author",
+								"book",
+								"{{id_book}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api author delete book",
 					"protocolProfileBehavior": {
 						"disabledSystemHeaders": {
 							"accept": true
@@ -700,22 +683,16 @@
 							}
 						],
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/v1/author/book/{{id_book}}/cover",
-							"protocol": "http",
+							"raw": "{{host}}/api/v1/author/book/{{id_book}}",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{host}}"
 							],
-							"port": "8000",
 							"path": [
 								"api",
 								"v1",
 								"author",
 								"book",
-								"{{id_book}}",
-								"cover"
+								"{{id_book}}"
 							]
 						}
 					},
@@ -744,18 +721,13 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"date\": \"2023-11-30\"\n}"
+							"raw": "{\n  \"date\": \"2023-12-07\"\n}"
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/v1/author/book/{{id_book}}/publish",
-							"protocol": "http",
+							"raw": "{{host}}/api/v1/author/book/{{id_book}}/publish",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{host}}"
 							],
-							"port": "8000",
 							"path": [
 								"api",
 								"v1",
@@ -790,15 +762,10 @@
 							}
 						],
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/v1/author/book/{{id_book}}/unpublish",
-							"protocol": "http",
+							"raw": "{{host}}/api/v1/author/book/{{id_book}}/unpublish",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{host}}"
 							],
-							"port": "8000",
 							"path": [
 								"api",
 								"v1",
@@ -812,7 +779,7 @@
 					"response": []
 				},
 				{
-					"name": "api author delete book",
+					"name": "api author book remove cover",
 					"protocolProfileBehavior": {
 						"disabledSystemHeaders": {
 							"accept": true
@@ -828,26 +795,22 @@
 							},
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE3MDA4MzMwOTMsImV4cCI6MTcwMDgzMzY5Mywicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoiYWRtaW4yQHB1Ymxpc2hlci5jb20iLCJpZCI6OX0.C05ZdMRC4tP1a683bPl2g-1_z5u3uZx1Sa-kIX4NL-XSK1a5Nt7W4g_Zbb0mh-vjtQjzikrmIucBmu475vk_gNx-GM0kTPDrSgGyVCmCiPqBSqbaxJ84r2QVXa0OQsh0giN0p-yu-qCJcYp0hJbtQf3ue8qA_1zVYtmsjs07jqKDLYuDatGGqyxDrEGCsx3wZdHqVVAszkTd6vf9oKfaC9UKqygtU17qe_Ow-qKvbbClfio9jyR3r6klLIJaWBAQR4HwbJIv81AtuVhXLbRLry8ijfeNZNVfk2KfQf4lR5kFEgqnr8iuyqlLI-RJTSnsYkHQHNC8v-4a87uBrJyQSg",
+								"value": "{{jwt_aut_token}}",
 								"type": "text"
 							}
 						],
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/v1/author/book/7",
-							"protocol": "http",
+							"raw": "{{host}}/api/v1/author/book/{{id_book}}/cover",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{host}}"
 							],
-							"port": "8000",
 							"path": [
 								"api",
 								"v1",
 								"author",
 								"book",
-								"7"
+								"{{id_book}}",
+								"cover"
 							]
 						}
 					},
