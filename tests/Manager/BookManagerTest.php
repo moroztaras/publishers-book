@@ -18,6 +18,7 @@ use App\Model\BookListResponse;
 use App\Repository\BookCategoryRepository;
 use App\Repository\BookRepository;
 use App\Tests\AbstractTestCase;
+use App\Tests\MockUtils;
 use Doctrine\Common\Collections\ArrayCollection;
 
 // Unit teats
@@ -61,15 +62,13 @@ class BookManagerTest extends AbstractTestCase
         $this->bookRepository->expects($this->once())
             ->method('findPublishedBooksByCategoryId')
             ->with(130)
-            ->willReturn([$this->createBookEntity()])
-        ;
+            ->willReturn([$this->createBookEntity()]);
 
         // Set behavior for BookCategoryRepository
         $this->bookCategoryRepository->expects($this->once())
             ->method('existsById')
             ->with(130)
-            ->willReturn(true)
-        ;
+            ->willReturn(true);
 
         // Expected value
         $expected = new BookListResponse([$this->createBookItemModel()]);
@@ -106,12 +105,11 @@ class BookManagerTest extends AbstractTestCase
             ->setRating(5.5)
             ->setReviews(10)
             ->setSlug('test-book')
-            ->setTitle('Test Book')
-            ->setImage('http://localhost/test.png')
+            ->setTitle('Test book')
+            ->setImage('http://localhost.png')
             ->setAuthors(['Tester'])
-            ->setMeap(false)
             ->setCategories([
-                new BookCategoryModel(1, 'Category', 'category'),
+                new BookCategoryModel(1, 'Devices', 'devices'),
             ])
             ->setPublicationDate(1602288000)
             ->setFormats([$format]);
@@ -133,37 +131,23 @@ class BookManagerTest extends AbstractTestCase
     private function createBookEntity(): Book
     {
         // Create category
-        $category = (new BookCategory())->setTitle('Category')->setSlug('category');
+        $category = MockUtils::createBookCategory();
         // Set id for category
         $this->setEntityId($category, 1);
-
         // Create format
-        $format = (new BookFormat())->setTitle('format')->setDescription('description format')->setComment(null);
+        $format = MockUtils::createBookFormat();
+        // Create book
+        $book = MockUtils::createBook()->setCategories(new ArrayCollection([$category]));
+        $this->setEntityId($book, 123);
         // Set id for format
         $this->setEntityId($format, 1);
 
         // Create join to BookToBookFormat
-        $join = (new BookToBookFormat())
-            ->setPrice(123.55)
-            ->setFormat($format)
-            ->setDiscountPercent(5);
+        $join = MockUtils::createBookFormatLink($book, $format);
         // Set id for BookToBookFormat
         $this->setEntityId($join, 1);
 
-        $book = (new Book())
-            ->setTitle('Test Book')
-            ->setSlug('test-book')
-            ->setMeap(false)
-            ->setIsbn('123321')
-            ->setDescription('Test description')
-            ->setAuthors(['Tester'])
-            ->setImage('http://localhost/test.png')
-            ->setCategories(new ArrayCollection([$category]))
-            ->setPublicationDate(new \DateTimeImmutable('2020-10-10'))
-            ->setFormats(new ArrayCollection([$join]))
-        ;
-
-        $this->setEntityId($book, 123);
+        $book->setFormats(new ArrayCollection([$join]));
 
         return $book;
     }
@@ -173,11 +157,10 @@ class BookManagerTest extends AbstractTestCase
     {
         return (new BookListItem())
             ->setId(123)
-            ->setTitle('Test Book')
+            ->setTitle('Test book')
             ->setSlug('test-book')
-            ->setMeap(false)
             ->setAuthors(['Tester'])
-            ->setImage('http://localhost/test.png')
+            ->setImage('http://localhost.png')
             ->setPublicationDate(1602288000);
     }
 }

@@ -2,11 +2,8 @@
 
 namespace App\Tests\Controller;
 
-use App\Entity\Book;
-use App\Entity\BookCategory;
-use App\Entity\BookFormat;
-use App\Entity\BookToBookFormat;
 use App\Tests\AbstractControllerTest;
+use App\Tests\MockUtils;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -14,11 +11,24 @@ class BookControllerTest extends AbstractControllerTest
 {
     public function testBooksByCategory(): void
     {
+        // Create user
+        $user = MockUtils::createUser();
+        $this->em->persist($user);
+
         // Create category
-        $categoryId = $this->createCategory();
+        $bookCategory = MockUtils::createBookCategory();
+        $this->em->persist($bookCategory);
+        // Create book
+        $book = MockUtils::createBook()
+            ->setCategories(new ArrayCollection([$bookCategory]))
+            ->setUser($user);
+
+        $this->em->persist($book);
+
+        $this->em->flush();
 
         // Create request
-        $this->client->request(Request::METHOD_GET, '/api/v1/category/'.$categoryId.'/books');
+        $this->client->request(Request::METHOD_GET, '/api/v1/category/'.$bookCategory->getId().'/books');
         // Get response content
         $responseContent = json_decode($this->client->getResponse()->getContent(), true);
 
@@ -33,14 +43,13 @@ class BookControllerTest extends AbstractControllerTest
                     'type' => 'array',
                     'items' => [
                         'type' => 'object',
-                        'required' => ['id', 'title', 'slug', 'image', 'authors', 'meap', 'publicationDate'],
+                        'required' => ['id', 'title', 'slug', 'image', 'authors', 'publicationDate'],
                         'properties' => [
                             'title' => ['type' => 'string'],
                             'slug' => ['type' => 'string'],
                             'id' => ['type' => 'integer'],
                             'publicationDate' => ['type' => 'integer'],
                             'image' => ['type' => 'string'],
-                            'meap' => ['type' => 'boolean'],
                             'authors' => [
                                 'type' => 'array',
                                 'items' => ['type' => 'string'],
@@ -54,10 +63,26 @@ class BookControllerTest extends AbstractControllerTest
 
     public function testBookById(): void
     {
-        $bookId = $this->createBook();
+        // Create user
+        $user = MockUtils::createUser();
+        $this->em->persist($user);
+        // Create category
+        $bookCategory = MockUtils::createBookCategory();
+        $this->em->persist($bookCategory);
+        // Create format
+        $format = MockUtils::createBookFormat();
+        $this->em->persist($format);
+        // Create book
+        $book = MockUtils::createBook()
+            ->setCategories(new ArrayCollection([$bookCategory]))
+            ->setUser($user);
+
+        $this->em->persist($book);
+        $this->em->persist(MockUtils::createBookFormatLink($book, $format));
+        $this->em->flush();
 
         // Request
-        $this->client->request(Request::METHOD_GET, '/api/v1/book/'.$bookId);
+        $this->client->request(Request::METHOD_GET, '/api/v1/book/'.$book->getId());
         // Get response content
         $responseContent = json_decode($this->client->getResponse()->getContent(), true);
 
@@ -68,7 +93,7 @@ class BookControllerTest extends AbstractControllerTest
         $this->assertJsonDocumentMatchesSchema($responseContent, [
             'type' => 'object',
             'required' => [
-                'id', 'title', 'slug', 'image', 'authors', 'meap', 'publicationDate', 'rating', 'reviews',
+                'id', 'title', 'slug', 'image', 'authors', 'publicationDate', 'rating', 'reviews',
                 'categories', 'formats',
             ],
             'properties' => [
@@ -77,7 +102,6 @@ class BookControllerTest extends AbstractControllerTest
                 'id' => ['type' => 'integer'],
                 'publicationDate' => ['type' => 'integer'],
                 'image' => ['type' => 'string'],
-                'meap' => ['type' => 'boolean'],
                 'authors' => [
                     'type' => 'array',
                     'items' => ['type' => 'string'],
@@ -98,67 +122,5 @@ class BookControllerTest extends AbstractControllerTest
                 ],
             ],
         ]);
-    }
-
-    private function createCategory(): int
-    {
-        $bookCategory = (new BookCategory())->setTitle('Devices')->setSlug('devices');
-        $this->em->persist($bookCategory);
-
-        $this->em->persist((new Book())
-            ->setTitle('Test book')
-            ->setImage('http://localhost.png')
-            ->setMeap(true)
-            ->setIsbn('123321')
-            ->setDescription('test')
-            ->setPublicationDate(new \DateTimeImmutable())
-            ->setAuthors(['Tester'])
-            ->setCategories(new ArrayCollection([$bookCategory]))
-            ->setSlug('test-book'));
-
-        $this->em->flush();
-
-        return $bookCategory->getId();
-    }
-
-    private function createBook(): int
-    {
-        $bookCategory = (new BookCategory())
-            ->setTitle('Devices')
-            ->setSlug('devices');
-
-        $this->em->persist($bookCategory);
-
-        $format = (new BookFormat())
-            ->setTitle('format')
-            ->setDescription('description format')
-            ->setComment(null);
-
-        $this->em->persist($format);
-
-        $book = (new Book())
-            ->setTitle('Test book')
-            ->setImage('http://localhost.png')
-            ->setMeap(true)
-            ->setIsbn('123321')
-            ->setDescription('test')
-            ->setPublicationDate(new \DateTimeImmutable())
-            ->setAuthors(['Tester'])
-            ->setCategories(new ArrayCollection([$bookCategory]))
-            ->setSlug('test-book');
-
-        $this->em->persist($book);
-
-        $join = (new BookToBookFormat())
-            ->setPrice(123.55)
-            ->setFormat($format)
-            ->setDiscountPercent(5)
-            ->setBook($book);
-
-        $this->em->persist($join);
-
-        $this->em->flush();
-
-        return $book->getId();
     }
 }

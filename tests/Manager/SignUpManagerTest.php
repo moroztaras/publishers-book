@@ -8,7 +8,6 @@ use App\Manager\SignUpManager;
 use App\Model\SignUpRequest;
 use App\Repository\UserRepository;
 use App\Tests\AbstractTestCase;
-use Doctrine\ORM\EntityManagerInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Security\Http\Authentication\AuthenticationSuccessHandler;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasher;
@@ -19,8 +18,6 @@ class SignUpManagerTest extends AbstractTestCase
 
     private UserRepository $userRepository;
 
-    private EntityManagerInterface $em;
-
     private AuthenticationSuccessHandler $successHandler;
 
     protected function setUp(): void
@@ -30,7 +27,6 @@ class SignUpManagerTest extends AbstractTestCase
         // Mock
         $this->hasher = $this->createMock(UserPasswordHasher::class);
         $this->userRepository = $this->createMock(UserRepository::class);
-        $this->em = $this->createMock(EntityManagerInterface::class);
         $this->successHandler = $this->createMock(AuthenticationSuccessHandler::class);
     }
 
@@ -78,9 +74,10 @@ class SignUpManagerTest extends AbstractTestCase
             ->with($expectedHasherUser, 'testtest')
             ->willReturn('hashed_password');
 
-        // Mock methods 'persist' and 'flush'
-        $this->em->expects($this->once())->method('persist')->with($expectedUser);
-        $this->em->expects($this->once())->method('flush');
+        // Mock method 'saveAndCommit'
+        $this->userRepository->expects($this->once())
+            ->method('saveAndCommit')
+            ->with($expectedUser);
 
         // Set behavior and expects for method handleAuthenticationSuccess
         $this->successHandler->expects($this->once())
@@ -103,6 +100,6 @@ class SignUpManagerTest extends AbstractTestCase
     // Helper for create manager
     private function createManager(): SignUpManager
     {
-        return new SignUpManager($this->hasher, $this->userRepository, $this->em, $this->successHandler);
+        return new SignUpManager($this->hasher, $this->userRepository, $this->successHandler);
     }
 }

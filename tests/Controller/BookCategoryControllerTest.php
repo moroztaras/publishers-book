@@ -2,8 +2,8 @@
 
 namespace App\Tests\Controller;
 
-use App\Entity\BookCategory;
 use App\Tests\AbstractControllerTest;
+use App\Tests\MockUtils;
 use Symfony\Component\HttpFoundation\Request;
 
 class BookCategoryControllerTest extends AbstractControllerTest
@@ -12,7 +12,7 @@ class BookCategoryControllerTest extends AbstractControllerTest
     public function testCategories(): void
     {
         // Create new category
-        $this->em->persist((new BookCategory())->setTitle('Devices')->setSlug('devices'));
+        $this->em->persist(MockUtils::createBookCategory());
         $this->em->flush();
 
         // Create request
