@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Security\JwtUserProvider;
 use App\Tests\AbstractTestCase;
+use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 
 class JwtUserProviderTest extends AbstractTestCase
 {
@@ -38,5 +39,17 @@ class JwtUserProviderTest extends AbstractTestCase
 
         // Comparing the actual returned value with the expected value.
         $this->assertEquals($user, $expected);
+    }
+
+    public function testLoadUserByIdentifierNotFoundException(): void
+    {
+        $this->expectException(UserNotFoundException::class);
+
+        $this->userRepository->expects($this->once())
+            ->method('findOneBy')
+            ->with(['email' => self::EMAIL])
+            ->willReturn(null);
+
+        (new JwtUserProvider($this->userRepository))->loadUserByIdentifier(self::EMAIL);
     }
 }
