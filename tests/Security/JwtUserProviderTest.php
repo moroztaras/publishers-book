@@ -65,4 +65,16 @@ class JwtUserProviderTest extends AbstractTestCase
 
         $this->assertEquals($user, $provider->loadUserByIdentifierAndPayload(self::EMAIL, ['id' => 1]));
     }
+
+    public function testLoadUserByIdentifierAndPayloadNotFoundException(): void
+    {
+        $this->expectException(UserNotFoundException::class);
+
+        $this->userRepository->expects($this->once())
+            ->method('findOneBy')
+            ->with(['id' => '1'])
+            ->willReturn(null);
+
+        (new JwtUserProvider($this->userRepository))->loadUserByIdentifierAndPayload(self::EMAIL, ['id' => 1]);
+    }
 }
