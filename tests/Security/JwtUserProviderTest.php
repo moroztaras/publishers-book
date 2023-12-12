@@ -14,67 +14,73 @@ class JwtUserProviderTest extends AbstractTestCase
 
     private UserRepository $userRepository;
 
+    private User $user;
+
+    private JwtUserProvider $provider;
+
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->userRepository = $this->createMock(UserRepository::class);
+        // Create user
+        $this->user = (new User())->setEmail(self::EMAIL);
+        // Create JwtUserProvider
+        $this->provider = new JwtUserProvider($this->userRepository);
     }
 
     public function testSupportsClass(): void
     {
-        // Create user
-        $user = (new User())->setEmail(self::EMAIL);
-        // Create JwtUserProvider
-        $provider = new JwtUserProvider($this->userRepository);
-
         // Set the behavior & expected for the method - findOneBy
         $this->userRepository->expects($this->once())
             ->method('findOneBy')
             ->with(['email' => self::EMAIL])
-            ->willReturn($user);
+            ->willReturn($this->user);
 
         // Expected value
-        $expected = $provider->loadUserByIdentifier(self::EMAIL);
+        $expected = $this->provider->loadUserByIdentifier(self::EMAIL);
 
         // Comparing the actual returned value with the expected value.
-        $this->assertEquals($user, $expected);
+        $this->assertEquals($this->user, $expected);
     }
 
     public function testLoadUserByIdentifierNotFoundException(): void
     {
         $this->expectException(UserNotFoundException::class);
 
+        // Set behavior for method - findOneBy
         $this->userRepository->expects($this->once())
             ->method('findOneBy')
             ->with(['email' => self::EMAIL])
             ->willReturn(null);
 
+        // Run provider
         (new JwtUserProvider($this->userRepository))->loadUserByIdentifier(self::EMAIL);
     }
 
     public function testLoadUserByIdentifierAndPayload(): void
     {
-        $user = (new User())->setEmail(self::EMAIL);
-        $provider = new JwtUserProvider($this->userRepository);
-
+        // Set behavior for method - findOneBy
         $this->userRepository->expects($this->once())
             ->method('findOneBy')
             ->with(['id' => '1'])
-            ->willReturn($user);
+            ->willReturn($this->user);
 
-        $this->assertEquals($user, $provider->loadUserByIdentifierAndPayload(self::EMAIL, ['id' => 1]));
+        // Comparing the actual returned value with the expected value.
+        $this->assertEquals($this->user, $this->provider->loadUserByIdentifierAndPayload(self::EMAIL, ['id' => 1]));
     }
 
     public function testLoadUserByIdentifierAndPayloadNotFoundException(): void
     {
         $this->expectException(UserNotFoundException::class);
 
+        // Set behavior for method - findOneBy
         $this->userRepository->expects($this->once())
             ->method('findOneBy')
             ->with(['id' => '1'])
             ->willReturn(null);
 
+        // Run provider
         (new JwtUserProvider($this->userRepository))->loadUserByIdentifierAndPayload(self::EMAIL, ['id' => 1]);
     }
 }
