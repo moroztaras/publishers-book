@@ -90,6 +90,27 @@ class RequestFileArgumentResolverTest extends AbstractTestCase
         $this->createResolver()->resolve($request, $meta)->next();
     }
 
+    public function testResolve(): void
+    {
+        $file = new UploadedFile('path', 'field', null, UPLOAD_ERR_NO_FILE, true);
+        $request = new Request();
+        $request->files->add(['field' => $file]);
+
+        $meta = new ArgumentMetadata('some', stdClass::class, false, false, null, false, [
+            new RequestFile('field', []),
+        ]);
+
+        // Set the behavior of the method validate
+        $this->validator->expects($this->once())
+            ->method('validate')
+            ->with($file, [])
+            ->willReturn(new ConstraintViolationList([]));
+
+        $actual = $this->createResolver()->resolve($request, $meta);
+
+        $this->assertEquals($file, $actual->current());
+    }
+
     private function createResolver(): RequestFileArgumentResolver
     {
         return new RequestFileArgumentResolver($this->validator);
