@@ -30,6 +30,13 @@ class RequestFileArgumentResolverTest extends AbstractTestCase
         $this->assertTrue($this->createResolver()->supports(new Request(), $meta));
     }
 
+    public function testNotSupports(): void
+    {
+        $meta = new ArgumentMetadata('some', null, false, false, null);
+
+        $this->assertFalse($this->createResolver()->supports(new Request(), $meta));
+    }
+
     private function createResolver(): RequestFileArgumentResolver
     {
         return new RequestFileArgumentResolver($this->validator);
