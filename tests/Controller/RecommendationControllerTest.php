@@ -2,9 +2,8 @@
 
 namespace App\Tests\Controller;
 
-use App\Entity\Book;
 use App\Tests\AbstractControllerTest;
-use Doctrine\Common\Collections\ArrayCollection;
+use App\Tests\MockUtils;
 use Hoverfly\Client as HoverflyClient;
 use Hoverfly\Model\RequestFieldMatcher;
 use Hoverfly\Model\Response;
@@ -23,7 +22,15 @@ class RecommendationControllerTest extends AbstractControllerTest
 
     public function testRecommendationsByBookId(): void
     {
-        $id = $this->createBook();
+        // Create user
+        $user = MockUtils::createUser();
+        $this->em->persist($user);
+
+        // Create book
+        $book = MockUtils::createBook()->setUser($user);
+        $this->em->persist($book);
+
+        $this->em->flush();
         $requestedId = 123;
 
         // Setting hoverfly
@@ -39,7 +46,7 @@ class RecommendationControllerTest extends AbstractControllerTest
                 ->willReturn(Response::json([
                     'ts' => 12345,
                     'id' => $requestedId,
-                    'recommendations' => [['id' => $id]],
+                    'recommendations' => [['id' => $book->getId()]],
                 ]))
         );
 
@@ -69,27 +76,8 @@ class RecommendationControllerTest extends AbstractControllerTest
         ]);
     }
 
-    private function createBook(): int
-    {
-        $book = (new Book())
-            ->setTitle('Test book')
-            ->setImage('http://localhost.png')
-            ->setMeap(true)
-            ->setIsbn('123321')
-            ->setDescription('test')
-            ->setPublicationDate(new \DateTimeImmutable())
-            ->setAuthors(['Tester'])
-            ->setCategories(new ArrayCollection([]))
-            ->setSlug('test-book');
-
-        $this->em->persist($book);
-        $this->em->flush();
-
-        return $book->getId();
-    }
-
-    // Initialization Hoverfly
-    private function setUpHoverfly(): void
+    // Initialization HoverFly
+    private function setUpHoverFly(): void
     {
         $this->hoverfly = new HoverflyClient(['base_uri' => $_ENV['HOVERFLY_API']]);
         $this->hoverfly->deleteJournal();

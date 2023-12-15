@@ -6,13 +6,10 @@ use App\Entity\User;
 use App\Manager\RoleManager;
 use App\Repository\UserRepository;
 use App\Tests\AbstractTestCase;
-use Doctrine\ORM\EntityManagerInterface;
 
 class RoleManagerTest extends AbstractTestCase
 {
     private UserRepository $userRepository;
-
-    private EntityManagerInterface $em;
 
     private User $user;
 
@@ -28,11 +25,11 @@ class RoleManagerTest extends AbstractTestCase
             ->expects($this->once())
             ->method('getUser')
             ->with(1)
-            ->willReturn($this->user)
-        ;
+            ->willReturn($this->user);
+
         // Mock and behavior for EntityManager
-        $this->em = $this->createMock(EntityManagerInterface::class);
-        $this->em->expects($this->once())->method('flush');
+        $this->userRepository->expects($this->once())
+            ->method('commit');
     }
 
     public function testGrantAdmin(): void
@@ -50,6 +47,6 @@ class RoleManagerTest extends AbstractTestCase
     // Helper for create manager
     private function createManager(): RoleManager
     {
-        return new RoleManager($this->userRepository, $this->em);
+        return new RoleManager($this->userRepository);
     }
 }

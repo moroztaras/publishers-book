@@ -8,13 +8,10 @@ use App\Manager\SubscriberManager;
 use App\Model\SubscriberRequest;
 use App\Repository\SubscriberRepository;
 use App\Tests\AbstractTestCase;
-use Doctrine\ORM\EntityManagerInterface;
 
 class SubscriberManagerTest extends AbstractTestCase
 {
     private SubscriberRepository $repository;
-
-    private EntityManagerInterface $em;
 
     private const EMAIL = 'test@test.com';
 
@@ -24,7 +21,6 @@ class SubscriberManagerTest extends AbstractTestCase
 
         // Set mock
         $this->repository = $this->createMock(SubscriberRepository::class);
-        $this->em = $this->createMock(EntityManagerInterface::class);
     }
 
     public function testSubscribeAlreadyExists(): void
@@ -42,7 +38,7 @@ class SubscriberManagerTest extends AbstractTestCase
         $request->setEmail(self::EMAIL);
 
         // Run method subscribe
-        (new SubscriberManager($this->repository, $this->em))->subscribe($request);
+        (new SubscriberManager($this->repository))->subscribe($request);
     }
 
     public function testSubscribe(): void
@@ -56,19 +52,16 @@ class SubscriberManagerTest extends AbstractTestCase
         $expectedSubscriber = new Subscriber();
         $expectedSubscriber->setEmail(self::EMAIL);
 
-        // Set behavior for Entity Manager
-        $this->em->expects($this->once())
-            ->method('persist')
-            ->with($expectedSubscriber);
-
-        $this->em->expects($this->once())
-            ->method('flush');
-
         // Create request
         $request = new SubscriberRequest();
         $request->setEmail(self::EMAIL);
 
+        // Set behavior for method 'saveAndCommit'
+        $this->repository->expects($this->once())
+            ->method('saveAndCommit')
+            ->with($expectedSubscriber);
+
         // Create subscribe manager and run method
-        (new SubscriberManager($this->repository, $this->em))->subscribe($request);
+        (new SubscriberManager($this->repository))->subscribe($request);
     }
 }

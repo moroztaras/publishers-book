@@ -28,7 +28,7 @@ class ValidationExceptionListenerTest extends AbstractTestCase
 
     public function testInvokeSkippedWhenNotValidationException(): void
     {
-        // TThis method never not will be call
+        // This method never not will be call
         $this->serializer->expects($this->never())
             ->method('serialize');
 
