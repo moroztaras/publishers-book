@@ -49,6 +49,17 @@ class UploadFileManagerTest extends AbstractTestCase
         $this->assertTrue(Uuid::isValid($actualPath['filename']));
     }
 
+    public function testDeleteBookFile(): void
+    {
+        // Set the behavior and return result for method - remove
+        $this->fs->expects($this->once())
+            ->method('remove')
+            ->with('/tmp/book/1/test.jpg');
+
+        // Run method deleteBookFile
+        $this->createManager()->deleteBookFile(1, 'test.jpg');
+    }
+
     private function createManager(): UploadFileManager
     {
         return new UploadFileManager($this->fs, self::UPLOAD_DIR);
