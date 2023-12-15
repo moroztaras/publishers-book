@@ -10,6 +10,7 @@ use App\Manager\UploadFileManager;
 use App\Model\Author\BookListItem;
 use App\Model\Author\BookListResponse;
 use App\Model\Author\CreateBookRequest;
+use App\Model\Author\UpdateBookRequest;
 use App\Model\Author\UploadCoverResponse;
 use App\Model\IdResponse;
 use App\Repository\BookCategoryRepository;
@@ -242,6 +243,37 @@ class AuthorBookManagerTest extends AbstractTestCase
 
         // Comparing the expected value with the actual returned value
         $this->assertEquals(new IdResponse(111), $this->createManager()->createBook($payload, $user));
+    }
+
+    public function testUpdateBookExceptionOnDuplicateSlug(): void
+    {
+        // Expect exception
+        $this->expectException(BookAlreadyExistsException::class);
+
+        $book = new Book();
+        // Request
+        $payload = (new UpdateBookRequest())->setTitle('Old');
+
+        // Set the behavior and return result for method - slug
+        $this->slugger->expects($this->once())
+            ->method('slug')
+            ->with('Old')
+            ->willReturn(new UnicodeString('old'));
+
+        // Set the behavior and return result for method - getBookById
+        $this->bookRepository->expects($this->once())
+            ->method('getBookById')
+            ->with(1)
+            ->willReturn($book);
+
+        // Set the behavior and return result for method - existsBySlug
+        $this->bookRepository->expects($this->once())
+            ->method('existsBySlug')
+            ->with('old')
+            ->willReturn(true);
+
+        // Run method updateBook
+        $this->createManager()->updateBook(1, $payload);
     }
 
     // Create AuthorBookManager
