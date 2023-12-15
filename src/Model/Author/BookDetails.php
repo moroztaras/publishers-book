@@ -24,8 +24,6 @@ class BookDetails
 
     private ?string $description;
 
-    private bool $meap;
-
     private ?int $publicationDate;
 
     /**
@@ -127,17 +125,7 @@ class BookDetails
 
         return $this;
     }
-    public function isMeap(): bool
-    {
-        return $this->meap;
-    }
 
-    public function setMeap(bool $meap): self
-    {
-        $this->meap = $meap;
-
-        return $this;
-    }
     public function getPublicationDate(): ?int
     {
         return $this->publicationDate;

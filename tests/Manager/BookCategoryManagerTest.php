@@ -8,6 +8,7 @@ use App\Model\BookCategory as BookCategoryModel;
 use App\Model\BookCategoryListResponse;
 use App\Repository\BookCategoryRepository;
 use App\Tests\AbstractTestCase;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class BookCategoryManagerTest extends AbstractTestCase
 {
@@ -26,8 +27,10 @@ class BookCategoryManagerTest extends AbstractTestCase
             ->method('findAllSortByTitle')
             ->willReturn([$category]);
 
+        // Mock for slugger
+        $slugger = $this->createMock(SluggerInterface::class);
         // Create BookCategoryManager
-        $manager = new BookCategoryManager($repository);
+        $manager = new BookCategoryManager($repository, $slugger);
 
         // Expected value
         $expected = new BookCategoryListResponse([new BookCategoryModel(7, 'Test', 'test')]);

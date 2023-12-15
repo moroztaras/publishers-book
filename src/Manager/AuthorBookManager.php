@@ -48,7 +48,6 @@ class AuthorBookManager
     {
         $book = (new Book())
              ->setTitle($request->getTitle())
-             ->setMeap(false)
              ->setSlug($this->slugifyOfThrow($request->getTitle()))
              ->setUser($user);
 

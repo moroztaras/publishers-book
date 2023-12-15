@@ -11,6 +11,7 @@ use App\Tests\AbstractTestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\SerializerInterface;
 
@@ -237,6 +238,18 @@ class ApiExceptionListenerTest extends AbstractTestCase
         $this->runListener($event, true);
 
         $this->assertResponse(Response::HTTP_NOT_FOUND, $responseBody, $event->getResponse());
+    }
+
+    public function testIgnoreSecurityException(): void
+    {
+        // Set the behavior logger and the method - resolve
+        $this->resolver->expects($this->never())
+            ->method('resolve');
+
+        // Create event
+        $event = $this->createExceptionEvent(new AuthenticationException());
+        // Run listener
+        $this->runListener($event, true);
     }
 
     // Run listener

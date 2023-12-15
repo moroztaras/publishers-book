@@ -6,6 +6,7 @@ use App\Entity\Book;
 use App\Entity\BookCategory;
 use App\Repository\BookRepository;
 use App\Tests\AbstractRepositoryTest;
+use App\Tests\MockUtils;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class BookRepositoryTest extends AbstractRepositoryTest
@@ -21,33 +22,24 @@ class BookRepositoryTest extends AbstractRepositoryTest
 
     public function testFindBooksByCategoryId()
     {
+        // Create user
+        $user = MockUtils::createUser();
+        $this->em->persist($user);
         // Create category
-        $devicesCategory = (new BookCategory())->setTitle('Devices')->setSlug('devices');
+        $devicesCategory = MockUtils::createBookCategory();
         $this->em->persist($devicesCategory);
 
-        // Create books
         for ($i = 0; $i < 5; ++$i) {
-            $book = $this->createBook('device-'.$i, $devicesCategory);
+            // Create book
+            $book = MockUtils::createBook()->setUser($user)
+                ->setTitle('device-'.$i)
+                ->setCategories(new ArrayCollection([$devicesCategory]));
+
             $this->em->persist($book);
         }
 
         $this->em->flush();
         // Comparing the expected value with the actual returned value.
         $this->assertCount(5, $this->bookRepository->findPublishedBooksByCategoryId($devicesCategory->getId()));
-    }
-
-    // Generate book for test
-    private function createBook(string $title, BookCategory $category): Book
-    {
-        return (new Book())
-            ->setPublicationDate(new \DateTimeImmutable())
-            ->setAuthors(['author'])
-            ->setMeap(false)
-            ->setSlug($title)
-            ->setDescription('Test description')
-            ->setIsbn('12321')
-            ->setCategories(new ArrayCollection([$category]))
-            ->setTitle($title)
-            ->setImage('http://localhost/'.$title.'.png');
     }
 }
