@@ -8,7 +8,9 @@ use App\Manager\AuthorBookManager;
 use App\Manager\UploadFileManager;
 use App\Model\Author\BookListItem;
 use App\Model\Author\BookListResponse;
+use App\Model\Author\CreateBookRequest;
 use App\Model\Author\UploadCoverResponse;
+use App\Model\IdResponse;
 use App\Repository\BookCategoryRepository;
 use App\Repository\BookFormatRepository;
 use App\Repository\BookRepository;
@@ -17,6 +19,7 @@ use App\Tests\MockUtils;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\String\UnicodeString;
 
 class AuthorBookManagerTest extends AbstractTestCase
 {
@@ -175,9 +178,45 @@ class AuthorBookManagerTest extends AbstractTestCase
             ->setTitle('Test book')
             ->setSlug('test-book');
 
+        // Comparing the expected value with the actual returned value
         $this->assertEquals(new BookListResponse([$bookItem]), $this->createManager()->getBooks($user));
     }
 
+    public function testCreateBook(): void
+    {
+        // Request
+        $payload = (new CreateBookRequest())->setTitle('New Book');
+        // New user
+        $user = new User();
+
+        // Create new book
+        $expectedBook = (new Book())->setTitle('New Book')
+            ->setSlug('new-book')
+            ->setUser($user);
+
+        // Set the behavior and return result for method - slug
+        $this->slugger->expects($this->once())
+            ->method('slug')
+            ->with('New Book')
+            ->willReturn(new UnicodeString('new-book'));
+
+        // Set the behavior and return result for method - existsBySlug
+        $this->bookRepository->expects($this->once())
+            ->method('existsBySlug')
+            ->with('new-book')
+            ->willReturn(false);
+
+        // Set the behavior and return result for method - saveAndCommit
+        $this->bookRepository->expects($this->once())
+            ->method('saveAndCommit')
+            ->with($expectedBook)
+            ->will($this->returnCallback(function (Book $book) {
+                $this->setEntityId($book, 111);
+            }));
+
+        // Comparing the expected value with the actual returned value
+        $this->assertEquals(new IdResponse(111), $this->createManager()->createBook($payload, $user));
+    }
     // Create AuthorBookManager
     private function createManager(): AuthorBookManager
     {
