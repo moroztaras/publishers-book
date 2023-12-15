@@ -94,9 +94,9 @@ class AuthorController extends AbstractController
      */
     #[Route(path: '/api/v1/author/book/{id}/unpublish', methods: ['POST'])]
     #[IsGranted(AuthorBookVoter::IS_AUTHOR, subject: 'id')]
-    public function unpublish(int $id): Response
+    public function unPublish(int $id): Response
     {
-        $this->bookPublishManager->unpublish($id);
+        $this->bookPublishManager->unPublish($id);
 
         return $this->json(null);
     }

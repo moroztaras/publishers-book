@@ -18,7 +18,7 @@ class BookPublishManager
     }
 
     // Remove date publish
-    public function unpublish(int $id): void
+    public function unPublish(int $id): void
     {
         $this->setPublicationDate($id, null);
     }

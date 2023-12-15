@@ -42,4 +42,23 @@ class BookPublishManagerTest extends AbstractTestCase
         // Check data with book publication date
         $this->assertEquals($datetime, $book->getPublicationDate());
     }
+
+    public function testUnPublish(): void
+    {
+        $book = (new Book())->setPublicationDate(new DateTimeImmutable('2020-10-10'));
+
+        // Set behavior and return result for method - getBookById
+        $this->bookRepository->expects($this->once())
+            ->method('getBookById')
+            ->with(1)
+            ->willReturn($book);
+
+        $this->bookRepository->expects($this->once())
+            ->method('commit');
+
+        // Run method - unPublish
+        (new BookPublishManager($this->bookRepository))->unPublish(1);
+
+        $this->assertNull($book->getPublicationDate());
+    }
 }
