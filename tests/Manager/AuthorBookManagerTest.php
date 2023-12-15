@@ -10,6 +10,8 @@ use App\Repository\BookCategoryRepository;
 use App\Repository\BookFormatRepository;
 use App\Repository\BookRepository;
 use App\Tests\AbstractTestCase;
+use App\Tests\MockUtils;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -121,6 +123,34 @@ class AuthorBookManagerTest extends AbstractTestCase
 
         // Run method - deleteBook
         $this->createManager()->deleteBook(1);
+    }
+
+    public function testGetBook(): void
+    {
+        // Create category
+        $category = MockUtils::createBookCategory();
+        $this->setEntityId($category, 1);
+
+        // Create format
+        $format = MockUtils::createBookFormat();
+        $this->setEntityId($format, 1);
+
+        // Create book
+        $book = MockUtils::createBook()->setCategories(new ArrayCollection([$category]));
+        // Create book link format
+        $bookLink = MockUtils::createBookFormatLink($book, $format);
+        $book->setFormats(new ArrayCollection([$bookLink]));
+
+        $this->setEntityId($book, 1);
+
+        // Set the behavior and return result for method - getBookById
+        $this->bookRepository->expects($this->once())
+            ->method('getBookById')
+            ->with(1)
+            ->willReturn($book);
+
+        // Comparing the expected value with the actual returned value
+        $this->assertEquals(MockUtils::bookDetails(), $this->createManager()->getBook(1));
     }
 
     // Create AuthorBookManager

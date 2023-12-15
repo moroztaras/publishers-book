@@ -8,6 +8,7 @@ use App\Entity\BookFormat;
 use App\Entity\BookToBookFormat;
 use App\Entity\Review;
 use App\Entity\User;
+use App\Model\Author\BookDetails;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class MockUtils
@@ -65,5 +66,28 @@ class MockUtils
             ->setCreatedAt(new \DateTimeImmutable())
             ->setRating(5)
             ->setBook($book);
+    }
+
+    // Create BookDetails
+    public static function bookDetails():BookDetails
+    {
+        return (new BookDetails())
+            ->setId(1)
+            ->setTitle('Test book')->setSlug('test-book')
+            ->setImage('http://localhost.png')
+            ->setIsbn('123321')
+            ->setDescription('test')
+            ->setPublicationDate(1602288000)
+            ->setAuthors(['Tester'])
+            ->setCategories([
+                new \App\Model\BookCategory(1, 'Devices', 'devices')
+            ])
+            ->setFormats([
+                (new \App\Model\BookFormat())->setId(1)->setTitle('format')
+                    ->setDescription('description format')
+                    ->setComment(null)
+                    ->setPrice(123.55)
+                    ->setDiscountPercent(5),
+            ]);
     }
 }
