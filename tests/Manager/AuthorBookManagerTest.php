@@ -3,10 +3,12 @@
 namespace App\Tests\Manager;
 
 use App\Entity\Book;
+use App\Entity\BookToBookFormat;
 use App\Entity\User;
 use App\Exception\BookAlreadyExistsException;
 use App\Manager\AuthorBookManager;
 use App\Manager\UploadFileManager;
+use App\Model\Author\BookFormatOptions;
 use App\Model\Author\BookListItem;
 use App\Model\Author\BookListResponse;
 use App\Model\Author\CreateBookRequest;
@@ -243,6 +245,82 @@ class AuthorBookManagerTest extends AbstractTestCase
 
         // Comparing the expected value with the actual returned value
         $this->assertEquals(new IdResponse(111), $this->createManager()->createBook($payload, $user));
+    }
+
+    public function testUpdateBook(): void
+    {
+        // Create BookToBookFormat
+        $bookToBookFormat = new BookToBookFormat();
+        // Create Book
+        $book = (new Book())->setFormats(new ArrayCollection([$bookToBookFormat]));
+
+        // Create Book Category
+        $category = MockUtils::createBookCategory();
+        $this->setEntityId($category, 1);
+        // Create BookFormat
+        $format = MockUtils::createBookFormat();
+        $this->setEntityId($format, 1);
+
+        // Create BookToBookFormat
+        $newBookToBookFormat = (new BookToBookFormat())
+            ->setBook($book)->setFormat($format)
+            ->setPrice(123.5)->setDiscountPercent(5);
+
+        // Request
+        $payload = (new UpdateBookRequest())->setTitle('Old')->setAuthors(['Tester'])
+            ->setIsbn('isbn')
+            ->setCategories([1])
+            ->setFormats([
+                (new BookFormatOptions())->setId(1)->setPrice(123.5)->setDiscountPercent(5),
+            ])
+            ->setDescription('description');
+
+        // Set the behavior and return result for method - slug
+        $this->slugger->expects($this->once())
+            ->method('slug')
+            ->with('Old')
+            ->willReturn(new UnicodeString('old'));
+
+        // Set the behavior and return result for method - getBookById
+        $this->bookRepository->expects($this->once())
+            ->method('getBookById')
+            ->with(1)
+            ->willReturn($book);
+
+        // Set the behavior and return result for method - existsBySlug
+        $this->bookRepository->expects($this->once())
+            ->method('existsBySlug')
+            ->with('old')
+            ->willReturn(false);
+
+        // Set the behavior and return result for method - findBookCategoriesByIds
+        $this->bookCategoryRepository->expects($this->once())
+            ->method('findBookCategoriesByIds')
+            ->with([1])
+            ->willReturn([$category]);
+
+        // Set the behavior and return result for method - getById
+        $this->bookFormatRepository->expects($this->once())
+            ->method('getById')
+            ->with(1)
+            ->willReturn($format);
+
+        // Set the behavior for method - saveBookFormatReference
+        $this->bookRepository->expects($this->once())
+            ->method('saveBookFormatReference')
+            ->with($newBookToBookFormat);
+
+        // Set the behavior for method - removeBookFormatReference
+        $this->bookRepository->expects($this->once())
+            ->method('removeBookFormatReference')
+            ->with($bookToBookFormat);
+
+        // Set the behavior for method - commit
+        $this->bookRepository->expects($this->once())
+            ->method('commit');
+
+        // Run method updateBook
+        $this->createManager()->updateBook(1, $payload);
     }
 
     public function testUpdateBookExceptionOnDuplicateSlug(): void
