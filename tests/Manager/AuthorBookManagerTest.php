@@ -3,8 +3,11 @@
 namespace App\Tests\Manager;
 
 use App\Entity\Book;
+use App\Entity\User;
 use App\Manager\AuthorBookManager;
 use App\Manager\UploadFileManager;
+use App\Model\Author\BookListItem;
+use App\Model\Author\BookListResponse;
 use App\Model\Author\UploadCoverResponse;
 use App\Repository\BookCategoryRepository;
 use App\Repository\BookFormatRepository;
@@ -151,6 +154,28 @@ class AuthorBookManagerTest extends AbstractTestCase
 
         // Comparing the expected value with the actual returned value
         $this->assertEquals(MockUtils::bookDetails(), $this->createManager()->getBook(1));
+    }
+
+    public function testGetBooks(): void
+    {
+        // Create user
+        $user = new User();
+        // Create book
+        $book = MockUtils::createBook();
+        $this->setEntityId($book, 1);
+
+        // Set the behavior and return result for method - findUserBooks
+        $this->bookRepository->expects($this->once())
+            ->method('findUserBooks')
+            ->with($user)
+            ->willReturn([$book]);
+        // Set value in BookListItem
+        $bookItem = (new BookListItem())->setId(1)
+            ->setImage('http://localhost.png')
+            ->setTitle('Test book')
+            ->setSlug('test-book');
+
+        $this->assertEquals(new BookListResponse([$bookItem]), $this->createManager()->getBooks($user));
     }
 
     // Create AuthorBookManager
