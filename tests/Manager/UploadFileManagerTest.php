@@ -2,6 +2,7 @@
 
 namespace App\Tests\Manager;
 
+use App\Exception\UploadFileInvalidTypeException;
 use App\Manager\UploadFileManager;
 use App\Tests\AbstractTestCase;
 use Symfony\Component\Filesystem\Filesystem;
@@ -47,6 +48,20 @@ class UploadFileManagerTest extends AbstractTestCase
         $this->assertEquals('/upload/book/1', $actualPath['dirname']);
         $this->assertEquals('jpg', $actualPath['extension']);
         $this->assertTrue(Uuid::isValid($actualPath['filename']));
+    }
+
+    // Check on exception
+    public function testUploadBookFileInvalidExtension(): void
+    {
+        $this->expectException(UploadFileInvalidTypeException::class);
+
+        // Set the behavior and return result for method - guessExtension
+        $this->file->expects($this->once())
+            ->method('guessExtension')
+            ->willReturn(null);
+
+        // Run method
+        $this->createManager()->uploadBookFile(1, $this->file);
     }
 
     public function testDeleteBookFile(): void
