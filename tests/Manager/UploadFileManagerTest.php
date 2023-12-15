@@ -26,10 +26,12 @@ class UploadFileManagerTest extends AbstractTestCase
 
     public function testUploadBookFile(): void
     {
+        // Set the behavior and return result for method - guessExtension
         $this->file->expects($this->once())
             ->method('guessExtension')
             ->willReturn('jpg');
 
+        // Set the behavior and return result for method - move
         $this->file->expects($this->once())
             ->method('move')
             ->with($this->equalTo('/tmp/book/1'), $this->callback(function (string $arg) {
