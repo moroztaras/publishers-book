@@ -104,6 +104,25 @@ class AuthorBookManagerTest extends AbstractTestCase
         $this->assertEquals($expected, $this->createManager()->uploadCover(1, $file));
     }
 
+    public function testDeleteBook(): void
+    {
+        $book = new Book();
+
+        // Set the behavior and return result for method - getBookById
+        $this->bookRepository->expects($this->once())
+            ->method('getBookById')
+            ->with(1)
+            ->willReturn($book);
+
+        // Set the behavior and return result for method - removeAndCommit
+        $this->bookRepository->expects($this->once())
+            ->method('removeAndCommit')
+            ->with($book);
+
+        // Run method - deleteBook
+        $this->createManager()->deleteBook(1);
+    }
+
     // Create AuthorBookManager
     private function createManager(): AuthorBookManager
     {
