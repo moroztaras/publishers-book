@@ -1,0 +1,82 @@
+<?php
+
+namespace App\Tests\Manager;
+
+use App\Entity\Book;
+use App\Manager\AuthorBookManager;
+use App\Manager\UploadFileManager;
+use App\Model\Author\UploadCoverResponse;
+use App\Repository\BookCategoryRepository;
+use App\Repository\BookFormatRepository;
+use App\Repository\BookRepository;
+use App\Tests\AbstractTestCase;
+use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+
+class AuthorBookManagerTest extends AbstractTestCase
+{
+    private BookRepository $bookRepository;
+
+    private BookFormatRepository $bookFormatRepository;
+
+    private BookCategoryRepository $bookCategoryRepository;
+
+    private SluggerInterface $slugger;
+
+    private UploadFileManager $uploadFileManager;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        // Mock
+        $this->bookRepository = $this->createMock(BookRepository::class);
+        $this->bookFormatRepository = $this->createMock(BookFormatRepository::class);
+        $this->bookCategoryRepository = $this->createMock(BookCategoryRepository::class);
+        $this->slugger = $this->createMock(SluggerInterface::class);
+        $this->uploadFileManager = $this->createMock(UploadFileManager::class);
+    }
+
+    // Test on upload file for cover of book
+    public function testUploadCover(): void
+    {
+        $file = new UploadedFile('path', 'field', null, UPLOAD_ERR_NO_FILE, true);
+        // Create book
+        $book = (new Book())->setImage(null);
+        $this->setEntityId($book, 1);
+
+        // Set the behavior and return result for method - getBookById
+        $this->bookRepository->expects($this->once())
+            ->method('getBookById')
+            ->with(1)
+            ->willReturn($book);
+
+        // Set the behavior for method - commit
+        $this->bookRepository->expects($this->once())
+            ->method('commit');
+
+        // Set the behavior and return result for method - uploadBookFile
+        $this->uploadFileManager->expects($this->once())
+            ->method('uploadBookFile')
+            ->with(1, $file)
+            ->willReturn('http://localhost/new.jpg');
+
+        // Expected value
+        $expected = new UploadCoverResponse('http://localhost/new.jpg');
+
+        // Comparing the expected value with the actual returned value
+        $this->assertEquals($expected, $this->createManager()->uploadCover(1, $file));
+    }
+
+    // Create AuthorBookManager
+    private function createManager(): AuthorBookManager
+    {
+        return new AuthorBookManager(
+            $this->bookRepository,
+            $this->bookFormatRepository,
+            $this->bookCategoryRepository,
+            $this->slugger,
+            $this->uploadFileManager,
+        );
+    }
+}
