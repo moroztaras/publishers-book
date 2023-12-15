@@ -4,6 +4,7 @@ namespace App\Tests\Manager;
 
 use App\Entity\Book;
 use App\Entity\User;
+use App\Exception\BookAlreadyExistsException;
 use App\Manager\AuthorBookManager;
 use App\Manager\UploadFileManager;
 use App\Model\Author\BookListItem;
@@ -217,6 +218,32 @@ class AuthorBookManagerTest extends AbstractTestCase
         // Comparing the expected value with the actual returned value
         $this->assertEquals(new IdResponse(111), $this->createManager()->createBook($payload, $user));
     }
+
+    public function testCreateBookSlugExistsException(): void
+    {
+        // Expect exception
+        $this->expectException(BookAlreadyExistsException::class);
+
+        // Request
+        $payload = (new CreateBookRequest())->setTitle('New Book');
+        $user = new User();
+
+        // Set the behavior and return result for method - slug
+        $this->slugger->expects($this->once())
+            ->method('slug')
+            ->with('New Book')
+            ->willReturn(new UnicodeString('new-book'));
+
+        // Set the behavior and return result for method - existsBySlug
+        $this->bookRepository->expects($this->once())
+            ->method('existsBySlug')
+            ->with('new-book')
+            ->willReturn(true);
+
+        // Comparing the expected value with the actual returned value
+        $this->assertEquals(new IdResponse(111), $this->createManager()->createBook($payload, $user));
+    }
+
     // Create AuthorBookManager
     private function createManager(): AuthorBookManager
     {
