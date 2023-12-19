@@ -6,6 +6,7 @@ use App\Entity\Book;
 use App\Entity\BookChapter;
 use App\Exception\BookChapterNotFoundException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -23,6 +24,7 @@ class BookChapterRepository extends ServiceEntityRepository
         parent::__construct($registry, BookChapter::class);
     }
 
+    // Get chapter by id
     public function getById(int $id): BookChapter
     {
         $chapter = $this->find($id);
@@ -33,6 +35,15 @@ class BookChapterRepository extends ServiceEntityRepository
         return $chapter;
     }
 
+    /**
+     * @return BookChapter[]
+     */
+    public function findSortedChaptersByBook(Book $book): array
+    {
+        return $this->findBy(['book' => $book], ['level' => Criteria::ASC, 'sort' => Criteria::ASC]);
+    }
+
+    // Get the highest value of the current sort
     public function getMaxSort(Book $book, int $level): int
     {
         return (int) $this->_em
@@ -40,5 +51,21 @@ class BookChapterRepository extends ServiceEntityRepository
             ->setParameter('book', $book)
             ->setParameter('level', $level)
             ->getSingleScalarResult();
+    }
+
+    // To increase the sort of all subsequent elements after the specified one at the specified level.
+    public function increaseSortFrom(int $sortStart, Book $book, int $level, int $sortStep = 1): void
+    {
+        $sql = <<<SQL
+UPDATE App\Entity\BookChapter c SET c.sort = c.sort + :sortStep
+WHERE c.sort >= :sortStart AND c.book = :book AND c.level = :level
+SQL;
+
+        $this->_em->createQuery($sql)
+            ->setParameter('book', $book)
+            ->setParameter('level', $level)
+            ->setParameter('sortStart', $sortStart)
+            ->setParameter('sortStep', $sortStep)
+            ->execute();
     }
 }

@@ -6,6 +6,7 @@ use App\Entity\Book;
 use App\Entity\BookChapter;
 use App\Exception\BookChapterInvalidSortException;
 use App\Model\Author\CreateBookChapterRequest;
+use App\Model\Author\UpdateBookChapterRequest;
 use App\Model\IdResponse;
 use App\Repository\BookChapterRepository;
 use App\Repository\BookRepository;
@@ -55,6 +56,15 @@ class AuthorBookChapterManager
         $this->bookChapterRepository->saveAndCommit($chapter);
 
         return new IdResponse($chapter->getId());
+    }
+
+    public function updateChapter(UpdateBookChapterRequest $request): void
+    {
+        $chapter = $this->bookChapterRepository->getById($request->getId());
+        $title = $request->getTitle();
+        $chapter->setTitle($title)->setSlug($this->slugger->slug($title));
+
+        $this->bookChapterRepository->commit();
     }
 
     private function getNextMaxSort(Book $book, int $level): int

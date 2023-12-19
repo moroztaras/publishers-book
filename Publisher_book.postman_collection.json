@@ -822,7 +822,7 @@
 			"name": "Book Chapter",
 			"item": [
 				{
-					"name": "api author create chapter of book",
+					"name": "api create chapter of book",
 					"protocolProfileBehavior": {
 						"disabledSystemHeaders": {
 							"accept": true
@@ -844,7 +844,49 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"title\": \"Title chapter\",\n  \"parentId\": null\n}"
+							"raw": "{\n  \"title\": \"Title chapter 3\",\n  \"parentId\": null\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/author/book/{{id_book}}/chapter",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"author",
+								"book",
+								"{{id_book}}",
+								"chapter"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api update chapter of book",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{jwt_aut_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": 1,\n  \"title\": \"Edit title of chapter\"\n}"
 						},
 						"url": {
 							"raw": "{{host}}/api/v1/author/book/{{id_book}}/chapter",
