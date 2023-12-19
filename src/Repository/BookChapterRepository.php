@@ -2,7 +2,9 @@
 
 namespace App\Repository;
 
+use App\Entity\Book;
 use App\Entity\BookChapter;
+use App\Exception\BookChapterNotFoundException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -14,8 +16,29 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class BookChapterRepository extends ServiceEntityRepository
 {
+    use RepositoryModifyTrait;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, BookChapter::class);
+    }
+
+    public function getById(int $id): BookChapter
+    {
+        $chapter = $this->find($id);
+        if (null === $chapter) {
+            throw new BookChapterNotFoundException();
+        }
+
+        return $chapter;
+    }
+
+    public function getMaxSort(Book $book, int $level): int
+    {
+        return (int) $this->_em
+            ->createQuery('SELECT MAX(c.sort) FROM App\Entity\BookChapter c WHERE c.book = :book AND c.level = :level')
+            ->setParameter('book', $book)
+            ->setParameter('level', $level)
+            ->getSingleScalarResult();
     }
 }
