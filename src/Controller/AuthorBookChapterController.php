@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Attribute\RequestBody;
 use App\Model\Author\CreateBookChapterRequest;
 use App\Model\Author\UpdateBookChapterRequest;
+use App\Model\Author\UpdateBookChapterSortRequest;
 use App\Model\BookChapterTreeResponse;
 use App\Model\ErrorResponse;
 use App\Model\IdResponse;
@@ -103,6 +104,33 @@ class AuthorBookChapterController extends AbstractController
     public function deleteBookChapter(int $chapterId, int $bookId): Response
     {
         $this->bookChapterManager->deleteChapter($chapterId);
+
+        return $this->json(null);
+    }
+
+    /**
+     * @OA\Tag(name="Author book chapter API")
+     * @OA\Response(
+     *     response=200,
+     *     description="Sort a book chapter"
+     * )
+     * @OA\Response(
+     *     response=404,
+     *     description="Book chapter not found",
+     *     @Model(type=ErrorResponse::class)
+     * )
+     * @OA\Response(
+     *     response="400",
+     *     description="Validation failed",
+     *     @Model(type=ErrorResponse::class)
+     * )
+     * @OA\RequestBody(@Model(type=UpdateBookChapterSortRequest::class))
+     */
+    #[Route(path: '/api/v1/author/book/{bookId}/chapter/sort', methods: ['POST'])]
+    #[IsGranted(AuthorBookVoter::IS_AUTHOR, subject: 'bookId')]
+    public function updateBookChapterSort(#[RequestBody] UpdateBookChapterSortRequest $request, int $bookId): Response
+    {
+        $this->bookChapterManager->updateChapterSort($request);
 
         return $this->json(null);
     }
