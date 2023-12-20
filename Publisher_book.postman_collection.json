@@ -864,6 +864,49 @@
 					"response": []
 				},
 				{
+					"name": "api sort chapters of book",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{jwt_aut_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": 23,\n  \"nextId\": 22,\n  \"previousId\": 21\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/author/book/{{id_book}}/chapter/sort",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"author",
+								"book",
+								"{{id_book}}",
+								"chapter",
+								"sort"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "api list chapters of book",
 					"protocolProfileBehavior": {
 						"disabledSystemHeaders": {
