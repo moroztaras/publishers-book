@@ -67,6 +67,13 @@ class AuthorBookChapterManager
         $this->bookChapterRepository->commit();
     }
 
+    public function deleteChapter(int $id): void
+    {
+        $chapter = $this->bookChapterRepository->getById($id);
+
+        $this->bookChapterRepository->removeAndCommit($chapter);
+    }
+
     private function getNextMaxSort(Book $book, int $level): int
     {
         return $this->bookChapterRepository->getMaxSort($book, $level) + self::SORT_STEP;
