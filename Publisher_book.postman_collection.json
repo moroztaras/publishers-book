@@ -864,6 +864,44 @@
 					"response": []
 				},
 				{
+					"name": "api list chapters of book",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{jwt_aut_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/api/v1/author/book/{{id_book}}/chapters",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"author",
+								"book",
+								"{{id_book}}",
+								"chapters"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "api update chapter of book",
 					"protocolProfileBehavior": {
 						"disabledSystemHeaders": {
@@ -886,7 +924,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"id\": 20,\n  \"title\": \"Edit title of chapter\"\n}"
+							"raw": "{\n  \"id\": 22,\n  \"title\": \"Edit title of chapter\"\n}"
 						},
 						"url": {
 							"raw": "{{host}}/api/v1/author/book/{{id_book}}/chapter",

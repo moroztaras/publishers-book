@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Attribute\RequestBody;
 use App\Model\Author\CreateBookChapterRequest;
 use App\Model\Author\UpdateBookChapterRequest;
+use App\Model\BookChapterTreeResponse;
 use App\Model\ErrorResponse;
 use App\Model\IdResponse;
 use App\Security\Voter\AuthorBookVoter;
@@ -20,6 +21,21 @@ class AuthorBookChapterController extends AbstractController
 {
     public function __construct(private AuthorBookChapterManager $bookChapterManager)
     {
+    }
+
+    /**
+     * @OA\Tag(name="Author book chapter API")
+     * @OA\Response(
+     *     response=200,
+     *     description="Get book chapters as tree",
+     *     @Model(type=BookChapterTreeResponse::class)
+     * )
+     */
+    #[Route(path: '/api/v1/author/book/{bookId}/chapters', methods: ['GET'])]
+    #[IsGranted(AuthorBookVoter::IS_AUTHOR, subject: 'bookId')]
+    public function chapters(int $bookId): Response
+    {
+        return $this->json($this->bookChapterManager->getChaptersTree($bookId));
     }
 
     /**
