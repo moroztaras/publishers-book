@@ -6,6 +6,7 @@ use App\Entity\Book;
 use App\Entity\BookChapter;
 use App\Exception\BookChapterNotFoundException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
