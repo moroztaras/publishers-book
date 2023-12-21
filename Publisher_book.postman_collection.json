@@ -844,7 +844,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"title\": \"Title chapter\",\n  \"parentId\": null\n}"
+							"raw": "{\n  \"title\": \"Chapter 4-1-4\",\n  \"parentId\": 29\n}"
 						},
 						"url": {
 							"raw": "{{host}}/api/v1/author/book/{{id_book}}/chapter",
@@ -886,7 +886,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"id\": 23,\n  \"nextId\": 22,\n  \"previousId\": 21\n}"
+							"raw": "{\n  \"id\": 25,\n  \"nextId\": null,\n  \"previousId\": 28\n}"
 						},
 						"url": {
 							"raw": "{{host}}/api/v1/author/book/{{id_book}}/chapter/sort",
@@ -967,7 +967,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"id\": 22,\n  \"title\": \"Edit title of chapter\"\n}"
+							"raw": "{\n  \"id\": 1,\n  \"title\": \"Edit title of chapter\"\n}"
 						},
 						"url": {
 							"raw": "{{host}}/api/v1/author/book/{{id_book}}/chapter",
