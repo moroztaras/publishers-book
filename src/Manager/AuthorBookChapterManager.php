@@ -75,6 +75,7 @@ class AuthorBookChapterManager
             $level = $parentLevel + 1;
         }
 
+        // Create new chapter of book
         $chapter = (new BookChapter())
             ->setTitle($title)
             ->setSlug($this->slugger->slug($title))
@@ -97,9 +98,10 @@ class AuthorBookChapterManager
         $this->bookChapterRepository->commit();
     }
 
-
+    // For sorting chapters
     public function updateChapterSort(UpdateBookChapterSortRequest $request): void
     {
+        // Get chapter by id
         $chapter = $this->bookChapterRepository->getById($request->getId());
         $sortContext = SortContext::fromNeighbours($request->getNextId(), $request->getPreviousId());
         $nearChapter = $this->bookChapterRepository->getById($sortContext->getNearId());

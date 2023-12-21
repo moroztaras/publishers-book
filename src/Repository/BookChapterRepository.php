@@ -35,6 +35,7 @@ class BookChapterRepository extends ServiceEntityRepository
         return $chapter;
     }
 
+    // Find all chapters by book and sort them by level and sort.
     /**
      * @return BookChapter[]
      */
