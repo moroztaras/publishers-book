@@ -817,6 +817,215 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Book Chapter",
+			"item": [
+				{
+					"name": "api create chapter of book",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{jwt_aut_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Chapter 4-1-4\",\n  \"parentId\": 29\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/author/book/{{id_book}}/chapter",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"author",
+								"book",
+								"{{id_book}}",
+								"chapter"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api sort chapters of book",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{jwt_aut_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": 25,\n  \"nextId\": null,\n  \"previousId\": 28\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/author/book/{{id_book}}/chapter/sort",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"author",
+								"book",
+								"{{id_book}}",
+								"chapter",
+								"sort"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api list chapters of book",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{jwt_aut_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/api/v1/author/book/{{id_book}}/chapters",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"author",
+								"book",
+								"{{id_book}}",
+								"chapters"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api update chapter of book",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{jwt_aut_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": 1,\n  \"title\": \"Edit title of chapter\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/author/book/{{id_book}}/chapter",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"author",
+								"book",
+								"{{id_book}}",
+								"chapter"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api delete chapter of book",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{jwt_aut_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/api/v1/author/book/{{id_book}}/chapter/{{id_chapter}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"author",
+								"book",
+								"{{id_book}}",
+								"chapter",
+								"{{id_chapter}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }
