@@ -26,35 +26,14 @@ class AuthorBookChapterManager
     public function __construct(
         private BookRepository        $bookRepository,
         private BookChapterRepository $bookChapterRepository,
+        private BookChapterManager    $bookChapterManager,
         private SluggerInterface      $slugger
     ) {
     }
 
-    /**
-     * @TODO move somewhere to use from BookService
-     */
     public function getChaptersTree(int $bookId): BookChapterTreeResponse
     {
-        $book = $this->bookRepository->getBookById($bookId);
-        $chapters = $this->bookChapterRepository->findSortedChaptersByBook($book);
-        $response = new BookChapterTreeResponse();
-        /** @var array<int, BookChapterModel> $index */
-        $index = [];
-
-        foreach ($chapters as $chapter) {
-            $model = new BookChapterModel($chapter->getId(), $chapter->getTitle(), $chapter->getSlug());
-            $index[$chapter->getId()] = $model;
-
-            if (!$chapter->hasParent()) {
-                $response->addItem($model);
-                continue;
-            }
-
-            $parent = $chapter->getParent();
-            $index[$parent->getId()]->addItem($model);
-        }
-
-        return $response;
+        return $this->bookChapterManager->getChaptersTree($this->bookRepository->getBookById($bookId));
     }
 
     public function createChapter(CreateBookChapterRequest $request, int $bookId): IdResponse
