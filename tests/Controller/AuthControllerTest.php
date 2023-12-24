@@ -9,7 +9,7 @@ class AuthControllerTest extends AbstractControllerTest
 {
     public function testSignUp(): void
     {
-        // Send request
+        // Send request with body
         $this->client->request(Request::METHOD_POST, '/api/v1/auth/signUp', [], [], [], json_encode([
             'firstName' => 'Taras',
             'lastName' => 'Moroz',

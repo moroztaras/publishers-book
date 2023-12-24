@@ -69,7 +69,7 @@ class MockUtils
     }
 
     // Create BookDetails
-    public static function bookDetails():BookDetails
+    public static function bookDetails(): BookDetails
     {
         return (new BookDetails())
             ->setId(1)
@@ -80,7 +80,7 @@ class MockUtils
             ->setPublicationDate(1602288000)
             ->setAuthors(['Tester'])
             ->setCategories([
-                new \App\Model\BookCategory(1, 'Devices', 'devices')
+                new \App\Model\BookCategory(1, 'Devices', 'devices'),
             ])
             ->setFormats([
                 (new \App\Model\BookFormat())->setId(1)->setTitle('format')

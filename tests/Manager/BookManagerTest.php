@@ -3,8 +3,6 @@
 namespace App\Tests\Manager;
 
 use App\Entity\Book;
-use App\Entity\BookCategory;
-use App\Entity\BookFormat;
 use App\Entity\BookToBookFormat;
 use App\Exception\BookCategoryNotFoundException;
 use App\Manager\BookManager;

@@ -21,13 +21,13 @@ use App\Repository\BookRepository;
 use App\Tests\AbstractTestCase;
 use App\Tests\MockUtils;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\String\UnicodeString;
 
 class AuthorBookManagerTest extends AbstractTestCase
 {
-    const LINK_IMAGE_FILE = 'http://localhost/new.jpg';
+    public const LINK_IMAGE_FILE = 'http://localhost/new.jpg';
 
     private BookRepository $bookRepository;
 
