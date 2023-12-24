@@ -9,7 +9,6 @@ use App\Model\Author\CreateBookChapterRequest;
 use App\Model\Author\UpdateBookChapterRequest;
 use App\Model\Author\UpdateBookChapterSortRequest;
 use App\Model\BookChapterTreeResponse;
-use App\Model\BookChapter as BookChapterModel;
 use App\Model\IdResponse;
 use App\Repository\BookChapterRepository;
 use App\Repository\BookRepository;
@@ -24,10 +23,10 @@ class AuthorBookChapterManager
     private const SORT_STEP = 1;
 
     public function __construct(
-        private BookRepository        $bookRepository,
+        private BookRepository $bookRepository,
         private BookChapterRepository $bookChapterRepository,
-        private BookChapterManager    $bookChapterManager,
-        private SluggerInterface      $slugger
+        private BookChapterManager $bookChapterManager,
+        private SluggerInterface $slugger
     ) {
     }
 

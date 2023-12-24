@@ -2,9 +2,7 @@
 
 namespace App\Exception;
 
-use RuntimeException;
-
-class BookChapterNotFoundException extends RuntimeException
+class BookChapterNotFoundException extends \RuntimeException
 {
     public function __construct()
     {

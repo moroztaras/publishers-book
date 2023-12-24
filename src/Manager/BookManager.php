@@ -15,6 +15,7 @@ class BookManager implements BookManagerInterface
 {
     public function __construct(
         private BookRepository $bookRepository,
+        private BookChapterManager $bookChapterManager,
         private BookCategoryRepository $bookCategoryRepository,
         private RatingManager $ratingManager
     ) {
@@ -29,7 +30,12 @@ class BookManager implements BookManagerInterface
 
         // Remap the books from the repository to the model
         return new BookListResponse(array_map(
-            fn (Book $book) => BookMapper::map($book, new BookListItem()),
+            function (Book $book) {
+                $item = new BookListItem();
+                BookMapper::map($book, $item);
+
+                return $item;
+            },
             $this->bookRepository->findPublishedBooksByCategoryId($categoryId)
         ));
     }
@@ -38,11 +44,15 @@ class BookManager implements BookManagerInterface
     {
         $book = $this->bookRepository->getPublishedById($id);
         $rating = $this->ratingManager->calcReviewRatingForBook($id);
+        $details = new BookDetails();
 
-        return BookMapper::map($book, new BookDetails())
+        BookMapper::map($book, $details);
+
+        return $details
             ->setRating($rating->getRating())
             ->setReviews($rating->getTotal())
             ->setFormats(BookMapper::mapFormats($book))
-            ->setCategories(BookMapper::mapCategories($book));
+            ->setCategories(BookMapper::mapCategories($book))
+            ->setChapters($this->bookChapterManager->getChaptersTree($book)->getItems());
     }
 }

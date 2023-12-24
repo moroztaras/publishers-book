@@ -39,7 +39,6 @@ class BookMapper
             ->toArray();
     }
 
-
     // Remap the fields from BookToBookFormat entity to BookFormat model
     /**
      * @return BookFormat[]

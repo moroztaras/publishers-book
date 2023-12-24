@@ -5,9 +5,9 @@ namespace App\Controller;
 use App\Attribute\RequestBody;
 use App\Manager\BookCategoryManager;
 use App\Manager\RoleManager;
-use App\Model\IdResponse;
 use App\Model\BookCategoryUpdateRequest;
 use App\Model\ErrorResponse;
+use App\Model\IdResponse;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Annotations as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -32,6 +32,7 @@ class AdminController extends AbstractController
      * @OA\Response(
      *     response=404,
      *     description="User not found",
+     *
      *     @Model(type=ErrorResponse::class)
      * )
      */
@@ -45,21 +46,28 @@ class AdminController extends AbstractController
 
     /**
      * @OA\Tag(name="Admin API")
+     *
      * @OA\Response(
      *     response=200,
      *     description="Create a new category",
+     *
      *     @Model(type=IdResponse::class)
      * )
+     *
      * @OA\Response(
      *     response="400",
      *     description="Validation failed",
+     *
      *     @Model(type=ErrorResponse::class)
      * )
+     *
      * @OA\Response(
      *     response=409,
      *     description="Book category already exists",
+     *
      *     @Model(type=ErrorResponse::class)
      * )
+     *
      * @OA\RequestBody(@Model(type=BookCategoryUpdateRequest::class))
      */
     #[Route(path: '/api/v1/admin/bookCategory', methods: ['POST'])]
@@ -70,21 +78,28 @@ class AdminController extends AbstractController
 
     /**
      * @OA\Tag(name="Admin API")
+     *
      * @OA\Response(
      *     response=200,
      *     description="Update a book category",
+     *
      *     @Model(type=IdResponse::class)
      * )
+     *
      * @OA\Response(
      *     response="400",
      *     description="Validation failed",
+     *
      *     @Model(type=ErrorResponse::class)
      * )
+     *
      * @OA\Response(
      *     response=409,
      *     description="Book category already exists",
+     *
      *     @Model(type=ErrorResponse::class)
      * )
+     *
      * @OA\RequestBody(@Model(type=BookCategoryUpdateRequest::class))
      */
     #[Route(path: '/api/v1/admin/bookCategory/{id}', methods: ['PUT'])]
@@ -97,6 +112,7 @@ class AdminController extends AbstractController
 
     /**
      * @OA\Tag(name="Admin API")
+     *
      * @OA\Response(
      *     response=200,
      *     description="Delete a book category"
@@ -104,11 +120,14 @@ class AdminController extends AbstractController
      * @OA\Response(
      *     response=404,
      *     description="Book category not found",
+     *
      *     @Model(type=ErrorResponse::class)
      * )
+     *
      * @OA\Response(
      *     response=400,
      *     description="Book category still contains books",
+     *
      *     @Model(type=ErrorResponse::class)
      * )
      */

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Attribute\RequestBody;
+use App\Manager\AuthorBookChapterManager;
 use App\Model\Author\CreateBookChapterRequest;
 use App\Model\Author\UpdateBookChapterRequest;
 use App\Model\Author\UpdateBookChapterSortRequest;
@@ -10,7 +11,6 @@ use App\Model\BookChapterTreeResponse;
 use App\Model\ErrorResponse;
 use App\Model\IdResponse;
 use App\Security\Voter\AuthorBookVoter;
-use App\Manager\AuthorBookChapterManager;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Annotations as OA;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -26,9 +26,11 @@ class AuthorBookChapterController extends AbstractController
 
     /**
      * @OA\Tag(name="Author book chapter API")
+     *
      * @OA\Response(
      *     response=200,
      *     description="Get book chapters as tree",
+     *
      *     @Model(type=BookChapterTreeResponse::class)
      * )
      */
@@ -41,16 +43,21 @@ class AuthorBookChapterController extends AbstractController
 
     /**
      * @OA\Tag(name="Author book chapter API")
+     *
      * @OA\Response(
      *     response=200,
      *     description="Create a book chapter",
+     *
      *     @Model(type=IdResponse::class)
      * )
+     *
      * @OA\Response(
      *     response="400",
      *     description="Validation failed",
+     *
      *     @Model(type=ErrorResponse::class)
      * )
+     *
      * @OA\RequestBody(@Model(type=CreateBookChapterRequest::class))
      */
     #[Route(path: '/api/v1/author/book/{bookId}/chapter', methods: ['POST'])]
@@ -62,6 +69,7 @@ class AuthorBookChapterController extends AbstractController
 
     /**
      * @OA\Tag(name="Author book chapter API")
+     *
      * @OA\Response(
      *     response=200,
      *     description="Update a book chapter"
@@ -69,13 +77,17 @@ class AuthorBookChapterController extends AbstractController
      * @OA\Response(
      *     response=404,
      *     description="Book chapter not found",
+     *
      *     @Model(type=ErrorResponse::class)
      * )
+     *
      * @OA\Response(
      *     response="400",
      *     description="Validation failed",
+     *
      *     @Model(type=ErrorResponse::class)
      * )
+     *
      * @OA\RequestBody(@Model(type=UpdateBookChapterRequest::class))
      */
     #[Route(path: '/api/v1/author/book/{bookId}/chapter', methods: ['PUT'])]
@@ -89,6 +101,7 @@ class AuthorBookChapterController extends AbstractController
 
     /**
      * @OA\Tag(name="Author book chapter API")
+     *
      * @OA\Response(
      *     response=200,
      *     description="Remove a book chapter"
@@ -96,6 +109,7 @@ class AuthorBookChapterController extends AbstractController
      * @OA\Response(
      *     response=404,
      *     description="Book chapter not found",
+     *
      *     @Model(type=ErrorResponse::class)
      * )
      */
@@ -110,6 +124,7 @@ class AuthorBookChapterController extends AbstractController
 
     /**
      * @OA\Tag(name="Author book chapter API")
+     *
      * @OA\Response(
      *     response=200,
      *     description="Sort a book chapter"
@@ -117,13 +132,17 @@ class AuthorBookChapterController extends AbstractController
      * @OA\Response(
      *     response=404,
      *     description="Book chapter not found",
+     *
      *     @Model(type=ErrorResponse::class)
      * )
+     *
      * @OA\Response(
      *     response="400",
      *     description="Validation failed",
+     *
      *     @Model(type=ErrorResponse::class)
      * )
+     *
      * @OA\RequestBody(@Model(type=UpdateBookChapterSortRequest::class))
      */
     #[Route(path: '/api/v1/author/book/{bookId}/chapter/sort', methods: ['POST'])]
