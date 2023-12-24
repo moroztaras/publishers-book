@@ -12,13 +12,8 @@ class AdminControllerTest extends AbstractControllerTest
         // Create user with role 'ROLE_USER'
         $user = $this->createUser('user@test.com', 'test_password');
 
-        $adminUserName = 'admin@test.com';
-        $adminUserPassword = 'test_password';
-        // Create user with role 'ROLE_ADMIN'
-        $this->createAdmin($adminUserName, $adminUserPassword);
-
-        // Login user
-        $this->auth($adminUserName, $adminUserPassword);
+        // Create admin and auth
+        $this->createAdminAndAuth('admin@test.com', 'testtest');
 
         // Send request
         $this->client->request(Request::METHOD_POST, '/api/v1/admin/grantAuthor/'.$user->getId());
