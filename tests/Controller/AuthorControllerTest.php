@@ -66,6 +66,25 @@ class AuthorControllerTest extends AbstractControllerTest
         $this->assertResponseIsSuccessful();
     }
 
+    public function testPublishBook(): void
+    {
+        // Create and auth user
+        $user = $this->createAuthorAndAuth('user@test.com', 'testtest');
+        // Create book
+        $book = MockUtils::createBook()->setUser($user);
+
+        // Save
+        $this->em->persist($book);
+        $this->em->flush();
+
+        // Send request
+        $this->client->request(Request::METHOD_POST, '/api/v1/author/book/'.$book->getId().'/publish', [], [], [],
+            json_encode(['date' => '22.02.2010']));
+
+        // Response was successful
+        $this->assertResponseIsSuccessful();
+    }
+
     public function testUploadBookCover(): void
     {
         // Create admin and auth
