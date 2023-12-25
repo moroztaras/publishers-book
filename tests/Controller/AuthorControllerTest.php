@@ -3,6 +3,7 @@
 namespace App\Tests\Controller;
 
 use App\Tests\AbstractControllerTest;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use App\Tests\MockUtils;
 use Symfony\Component\Filesystem\Filesystem;
@@ -137,6 +138,83 @@ class AuthorControllerTest extends AbstractControllerTest
                             'slug' => ['type' => 'string'],
                             'id' => ['type' => 'integer'],
                             'image' => ['type' => 'string'],
+                        ],
+                    ],
+                ],
+            ],
+        ]);
+    }
+
+    public function testBook(): void
+    {
+        // Create and auth user
+        $user = $this->createAuthorAndAuth('user@test.com', 'testtest');
+        // Create category
+        $category = MockUtils::createBookCategory();
+        // Create format
+        $format = MockUtils::createBookFormat();
+        // Create book
+        $book = MockUtils::createBook()->setUser($user)->setCategories(new ArrayCollection([$category]));
+        // Create relation between book & format
+        $join = MockUtils::createBookFormatLink($book, $format);
+
+        // Save
+        $this->em->persist($category);
+        $this->em->persist($format);
+        $this->em->persist($book);
+        $this->em->persist($join);
+        $this->em->flush();
+
+        // Send request
+        $this->client->request(Request::METHOD_GET, '/api/v1/author/book/'.$book->getId());
+
+        // Get response
+        $responseContent = json_decode($this->client->getResponse()->getContent());
+
+        // Response was successful
+        $this->assertResponseIsSuccessful();
+        // Comparing the actual response content with the expected schema.
+        $this->assertJsonDocumentMatchesSchema($responseContent, [
+            'type' => 'object',
+            'required' => [
+                'slug', 'isbn', 'description', 'categories', 'title', 'image', 'formats', 'authors', 'publicationDate',
+            ],
+            'properties' => [
+                'title' => ['type' => 'string'],
+                'description' => ['type' => 'string'],
+                'slug' => ['type' => 'string'],
+                'id' => ['type' => 'integer'],
+                'publicationDate' => ['type' => 'integer'],
+                'image' => ['type' => 'string'],
+                'isbn' => ['type' => 'string'],
+                'authors' => [
+                    'type' => 'array',
+                    'items' => ['type' => 'string'],
+                ],
+                'categories' => [
+                    'type' => 'array',
+                    'items' => [
+                        'type' => 'object',
+                        'required' => ['id', 'title', 'slug'],
+                        'properties' => [
+                            'title' => ['type' => 'string'],
+                            'slug' => ['type' => 'string'],
+                            'id' => ['type' => 'integer'],
+                        ],
+                    ],
+                ],
+                'formats' => [
+                    'type' => 'array',
+                    'items' => [
+                        'type' => 'object',
+                        'required' => ['id', 'title', 'description', 'comment', 'price', 'discountPercent'],
+                        'properties' => [
+                            'title' => ['type' => 'string'],
+                            'description' => ['type' => 'string'],
+                            'id' => ['type' => 'integer'],
+                            'comment' => ['type' => ['string', 'null']],
+                            'price' => ['type' => 'number'],
+                            'discountPercent' => ['type' => 'integer'],
                         ],
                     ],
                 ],
