@@ -35,6 +35,37 @@ class AuthorControllerTest extends AbstractControllerTest
         ]);
     }
 
+    public function testUpdateBook(): void
+    {
+        // Create admin and auth
+        $user = $this->createAuthorAndAuth('user@test.com', 'testtest');
+        // Create book
+        $book = MockUtils::createBook()->setUser($user);
+        // Create category
+        $category = MockUtils::createBookCategory();
+        // Create format
+        $format = MockUtils::createBookFormat();
+
+        // Save
+        $this->em->persist($book);
+        $this->em->persist($format);
+        $this->em->persist($category);
+        $this->em->flush();
+
+        // Send request
+        $this->client->request(Request::METHOD_PUT, '/api/v1/author/book/'.$book->getId(), [], [], [], json_encode([
+            'title' => 'Updated Book',
+            'authors' => ['Taras'],
+            'isbn' => 'testing',
+            'description' => 'testing update',
+            'categories' => [$category->getId()],
+            'formats' => [['id' => $format->getId(), 'price' => 123.5, 'discountPercent' => 5]],
+        ]));
+
+        // Response was successful
+        $this->assertResponseIsSuccessful();
+    }
+
     public function testUploadBookCover(): void
     {
         // Create admin and auth
