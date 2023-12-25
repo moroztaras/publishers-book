@@ -103,6 +103,47 @@ class AuthorControllerTest extends AbstractControllerTest
         $this->assertResponseIsSuccessful();
     }
 
+    public function testBooks(): void
+    {
+        // Create user
+        $user = $this->createAuthorAndAuth('user@test.com', 'testtest');
+        // Create user
+        $book = MockUtils::createBook()->setUser($user);
+
+        // Save
+        $this->em->persist($book);
+        $this->em->flush();
+
+        // Send request
+        $this->client->request(Request::METHOD_GET, '/api/v1/author/books');
+
+        // Get response
+        $responseContent = json_decode($this->client->getResponse()->getContent());
+
+        // Response was successful
+        $this->assertResponseIsSuccessful();
+        // Comparing the actual response content with the expected schema.
+        $this->assertJsonDocumentMatchesSchema($responseContent, [
+            'type' => 'object',
+            'required' => ['items'],
+            'properties' => [
+                'items' => [
+                    'type' => 'array',
+                    'items' => [
+                        'type' => 'object',
+                        'required' => ['id', 'title', 'slug', 'image'],
+                        'properties' => [
+                            'title' => ['type' => 'string'],
+                            'slug' => ['type' => 'string'],
+                            'id' => ['type' => 'integer'],
+                            'image' => ['type' => 'string'],
+                        ],
+                    ],
+                ],
+            ],
+        ]);
+    }
+
     public function testUploadBookCover(): void
     {
         // Create admin and auth
