@@ -80,4 +80,21 @@ class AuthorControllerTest extends AbstractControllerTest
         ]);
     }
 
+    public function testDeleteBook(): void
+    {
+        // Create admin and auth
+        $user = $this->createAuthorAndAuth('user@test.com', 'testtest');
+        // Create book
+        $book = MockUtils::createBook()->setUser($user);
+
+        // Save
+        $this->em->persist($book);
+        $this->em->flush();
+
+        // Send request
+        $this->client->request(Request::METHOD_DELETE, '/api/v1/author/book/'.$book->getId());
+
+        // Response was successful
+        $this->assertResponseIsSuccessful();
+    }
 }
