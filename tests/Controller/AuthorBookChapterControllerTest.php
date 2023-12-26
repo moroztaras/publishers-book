@@ -154,4 +154,25 @@ class AuthorBookChapterControllerTest extends AbstractControllerTest
             ],
         ]);
     }
+
+    public function testDeleteBookChapter(): void
+    {
+        // Create user
+        $user = $this->createAuthorAndAuth('user@test.com', 'testtest');
+        // Create book
+        $book = MockUtils::createBook()->setUser($user);
+        // Create chapter
+        $chapter = MockUtils::createBookChapter($book);
+
+        // Save
+        $this->em->persist($book);
+        $this->em->persist($chapter);
+        $this->em->flush();
+
+        // Send request
+        $this->client->request(Request::METHOD_DELETE, '/api/v1/author/book/'.$book->getId().'/chapter/'.$chapter->getId());
+
+        // Response was successful
+        $this->assertResponseIsSuccessful();
+    }
 }
