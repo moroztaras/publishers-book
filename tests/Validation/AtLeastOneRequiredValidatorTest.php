@@ -30,6 +30,21 @@ class AtLeastOneRequiredValidatorTest extends ConstraintValidatorTestCase
         $this->validator->validate([], new NotNull());
     }
 
+    public function testValidateNoRequired(): void
+    {
+        $constraint = new AtLeastOneRequired(['nextId']);
+        $object = new stdClass();
+        $object->nextId = null;
+
+        $this->validator->validate($object, $constraint);
+
+        $this->buildViolation('At least one of {{ fields }} is required.')
+            ->setParameter('{{ fields }}', 'nextId')
+            ->atPath('property.path.nextId')
+            ->setCode(AtLeastOneRequired::ONE_REQUIRED_ERROR)
+            ->assertRaised();
+    }
+
     protected function createValidator(): ConstraintValidatorInterface
     {
         return new AtLeastOneRequiredValidator($this->propertyAccessor);
