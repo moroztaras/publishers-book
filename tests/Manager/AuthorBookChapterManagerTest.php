@@ -8,6 +8,7 @@ use App\Exception\BookChapterInvalidSortException;
 use App\Manager\AuthorBookChapterManager;
 use App\Manager\BookChapterManager;
 use App\Model\Author\CreateBookChapterRequest;
+use App\Model\Author\UpdateBookChapterRequest;
 use App\Model\IdResponse;
 use App\Repository\BookChapterRepository;
 use App\Repository\BookRepository;
@@ -165,6 +166,39 @@ class AuthorBookChapterManagerTest extends AbstractTestCase
         );
     }
 
+    public function testUpdateChapter(): void
+    {
+        // Create Book Chapter
+        $chapter = new BookChapter();
+        $newTitle = 'Updated Chapter';
+        $newSlug = 'updated-chapter';
+
+        // Set the behavior and return result for method - slug
+        $this->slugger->expects($this->once())
+            ->method('slug')
+            ->with($newTitle)
+            ->willReturn(new UnicodeString($newSlug));
+
+        // Set the behavior and return result for method - getById
+        $this->bookChapterRepository->expects($this->once())
+            ->method('getById')
+            ->with(1)
+            ->willReturn($chapter);
+
+        // Set the behavior for method - commit
+        $this->bookChapterRepository->expects($this->once())
+            ->method('commit');
+
+        // Request
+        $payload = (new UpdateBookChapterRequest())->setId(1)->setTitle($newTitle);
+
+        // Run manager
+        $this->createManager()->updateChapter($payload);
+
+        // Comparing the expected value with the actual returned value
+        $this->assertEquals($newTitle, $chapter->getTitle());
+        $this->assertEquals($newSlug, $chapter->getSlug());
+    }
 
     // Create AuthorBookChapterManager
     private function createManager(): AuthorBookChapterManager
