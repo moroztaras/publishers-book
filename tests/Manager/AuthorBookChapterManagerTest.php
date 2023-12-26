@@ -114,6 +114,57 @@ class AuthorBookChapterManagerTest extends AbstractTestCase
         );
     }
 
+    public function testCreateChapter(): void
+    {
+        // Create book
+        $book = new Book();
+
+        // Set the behavior and return result for method - slug
+        $this->slugger->expects($this->once())
+            ->method('slug')
+            ->with('test')
+            ->willReturn(new UnicodeString('test'));
+
+        // Set the behavior and return result for method - getBookById
+        $this->bookRepository->expects($this->once())
+            ->method('getBookById')
+            ->with(1)
+            ->willReturn($book);
+
+        // Set the behavior and return result for method - getMaxSort
+        $this->bookChapterRepository->expects($this->once())
+            ->method('getMaxSort')
+            ->with($book, 1)
+            ->willReturn(5);
+
+        // Set the behavior and return result for method - saveAndCommit
+        $this->bookChapterRepository->expects($this->once())
+            ->method('saveAndCommit')
+            ->with($this->callback(function (BookChapter $chapter) use ($book) {
+                $expectedChapter = (new BookChapter())
+                    ->setBook($book)
+                    ->setSort(6)
+                    ->setLevel(1)
+                    ->setTitle('test')
+                    ->setSlug('test')
+                    ->setParent(null);
+
+                $this->assertEquals($expectedChapter, $chapter);
+                $this->setEntityId($chapter, 1);
+
+                return true;
+            }));
+
+        // Request
+        $payload = (new CreateBookChapterRequest())->setTitle('test');
+
+        // Comparing the expected value with the actual returned value
+        $this->assertEquals(
+            new IdResponse(1),
+            $this->createManager()->createChapter($payload, 1),
+        );
+    }
+
 
     // Create AuthorBookChapterManager
     private function createManager(): AuthorBookChapterManager
