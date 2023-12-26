@@ -9,6 +9,7 @@ use App\Manager\AuthorBookChapterManager;
 use App\Manager\BookChapterManager;
 use App\Model\Author\CreateBookChapterRequest;
 use App\Model\Author\UpdateBookChapterRequest;
+use App\Model\BookChapterTreeResponse;
 use App\Model\IdResponse;
 use App\Repository\BookChapterRepository;
 use App\Repository\BookRepository;
@@ -218,6 +219,29 @@ class AuthorBookChapterManagerTest extends AbstractTestCase
 
         // Run manager
         $this->createManager()->deleteChapter(1);
+    }
+
+    public function testGetChaptersTree(): void
+    {
+        // Create response
+        $treeResponse = new BookChapterTreeResponse();
+        // Create book
+        $book = new Book();
+
+        // Set the behavior and return result for method - getBookById
+        $this->bookRepository->expects($this->once())
+            ->method('getBookById')
+            ->with(1)
+            ->willReturn($book);
+
+        // Set the behavior and return result for method - getChaptersTree
+        $this->bookChapterManager->expects($this->once())
+            ->method('getChaptersTree')
+            ->with($book)
+            ->willReturn($treeResponse);
+
+        // Comparing the expected value with the actual returned value
+        $this->assertEquals($treeResponse, $this->createManager()->getChaptersTree(1));
     }
 
     // Create AuthorBookChapterManager
