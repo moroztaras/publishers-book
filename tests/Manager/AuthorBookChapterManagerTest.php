@@ -200,6 +200,26 @@ class AuthorBookChapterManagerTest extends AbstractTestCase
         $this->assertEquals($newSlug, $chapter->getSlug());
     }
 
+    public function testDeleteChapter(): void
+    {
+        // Create chapter
+        $chapter = new BookChapter();
+
+        // Set the behavior and return result for method - getById
+        $this->bookChapterRepository->expects($this->once())
+            ->method('getById')
+            ->with(1)
+            ->willReturn($chapter);
+
+        // Set the behavior and return result for method - removeAndCommit
+        $this->bookChapterRepository->expects($this->once())
+            ->method('removeAndCommit')
+            ->with($chapter);
+
+        // Run manager
+        $this->createManager()->deleteChapter(1);
+    }
+
     // Create AuthorBookChapterManager
     private function createManager(): AuthorBookChapterManager
     {
