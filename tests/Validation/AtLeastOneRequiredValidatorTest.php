@@ -45,6 +45,17 @@ class AtLeastOneRequiredValidatorTest extends ConstraintValidatorTestCase
             ->assertRaised();
     }
 
+    public function testValidate(): void
+    {
+        $constraint = new AtLeastOneRequired(['nextId']);
+        $object = new stdClass();
+        $object->nextId = 'test';
+
+        $this->validator->validate($object, $constraint);
+
+        $this->assertNoViolation();
+    }
+
     protected function createValidator(): ConstraintValidatorInterface
     {
         return new AtLeastOneRequiredValidator($this->propertyAccessor);
