@@ -247,7 +247,7 @@ class AuthorControllerTest extends AbstractControllerTest
         );
 
         // Send request
-        $this->client->request(Request::METHOD_POST, '/api/v1/author/book/'.$book->getId().'/uploadCover', [], [
+        $this->client->request(Request::METHOD_POST, '/api/v1/author/book/'.$book->getId().'/cover', [], [
             'cover' => $uploadedFile,
         ]);
 
