@@ -60,7 +60,7 @@ class AdminControllerTest extends AbstractControllerTest
         // Create admin and auth
         $this->createAdminAndAuth('user@test.com', 'testtest');
         // Send request with request body
-        $this->client->request(Request::METHOD_POST, '/api/v1/admin/bookCategory/'.$bookCategory->getId(), [], [], [],
+        $this->client->request(Request::METHOD_PUT, '/api/v1/admin/bookCategory/'.$bookCategory->getId(), [], [], [],
             json_encode(['title' => 'Test Chapter 2'])
         );
 
