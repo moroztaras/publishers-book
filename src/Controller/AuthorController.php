@@ -120,12 +120,11 @@ class AuthorController extends AbstractController
         return $this->json($this->authorBookManager->getBooks($user));
     }
 
+    //TODO Need add @Model(type=BookDetails::class) to response 200
     /**
      * @OA\Tag(name="Author API")
      *
      * @OA\Response(response=200, description="Get authors owned book",
-     *
-     *     @Model(type=BookDetails::class)
      * )
      *
      * @OA\Response(response=404, description="Book not found",

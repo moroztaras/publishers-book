@@ -18,14 +18,13 @@ class BookController extends AbstractController
     {
     }
 
+    //TODO Need add @Model(type=BookListResponse::class) to response 200
     /**
      * @OA\Tag(name="Book API")
      *
      * @OA\Response(
      *     response=200,
      *     description="Returns published books inside a category",
-     *
-     *     @Model(type=BookListResponse::class)
      * )
      *
      * @OA\Response(
@@ -41,12 +40,13 @@ class BookController extends AbstractController
         return $this->json($this->bookManager->getBooksByCategory($id));
     }
 
+    // TODO Need add @Model(type=BookDetails::class) to response 200
     /**
+     * @OA\Tag(name="Book API")
+     *
      * @OA\Response(
      *     response=200,
      *     description="Returns published book detail information",
-     *
-     *     @Model(type=BookDetails::class)
      * )
      *
      * @OA\Response(
