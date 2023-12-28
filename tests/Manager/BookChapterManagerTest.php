@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Tests\Service;
+namespace App\Tests\Manager;
 
 use App\Repository\BookChapterRepository;
 use App\Tests\AbstractTestCase;
 
-class BookChapterServiceTest extends AbstractTestCase
+class BookChapterManagerTest extends AbstractTestCase
 {
     private BookChapterRepository $bookChapterRepository;
 
