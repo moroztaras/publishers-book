@@ -3,14 +3,13 @@
 namespace App\Tests\Manager;
 
 use App\Entity\Book;
-use App\Entity\BookCategory;
-use App\Entity\BookFormat;
-use App\Entity\BookToBookFormat;
 use App\Exception\BookCategoryNotFoundException;
+use App\Manager\BookChapterManager;
 use App\Manager\BookManager;
 use App\Manager\Rating;
 use App\Manager\RatingManager;
 use App\Model\BookCategory as BookCategoryModel;
+use App\Model\BookChapterTreeResponse;
 use App\Model\BookDetails;
 use App\Model\BookFormat as BookFormatModel;
 use App\Model\BookListItem;
@@ -26,6 +25,8 @@ class BookManagerTest extends AbstractTestCase
 {
     private BookRepository $bookRepository;
 
+    private BookChapterManager $bookChapterManager;
+
     private BookCategoryRepository $bookCategoryRepository;
 
     private RatingManager $ratingManager;
@@ -36,6 +37,7 @@ class BookManagerTest extends AbstractTestCase
 
         // Mock dependencies
         $this->bookRepository = $this->createMock(BookRepository::class);
+        $this->bookChapterManager = $this->createMock(BookChapterManager::class);
         $this->bookCategoryRepository = $this->createMock(BookCategoryRepository::class);
         $this->ratingManager = $this->createMock(RatingManager::class);
     }
@@ -80,11 +82,20 @@ class BookManagerTest extends AbstractTestCase
     //  Testing book by id
     public function testGetBookById(): void
     {
+        // Create book
+        $book = $this->createBookEntity();
+
+        // Set the expectation from the method - getChaptersTree
+        $this->bookChapterManager->expects($this->once())
+            ->method('getChaptersTree')
+            ->with($book)
+            ->willReturn(new BookChapterTreeResponse());
+
         // Set the expectation from the method - getPublishedById
         $this->bookRepository->expects($this->once())
             ->method('getPublishedById')
             ->with(123)
-            ->willReturn($this->createBookEntity());
+            ->willReturn($book);
 
         // Set the expectation from the method - calcReviewRatingForBook
         $this->ratingManager->expects($this->once())
@@ -112,7 +123,8 @@ class BookManagerTest extends AbstractTestCase
                 new BookCategoryModel(1, 'Devices', 'devices'),
             ])
             ->setPublicationDate(1602288000)
-            ->setFormats([$format]);
+            ->setFormats([$format])
+            ->setChapters([]);
 
         $this->assertEquals($expected, $this->createBookManager()->getBookById(123));
     }
@@ -122,6 +134,7 @@ class BookManagerTest extends AbstractTestCase
     {
         return new BookManager(
             $this->bookRepository,
+            $this->bookChapterManager,
             $this->bookCategoryRepository,
             $this->ratingManager
         );

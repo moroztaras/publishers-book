@@ -28,6 +28,10 @@ class BookMapperTest extends AbstractTestCase
             ->setAuthors(['tester'])
             ->setPublicationDate(1602288000);
 
-        $this->assertEquals($expected, BookMapper::map($book, new BookDetails()));
+        $details = new BookDetails();
+
+        BookMapper::map($book, $details);
+
+        $this->assertEquals($expected, $details);
     }
 }

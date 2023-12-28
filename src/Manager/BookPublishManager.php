@@ -30,5 +30,4 @@ class BookPublishManager
 
         $this->bookRepository->commit();
     }
-
 }

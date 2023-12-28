@@ -10,7 +10,7 @@ use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 
 class JwtUserProviderTest extends AbstractTestCase
 {
-    const EMAIL = 'test@test.com';
+    public const EMAIL = 'test@test.com';
 
     private UserRepository $userRepository;
 

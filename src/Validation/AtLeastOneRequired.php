@@ -2,11 +2,10 @@
 
 namespace App\Validation;
 
-use Attribute;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Exception\ConstraintDefinitionException;
 
-#[Attribute(Attribute::TARGET_CLASS)]
+#[\Attribute(\Attribute::TARGET_CLASS)]
 class AtLeastOneRequired extends Constraint
 {
     /**
@@ -19,7 +18,7 @@ class AtLeastOneRequired extends Constraint
     public const ONE_REQUIRED_ERROR = '37be695d-786b-4bae-bf45-bd5a1aabf0f7';
 
     protected static $errorNames = [
-        self::ONE_REQUIRED_ERROR => 'ONE_REQUIRED_ERROR'
+        self::ONE_REQUIRED_ERROR => 'ONE_REQUIRED_ERROR',
     ];
 
     public function __construct(
@@ -35,8 +34,7 @@ class AtLeastOneRequired extends Constraint
         }
 
         if (empty($requiredFields)) {
-            throw new ConstraintDefinitionException(
-                'The "requiredFields" of AtLeastOneRequired constraint cannot be empty');
+            throw new ConstraintDefinitionException('The "requiredFields" of AtLeastOneRequired constraint cannot be empty');
         }
 
         $options['value'] = $requiredFields;

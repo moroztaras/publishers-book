@@ -65,23 +65,24 @@ class BookControllerTest extends AbstractControllerTest
     {
         // Create user
         $user = MockUtils::createUser();
-        $this->em->persist($user);
         // Create category
         $bookCategory = MockUtils::createBookCategory();
-        $this->em->persist($bookCategory);
         // Create format
         $format = MockUtils::createBookFormat();
-        $this->em->persist($format);
         // Create book
         $book = MockUtils::createBook()
             ->setCategories(new ArrayCollection([$bookCategory]))
             ->setUser($user);
 
+        // Save
+        $this->em->persist($user);
+        $this->em->persist($bookCategory);
+        $this->em->persist($format);
         $this->em->persist($book);
         $this->em->persist(MockUtils::createBookFormatLink($book, $format));
         $this->em->flush();
 
-        // Request
+        // Send Request
         $this->client->request(Request::METHOD_GET, '/api/v1/book/'.$book->getId());
         // Get response content
         $responseContent = json_decode($this->client->getResponse()->getContent(), true);
@@ -94,7 +95,7 @@ class BookControllerTest extends AbstractControllerTest
             'type' => 'object',
             'required' => [
                 'id', 'title', 'slug', 'image', 'authors', 'publicationDate', 'rating', 'reviews',
-                'categories', 'formats',
+                'categories', 'formats',  'chapters',
             ],
             'properties' => [
                 'title' => ['type' => 'string'],
@@ -108,6 +109,18 @@ class BookControllerTest extends AbstractControllerTest
                 ],
                 'rating' => ['type' => 'number'],
                 'reviews' => ['type' => 'integer'],
+                'chapters' => [
+                    'type' => 'array',
+                    'items' => [
+                        'type' => 'object',
+                        'required' => ['id', 'title', 'slug', 'items'],
+                        'properties' => [
+                            'title' => ['type' => 'string'],
+                            'slug' => ['type' => 'string'],
+                            'id' => ['type' => 'integer'],
+                        ],
+                    ],
+                ],
                 'categories' => [
                     'type' => 'array',
                     'items' => [

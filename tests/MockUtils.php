@@ -4,11 +4,14 @@ namespace App\Tests;
 
 use App\Entity\Book;
 use App\Entity\BookCategory;
+use App\Entity\BookChapter;
 use App\Entity\BookFormat;
 use App\Entity\BookToBookFormat;
 use App\Entity\Review;
 use App\Entity\User;
 use App\Model\Author\BookDetails;
+use App\Model\BookCategory as BookCategoryModel;
+use App\Model\BookFormat as BookFormatModel;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class MockUtils
@@ -58,6 +61,17 @@ class MockUtils
             ->setSlug('test-book');
     }
 
+    public static function createBookChapter(Book $book): BookChapter
+    {
+        return (new BookChapter())
+            ->setTitle('Test chapter')
+            ->setBook($book)
+            ->setSlug('test-chapter')
+            ->setLevel(1)
+            ->setSort(1)
+            ->setParent(null);
+    }
+
     public static function createReview(Book $book): Review
     {
         return (new Review())
@@ -69,7 +83,7 @@ class MockUtils
     }
 
     // Create BookDetails
-    public static function bookDetails():BookDetails
+    public static function bookDetails(): BookDetails
     {
         return (new BookDetails())
             ->setId(1)
@@ -80,10 +94,10 @@ class MockUtils
             ->setPublicationDate(1602288000)
             ->setAuthors(['Tester'])
             ->setCategories([
-                new \App\Model\BookCategory(1, 'Devices', 'devices')
+                new BookCategoryModel(1, 'Devices', 'devices'),
             ])
             ->setFormats([
-                (new \App\Model\BookFormat())->setId(1)->setTitle('format')
+                (new BookFormatModel())->setId(1)->setTitle('format')
                     ->setDescription('description format')
                     ->setComment(null)
                     ->setPrice(123.55)

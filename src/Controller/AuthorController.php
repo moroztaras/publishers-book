@@ -4,17 +4,17 @@ namespace App\Controller;
 
 use App\Attribute\RequestBody;
 use App\Attribute\RequestFile;
-use App\Model\Author\BookListResponse;
+use App\Manager\AuthorBookManager;
+use App\Manager\BookPublishManager;
 use App\Model\Author\BookDetails;
-use App\Model\Author\UploadCoverResponse;
+use App\Model\Author\BookListResponse;
 use App\Model\Author\CreateBookRequest;
 use App\Model\Author\PublishBookRequest;
 use App\Model\Author\UpdateBookRequest;
+use App\Model\Author\UploadCoverResponse;
 use App\Model\ErrorResponse;
 use App\Model\IdResponse;
 use App\Security\Voter\AuthorBookVoter;
-use App\Manager\AuthorBookManager;
-use App\Manager\BookPublishManager;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Annotations as OA;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -37,9 +37,12 @@ class AuthorController extends AbstractController
      * @OA\Tag(name="Author API")
      *
      * @OA\Response(response=200, description="Upload book cover",
+     *
      *     @Model(type=UploadCoverResponse::class)
      * )
+     *
      * @OA\Response(response="400", description="Validation failed",
+     *
      *     @Model(type=ErrorResponse::class)
      * )
      */
@@ -74,8 +77,10 @@ class AuthorController extends AbstractController
      *
      * @OA\Response(response=200, description="Publish a book")
      * @OA\Response(response="400",description="Validation failed",
+     *
      *     @Model(type=ErrorResponse::class)
      * )
+     *
      * @OA\RequestBody(@Model(type=PublishBookRequest::class))
      */
     #[Route(path: '/api/v1/author/book/{id}/publish', methods: ['POST'])]
@@ -103,7 +108,9 @@ class AuthorController extends AbstractController
 
     /**
      * @OA\Tag(name="Author API")
+     *
      * @OA\Response(response=200, description="Get authors owned books",
+     *
      *     @Model(type=BookListResponse::class)
      * )
      */
@@ -113,12 +120,15 @@ class AuthorController extends AbstractController
         return $this->json($this->authorBookManager->getBooks($user));
     }
 
+    //TODO Need add @Model(type=BookDetails::class) to response 200
     /**
      * @OA\Tag(name="Author API")
+     *
      * @OA\Response(response=200, description="Get authors owned book",
-     *     @Model(type=BookDetails::class)
      * )
+     *
      * @OA\Response(response=404, description="Book not found",
+     *
      *     @Model(type=ErrorResponse::class)
      * )
      */
@@ -133,11 +143,15 @@ class AuthorController extends AbstractController
      * @OA\Tag(name="Author API")
      *
      * @OA\Response(response=200, description="Create a book",
+     *
      *     @Model(type=IdResponse::class)
      * )
+     *
      * @OA\Response(response="400", description="Validation failed",
+     *
      *     @Model(type=ErrorResponse::class)
      * )
+     *
      * @OA\RequestBody(@Model(type=CreateBookRequest::class))
      */
     #[Route(path: '/api/v1/author/book', methods: ['POST'])]
@@ -148,6 +162,7 @@ class AuthorController extends AbstractController
 
     /**
      * @OA\Tag(name="Author API")
+     *
      * @OA\Response(
      *     response=200,
      *     description="Update a book"
@@ -155,8 +170,10 @@ class AuthorController extends AbstractController
      * @OA\Response(
      *     response="400",
      *     description="Validation failed",
+     *
      *     @Model(type=ErrorResponse::class)
      * )
+     *
      * @OA\RequestBody(@Model(type=UpdateBookRequest::class))
      */
     #[Route(path: '/api/v1/author/book/{id}', methods: ['PUT'])]
@@ -170,8 +187,10 @@ class AuthorController extends AbstractController
 
     /**
      * @OA\Tag(name="Author API")
+     *
      * @OA\Response(response=200, description="Remove a book")
      * @OA\Response(response=404,description="Book not found",
+     *
      *     @Model(type=ErrorResponse::class)
      * )
      */
