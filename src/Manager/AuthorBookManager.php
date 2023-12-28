@@ -15,9 +15,9 @@ use App\Model\Author\CreateBookRequest;
 use App\Model\Author\UpdateBookRequest;
 use App\Model\Author\UploadCoverResponse;
 use App\Model\IdResponse;
-use App\Repository\BookRepository;
 use App\Repository\BookCategoryRepository;
 use App\Repository\BookFormatRepository;
+use App\Repository\BookRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -66,7 +66,9 @@ class AuthorBookManager
             ->setFormats(BookMapper::mapFormats($book))
             ->setCategories(BookMapper::mapCategories($book));
 
-        return BookMapper::map($book, $bookDetails);
+        BookMapper::map($book, $bookDetails);
+
+        return $bookDetails;
     }
 
     public function uploadCover(int $id, UploadedFile $file): UploadCoverResponse

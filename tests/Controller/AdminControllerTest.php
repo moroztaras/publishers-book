@@ -3,6 +3,7 @@
 namespace App\Tests\Controller;
 
 use App\Tests\AbstractControllerTest;
+use App\Tests\MockUtils;
 use Symfony\Component\HttpFoundation\Request;
 
 class AdminControllerTest extends AbstractControllerTest
@@ -12,16 +13,73 @@ class AdminControllerTest extends AbstractControllerTest
         // Create user with role 'ROLE_USER'
         $user = $this->createUser('user@test.com', 'test_password');
 
-        $adminUserName = 'admin@test.com';
-        $adminUserPassword = 'test_password';
-        // Create user with role 'ROLE_ADMIN'
-        $this->createAdmin($adminUserName, $adminUserPassword);
-
-        // Login user
-        $this->auth($adminUserName, $adminUserPassword);
+        // Create admin and auth
+        $this->createAdminAndAuth('admin@test.com', 'testtest');
 
         // Send request
         $this->client->request(Request::METHOD_POST, '/api/v1/admin/grantAuthor/'.$user->getId());
+
+        // The request was successful.
+        $this->assertResponseIsSuccessful();
+    }
+
+    public function testCreateCategory(): void
+    {
+        // Create admin and auth
+        $this->createAdminAndAuth('user@test.com', 'testtest');
+
+        // Send request with request body
+        $this->client->request(Request::METHOD_POST, '/api/v1/admin/bookCategory', [], [], [], json_encode([
+            'title' => 'Test Chapter',
+        ]));
+
+        // Get response
+        $responseContent = json_decode($this->client->getResponse()->getContent());
+
+        // The request was successful.
+        $this->assertResponseIsSuccessful();
+
+        // Comparing the actual response content with the expected schema.
+        $this->assertJsonDocumentMatchesSchema($responseContent, [
+            'type' => 'object',
+            'required' => ['id'],
+            'properties' => [
+                'id' => ['type' => 'integer'],
+            ],
+        ]);
+    }
+
+    public function testUpdateCategory(): void
+    {
+        // Create category
+        $bookCategory = MockUtils::createBookCategory();
+        // Save category
+        $this->em->persist($bookCategory);
+        $this->em->flush();
+
+        // Create admin and auth
+        $this->createAdminAndAuth('user@test.com', 'testtest');
+        // Send request with request body
+        $this->client->request(Request::METHOD_PUT, '/api/v1/admin/bookCategory/'.$bookCategory->getId(), [], [], [],
+            json_encode(['title' => 'Test Chapter 2'])
+        );
+
+        // The request was successful.
+        $this->assertResponseIsSuccessful();
+    }
+
+    public function testDeleteCategory(): void
+    {
+        // Create book category
+        $bookCategory = MockUtils::createBookCategory();
+        // Save category
+        $this->em->persist($bookCategory);
+        $this->em->flush();
+
+        // Create admin and auth
+        $this->createAdminAndAuth('user@test.com', 'testtest');
+        // Request
+        $this->client->request(Request::METHOD_DELETE, '/api/v1/admin/bookCategory/'.$bookCategory->getId());
 
         // The request was successful.
         $this->assertResponseIsSuccessful();

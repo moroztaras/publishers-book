@@ -6,7 +6,6 @@ use App\ArgumentResolver\RequestFileArgumentResolver;
 use App\Attribute\RequestFile;
 use App\Exception\ValidationException;
 use App\Tests\AbstractTestCase;
-use stdClass;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
@@ -51,7 +50,7 @@ class RequestFileArgumentResolverTest extends AbstractTestCase
         $request = new Request();
         $request->files->add(['field' => $file]);
 
-        $meta = new ArgumentMetadata('some', stdClass::class, false, false, null, false, [
+        $meta = new ArgumentMetadata('some', \stdClass::class, false, false, null, false, [
             new RequestFile('field', []),
         ]);
 
@@ -75,7 +74,7 @@ class RequestFileArgumentResolverTest extends AbstractTestCase
         $request = new Request();
         $request->files->add(['field' => $file]);
 
-        $meta = new ArgumentMetadata('some', stdClass::class, false, false, null, false, [
+        $meta = new ArgumentMetadata('some', \stdClass::class, false, false, null, false, [
             new RequestFile('field', $constraints),
         ]);
 
@@ -96,7 +95,7 @@ class RequestFileArgumentResolverTest extends AbstractTestCase
         $request = new Request();
         $request->files->add(['field' => $file]);
 
-        $meta = new ArgumentMetadata('some', stdClass::class, false, false, null, false, [
+        $meta = new ArgumentMetadata('some', \stdClass::class, false, false, null, false, [
             new RequestFile('field', []),
         ]);
 
