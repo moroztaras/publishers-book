@@ -13,9 +13,9 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class SignUpManager implements SignUpManagerInterface
 {
     public function __construct(
-        private UserPasswordHasherInterface $hasher,
-        private UserRepository $userRepository,
-        private AuthenticationSuccessHandler $successHandler
+        private readonly UserPasswordHasherInterface $hasher,
+        private readonly UserRepository $userRepository,
+        private readonly AuthenticationSuccessHandler $successHandler
     ) {
     }
 

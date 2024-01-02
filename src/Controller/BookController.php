@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class BookController extends AbstractController
 {
-    public function __construct(private BookManager $bookManager)
+    public function __construct(private readonly BookManager $bookManager)
     {
     }
 

@@ -17,8 +17,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class AdminController extends AbstractController
 {
     public function __construct(
-        private RoleManager $roleManager,
-        private BookCategoryManager $bookCategoryManager
+        private readonly RoleManager $roleManager,
+        private readonly BookCategoryManager $bookCategoryManager
     ) {
     }
 

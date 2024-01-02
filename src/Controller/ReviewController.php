@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ReviewController extends AbstractController
 {
-    public function __construct(private ReviewManager $reviewManager)
+    public function __construct(private readonly ReviewManager $reviewManager)
     {
     }
 

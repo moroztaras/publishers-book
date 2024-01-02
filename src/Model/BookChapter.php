@@ -7,7 +7,11 @@ class BookChapter
     /**
      * @param BookChapter[] $items
      */
-    public function __construct(private int $id, private string $title, private string $slug, private array $items = [])
+    public function __construct(
+        private readonly int $id,
+        private readonly string $title,
+        private readonly string $slug,
+        private readonly array $items = [])
     {
     }
 

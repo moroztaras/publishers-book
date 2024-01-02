@@ -29,7 +29,7 @@ use Symfony\Component\Validator\Constraints\NotNull;
 
 class AuthorController extends AbstractController
 {
-    public function __construct(private AuthorBookManager $authorBookManager, private BookPublishManager $bookPublishManager)
+    public function __construct(private readonly AuthorBookManager $authorBookManager, private BookPublishManager $bookPublishManager)
     {
     }
 

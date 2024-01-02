@@ -20,7 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AuthorBookChapterController extends AbstractController
 {
-    public function __construct(private AuthorBookChapterManager $bookChapterManager)
+    public function __construct(private readonly AuthorBookChapterManager $bookChapterManager)
     {
     }
 

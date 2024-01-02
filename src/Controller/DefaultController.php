@@ -13,8 +13,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class DefaultController extends AbstractController
 {
     public function __construct(
-        private BookRepository $bookRepository,
-        private EntityManagerInterface $em,
+        private readonly BookRepository $bookRepository,
+        private readonly EntityManagerInterface $em,
     ) {
     }
 

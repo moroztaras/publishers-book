@@ -10,14 +10,14 @@ class BaseBookDetails
 
     private string $slug;
 
-    private ?string $image;
+    private ?string $image = null;
 
     /**
      * @var string[]
      */
     private ?array $authors;
 
-    private ?int $publicationDate;
+    private ?int $publicationDate = null;
 
     public function getId(): int
     {
@@ -67,11 +67,19 @@ class BaseBookDetails
         return $this;
     }
 
+
+    /**
+     * @return string[]|null
+     */
     public function getAuthors(): ?array
     {
         return $this->authors;
     }
 
+    /**
+     * @param string[]|null $authors
+     * @return $this
+     */
     public function setAuthors(?array $authors): self
     {
         $this->authors = $authors;

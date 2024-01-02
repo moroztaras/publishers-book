@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AuthController extends AbstractController
 {
-    public function __construct(private SignUpManager $signUpManager)
+    public function __construct(private readonly SignUpManager $signUpManager)
     {
     }
 

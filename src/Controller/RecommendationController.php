@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class RecommendationController extends AbstractController
 {
-    public function __construct(private RecommendationManager $recommendationManager)
+    public function __construct(private readonly RecommendationManager $recommendationManager)
     {
     }
 

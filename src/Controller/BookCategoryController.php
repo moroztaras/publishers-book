@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class BookCategoryController extends AbstractController
 {
-    public function __construct(private BookCategoryManager $bookCategoryManager)
+    public function __construct(private readonly BookCategoryManager $bookCategoryManager)
     {
     }
 

@@ -7,7 +7,7 @@ use App\Repository\UserRepository;
 
 class RoleManager
 {
-    public function __construct(private UserRepository $userRepository)
+    public function __construct(private readonly UserRepository $userRepository)
     {
     }
 

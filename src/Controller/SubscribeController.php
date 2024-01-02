@@ -14,9 +14,8 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SubscribeController extends AbstractController
 {
-    public function __construct(
-        private SubscriberManager $subscriberManager
-    ) {
+    public function __construct(private readonly SubscriberManager $subscriberManager)
+    {
     }
 
     /**
