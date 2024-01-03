@@ -45,7 +45,7 @@ class AuthorBookChapterController extends AbstractController
         return $this->json($this->bookChapterManager->createChapter($request, $bookId));
     }
 
-    #[Route(path: '/api/v1/author/book/{bookId}/chapter', methods: ['PUT'])]
+    #[Route(path: '/api/v1/author/book/{bookId}/chapter/{id}', methods: ['POST'])]
     #[IsGranted(AuthorBookVoter::IS_AUTHOR, subject: 'bookId')]
     #[OA\Tag(name: 'Author book chapter API')]
     #[OA\Response(response: 200, description: 'Update a book chapter')]
