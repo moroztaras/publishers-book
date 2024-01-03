@@ -3,11 +3,11 @@
 namespace App\Tests\Controller;
 
 use App\Tests\AbstractControllerTest;
-use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\HttpFoundation\Request;
 use App\Tests\MockUtils;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\Request;
 
 class AuthorControllerTest extends AbstractControllerTest
 {

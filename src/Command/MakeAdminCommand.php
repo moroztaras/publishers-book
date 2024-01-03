@@ -13,7 +13,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 #[AsCommand(name: 'app:makeAdmin', description: 'Promotes user to be admin')]
 class MakeAdminCommand extends Command
 {
-    public function __construct(private RoleManager $roleManager)
+    public function __construct(private readonly RoleManager $roleManager)
     {
         parent::__construct();
     }

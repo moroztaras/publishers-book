@@ -12,8 +12,8 @@ class ReviewManager
     private const PAGE_LIMIT = 5;
 
     public function __construct(
-        private ReviewRepository $reviewRepository,
-        private RatingManager $ratingManager
+        private readonly ReviewRepository $reviewRepository,
+        private readonly RatingManager $ratingManager
     ) {
     }
 

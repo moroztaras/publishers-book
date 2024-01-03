@@ -26,11 +26,11 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 class AuthorBookManager
 {
     public function __construct(
-        private BookRepository $bookRepository,
-        private BookFormatRepository $bookFormatRepository,
-        private BookCategoryRepository $bookCategoryRepository,
-        private SluggerInterface $slugger,
-        private UploadFileManager $uploadFileManager,
+        private readonly BookRepository $bookRepository,
+        private readonly BookFormatRepository $bookFormatRepository,
+        private readonly BookCategoryRepository $bookCategoryRepository,
+        private readonly SluggerInterface $slugger,
+        private readonly UploadFileManager $uploadFileManager,
     ) {
     }
 
