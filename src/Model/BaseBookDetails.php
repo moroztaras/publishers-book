@@ -67,7 +67,6 @@ class BaseBookDetails
         return $this;
     }
 
-
     /**
      * @return string[]|null
      */
@@ -78,6 +77,7 @@ class BaseBookDetails
 
     /**
      * @param string[]|null $authors
+     *
      * @return $this
      */
     public function setAuthors(?array $authors): self

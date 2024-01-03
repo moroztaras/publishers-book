@@ -4,7 +4,6 @@ namespace App\Model;
 
 class BookCategoryListResponse
 {
-
     /**
      * @param BookCategory[] $items
      */

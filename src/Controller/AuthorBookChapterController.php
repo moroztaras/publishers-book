@@ -52,13 +52,14 @@ class AuthorBookChapterController extends AbstractController
     #[OA\Response(response: 404, description: 'Book chapter not found', attachables: [new Model(type: ErrorResponse::class)])]
     #[OA\Response(response: 400, description: 'Validation failed', attachables: [new Model(type: ErrorResponse::class)])]
     #[OA\RequestBody(attachables: [new Model(type: UpdateBookChapterRequest::class)])]
-    public function updateBookChapter(#[RequestBody] UpdateBookChapterRequest $request, int $bookId, int $id): Response{
+    public function updateBookChapter(#[RequestBody] UpdateBookChapterRequest $request, int $bookId, int $id): Response
+    {
         $this->bookChapterManager->updateChapter($request, $id);
 
         return $this->json(null);
     }
 
-    //TODO Add ' attachables: [new Model(type: BookCoverNotFoundException::class)]' to response 404
+    // TODO Add ' attachables: [new Model(type: BookCoverNotFoundException::class)]' to response 404
     #[Route(path: '/api/v1/author/book/{bookId}/chapter/{chapterId}', methods: ['DELETE'])]
     #[IsGranted(AuthorBookVoter::IS_AUTHOR, subject: 'bookId')]
     #[OA\Tag(name: 'Author book chapter API"')]

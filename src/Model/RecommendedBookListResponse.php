@@ -4,7 +4,6 @@ namespace App\Model;
 
 class RecommendedBookListResponse
 {
-
     /**
      * @param RecommendedBook[] $items
      */

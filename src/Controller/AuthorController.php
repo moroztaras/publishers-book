@@ -50,7 +50,7 @@ class AuthorController extends AbstractController
         return $this->json($this->authorBookManager->uploadCover($id, $file));
     }
 
-    //TODO Add ', attachables: [new Model(type: BookCoverNotFoundException::class)]' to response 404
+    // TODO Add ', attachables: [new Model(type: BookCoverNotFoundException::class)]' to response 404
     #[Route(path: '/api/v1/author/book/{id}/cover', methods: ['DELETE'])]
     #[IsGranted(AuthorBookVoter::IS_AUTHOR, subject: 'id')]
     #[OA\Tag(name: 'Author API')]
@@ -93,7 +93,7 @@ class AuthorController extends AbstractController
         return $this->json($this->authorBookManager->getBooks($user));
     }
 
-    //TODO Need add ' attachables: [new Model(type: BookDetails::class)]' to response 200
+    // TODO Need add ' attachables: [new Model(type: BookDetails::class)]' to response 200
 
     #[Route(path: '/api/v1/author/book/{id}', methods: ['GET'])]
     #[IsGranted(AuthorBookVoter::IS_AUTHOR, subject: 'id')]

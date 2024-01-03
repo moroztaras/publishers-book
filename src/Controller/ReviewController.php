@@ -17,7 +17,6 @@ class ReviewController extends AbstractController
     {
     }
 
-
     #[Route(path: '/api/v1/book/{id}/reviews', methods: ['GET'])]
     #[OA\Tag(name: 'Review API')]
     #[OA\Parameter(name: 'page', description: 'Page number', in: 'query', schema: new OA\Schema(type: 'integer'))]
