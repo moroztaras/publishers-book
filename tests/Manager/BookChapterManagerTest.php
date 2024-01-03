@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Tests\Manager;
 
 use App\Entity\Book;
+use App\Manager\BookChapterManager;
 use App\Model\BookChapter as BookChapterModel;
 use App\Model\BookChapterTreeResponse;
 use App\Repository\BookChapterRepository;
-use App\Manager\BookChapterManager;
 use App\Tests\AbstractTestCase;
 use App\Tests\MockUtils;
 
