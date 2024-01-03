@@ -11,7 +11,7 @@ class BookChapter
         private readonly int $id,
         private readonly string $title,
         private readonly string $slug,
-        private readonly array $items = [])
+        private array $items = [])
     {
     }
 

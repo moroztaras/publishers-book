@@ -11,6 +11,7 @@ use App\Repository\BookChapterRepository;
 use App\Manager\BookChapterManager;
 use App\Tests\AbstractTestCase;
 use App\Tests\MockUtils;
+
 class BookChapterManagerTest extends AbstractTestCase
 {
     private BookChapterRepository $bookChapterRepository;
@@ -26,11 +27,11 @@ class BookChapterManagerTest extends AbstractTestCase
     {
         // Create book
         $book = new Book();
-        // Create expected response
+        // Create response
         $expectedResponse = new BookChapterTreeResponse([
-            (new BookChapterModel(1, 'Test chapter', 'test-chapter', [
-                (new BookChapterModel(2, 'Test chapter', 'test-chapter')),
-            ])),
+            new BookChapterModel(1, 'Test chapter', 'test-chapter', [
+                new BookChapterModel(2, 'Test chapter', 'test-chapter'),
+            ]),
         ]);
 
         // Create parent chapter
@@ -51,11 +52,11 @@ class BookChapterManagerTest extends AbstractTestCase
         $this->assertEquals(
             $expectedResponse,
             $this->createManager()->getChaptersTree($book),
-        );;
+        );
     }
 
     private function createManager(): BookChapterManager
     {
-        return new BookChapterManager(($this->bookChapterRepository));
+        return new BookChapterManager($this->bookChapterRepository);
     }
 }
