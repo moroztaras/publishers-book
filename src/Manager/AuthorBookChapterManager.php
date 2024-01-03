@@ -71,7 +71,7 @@ class AuthorBookChapterManager
     {
         $chapter = $this->bookChapterRepository->getById($id);
         $title = $request->getTitle();
-        $chapter->setTitle($title)->setSlug($this->slugger->slug($title));
+        $chapter->setTitle($title)->setSlug($this->slugger->slug($title)->toString());
 
         $this->bookChapterRepository->commit();
     }
