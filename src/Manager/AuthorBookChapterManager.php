@@ -79,8 +79,6 @@ class AuthorBookChapterManager
     // For sorting chapters
     public function updateChapterSort(UpdateBookChapterSortRequest $request, int $id): void
     {
-        // Get chapter by id
-        $chapter = $this->bookChapterRepository->getById($request->getId());
         $chapter = $this->bookChapterRepository->getById($id);
         $sortContext = SortContext::fromNeighbours($request->getNextId(), $request->getPreviousId());
         $nearChapter = $this->bookChapterRepository->getById($sortContext->getNearId());
