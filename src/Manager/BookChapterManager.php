@@ -9,7 +9,7 @@ use App\Repository\BookChapterRepository;
 
 class BookChapterManager
 {
-    public function __construct(private BookChapterRepository $bookChapterRepository)
+    public function __construct(private readonly BookChapterRepository $bookChapterRepository)
     {
     }
 

@@ -15,8 +15,8 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 class RecommendationApiManager
 {
     public function __construct(
-        private HttpClientInterface $recommendationClient,
-        private SerializerInterface $serializer
+        private readonly HttpClientInterface $recommendationClient,
+        private readonly SerializerInterface $serializer
     ) {
     }
 

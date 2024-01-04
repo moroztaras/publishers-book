@@ -14,9 +14,9 @@ class RecommendationManager
     private const MAX_DESCRIPTION_LENGTH = 150;
 
     public function __construct(
-        private BookRepository $bookRepository,
-        private RecommendationApiManager $recommendationApiManager)
-    {
+        private readonly BookRepository $bookRepository,
+        private readonly RecommendationApiManager $recommendationApiManager
+    ) {
     }
 
     public function getRecommendationsByBookId(int $id): RecommendedBookListResponse
@@ -28,7 +28,7 @@ class RecommendationManager
 
         // Remap list books in model
         return new RecommendedBookListResponse(
-            array_map([$this, 'map'], $this->bookRepository->findBooksByIds($ids))
+            array_map($this->map(...), $this->bookRepository->findBooksByIds($ids))
         );
     }
 

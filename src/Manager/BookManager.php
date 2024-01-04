@@ -14,10 +14,10 @@ use App\Repository\BookRepository;
 class BookManager implements BookManagerInterface
 {
     public function __construct(
-        private BookRepository $bookRepository,
-        private BookChapterManager $bookChapterManager,
-        private BookCategoryRepository $bookCategoryRepository,
-        private RatingManager $ratingManager
+        private readonly BookRepository $bookRepository,
+        private readonly BookChapterManager $bookChapterManager,
+        private readonly BookCategoryRepository $bookCategoryRepository,
+        private readonly RatingManager $ratingManager
     ) {
     }
 

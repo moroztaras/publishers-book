@@ -15,8 +15,8 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class RequestBodyArgumentResolver implements ArgumentValueResolverInterface
 {
     public function __construct(
-        private SerializerInterface $serializer,
-        private ValidatorInterface $validator
+        private readonly SerializerInterface $serializer,
+        private readonly ValidatorInterface $validator
     ) {
     }
 

@@ -19,9 +19,11 @@ class AuthorBookChapterControllerTest extends AbstractControllerTest
         $this->em->persist($book);
         $this->em->flush();
 
+        $url = '/api/v1/author/book/'.$book->getId().'/chapter';
+        $requestContext = json_encode(['title' => 'Test Book']);
+
         // Send request with body
-        $this->client->request(Request::METHOD_POST, '/api/v1/author/book/'.$book->getId().'/chapter', [], [], [],
-            json_encode(['title' => 'Test Book']));
+        $this->client->request(Request::METHOD_POST, $url, [], [], [], $requestContext);
 
         // Get response
         $responseContent = json_decode($this->client->getResponse()->getContent());
@@ -53,9 +55,11 @@ class AuthorBookChapterControllerTest extends AbstractControllerTest
         $this->em->persist($chapter);
         $this->em->flush();
 
+        $url = '/api/v1/author/book/'.$book->getId().'/chapter';
+        $requestContext = json_encode(['title' => 'Updated Book Chapter', 'id' => $chapter->getId()]);
+
         // Send request with body
-        $this->client->request(Request::METHOD_PUT, '/api/v1/author/book/'.$book->getId().'/chapter', [], [], [],
-            json_encode(['title' => 'Updated Book Chapter', 'id' => $chapter->getId()]));
+        $this->client->request(Request::METHOD_POST, $url, [], [], [], $requestContext);
 
         // Response was successful
         $this->assertResponseIsSuccessful();
@@ -81,13 +85,11 @@ class AuthorBookChapterControllerTest extends AbstractControllerTest
         $this->em->persist($chapterThird);
         $this->em->flush();
 
+        $url = '/api/v1/author/book/'.$book->getId().'/chapter/'.$chapterFirst->getId().'/sort';
+        $requestContext = json_encode(['nextId' => $chapterThird->getId(), 'previousId' => $chapterSecond->getId()]);
+
         // Get response with body
-        $this->client->request(Request::METHOD_POST, '/api/v1/author/book/'.$book->getId().'/chapter/sort', [], [], [],
-            json_encode([
-                'id' => $chapterFirst->getId(),
-                'nextId' => $chapterThird->getId(),
-                'previousId' => $chapterSecond->getId(),
-            ]));
+        $this->client->request(Request::METHOD_POST, $url, [], [], [], $requestContext);
 
         // Response was successful
         $this->assertResponseIsSuccessful();

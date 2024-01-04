@@ -8,9 +8,9 @@ use App\Model\BookFormat;
 
 class BookDetails extends BaseBookDetails
 {
-    private ?string $isbn;
+    private ?string $isbn = null;
 
-    private ?string $description;
+    private ?string $description = null;
 
     /**
      * @var BookCategory[]

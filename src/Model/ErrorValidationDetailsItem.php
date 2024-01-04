@@ -5,8 +5,8 @@ namespace App\Model;
 class ErrorValidationDetailsItem
 {
     public function __construct(
-        private string $field,
-        private string $message
+        private readonly string $field,
+        private readonly string $message
     ) {
     }
 

@@ -7,7 +7,7 @@ use App\Repository\BookRepository;
 
 class BookPublishManager
 {
-    public function __construct(private BookRepository $bookRepository)
+    public function __construct(private readonly BookRepository $bookRepository)
     {
     }
 

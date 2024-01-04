@@ -26,22 +26,17 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 class AuthorBookManager
 {
     public function __construct(
-        private BookRepository $bookRepository,
-        private BookFormatRepository $bookFormatRepository,
-        private BookCategoryRepository $bookCategoryRepository,
-        private SluggerInterface $slugger,
-        private UploadFileManager $uploadFileManager,
+        private readonly BookRepository $bookRepository,
+        private readonly BookFormatRepository $bookFormatRepository,
+        private readonly BookCategoryRepository $bookCategoryRepository,
+        private readonly SluggerInterface $slugger,
+        private readonly UploadFileManager $uploadFileManager,
     ) {
     }
 
     public function getBooks(UserInterface $user): BookListResponse
     {
-        return new BookListResponse(
-            array_map(
-                [$this, 'map'],
-                $this->bookRepository->findUserBooks($user)
-            )
-        );
+        return new BookListResponse(array_map($this->map(...), $this->bookRepository->findUserBooks($user)));
     }
 
     public function createBook(CreateBookRequest $request, UserInterface $user): IdResponse

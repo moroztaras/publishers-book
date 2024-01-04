@@ -4,7 +4,7 @@ namespace App\Manager;
 
 class SortContext
 {
-    private function __construct(private SortPosition $position, private int $nearId)
+    private function __construct(private readonly SortPosition $position, private readonly int $nearId)
     {
     }
 

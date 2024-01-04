@@ -75,7 +75,7 @@ class BookManagerTest extends AbstractTestCase
         // Expected value
         $expected = new BookListResponse([$this->createBookItemModel()]);
 
-        // Comparing the expected value with the actual returned value .
+        // Comparing the expected value with the actual returned value.
         $this->assertEquals($expected, $this->createBookManager()->getBooksByCategory(130));
     }
 
@@ -122,7 +122,7 @@ class BookManagerTest extends AbstractTestCase
             ->setCategories([
                 new BookCategoryModel(1, 'Devices', 'devices'),
             ])
-            ->setPublicationDate(1602288000)
+            ->setPublicationDate(1_602_288_000)
             ->setFormats([$format])
             ->setChapters([]);
 
@@ -174,6 +174,6 @@ class BookManagerTest extends AbstractTestCase
             ->setSlug('test-book')
             ->setAuthors(['Tester'])
             ->setImage('http://localhost.png')
-            ->setPublicationDate(1602288000);
+            ->setPublicationDate(1_602_288_000);
     }
 }

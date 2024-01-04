@@ -10,7 +10,7 @@ class RequestFile
     /**
      * @param Constraint[] $constraints
      */
-    public function __construct(private string $field, private array $constraints = [])
+    public function __construct(private readonly string $field, private readonly array $constraints = [])
     {
     }
 
