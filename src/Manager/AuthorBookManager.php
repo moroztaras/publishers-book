@@ -36,12 +36,7 @@ class AuthorBookManager
 
     public function getBooks(UserInterface $user): BookListResponse
     {
-        return new BookListResponse(
-            array_map(
-                [$this, 'map'],
-                $this->bookRepository->findUserBooks($user)
-            )
-        );
+        return new BookListResponse(array_map($this->map(...), $this->bookRepository->findUserBooks($user)));
     }
 
     public function createBook(CreateBookRequest $request, UserInterface $user): IdResponse

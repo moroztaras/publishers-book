@@ -15,7 +15,7 @@ class BaseBookDetails
     /**
      * @var string[]
      */
-    private ?array $authors;
+    private ?array $authors = null;
 
     private ?int $publicationDate = null;
 

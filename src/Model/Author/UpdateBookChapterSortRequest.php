@@ -12,10 +12,10 @@ class UpdateBookChapterSortRequest
     private int $id;
 
     #[Positive]
-    private ?int $nextId;
+    private ?int $nextId = null;
 
     #[Positive]
-    private ?int $previousId;
+    private ?int $previousId = null;
 
     public function getId(): int
     {

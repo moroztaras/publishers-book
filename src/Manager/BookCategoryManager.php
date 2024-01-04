@@ -15,8 +15,8 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 class BookCategoryManager implements BookCategoryManagerInterface
 {
     public function __construct(
-        private BookCategoryRepository $bookCategoryRepository,
-        private SluggerInterface $slugger
+        private readonly BookCategoryRepository $bookCategoryRepository,
+        private readonly SluggerInterface $slugger
     ) {
     }
 

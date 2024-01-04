@@ -27,7 +27,7 @@ use Symfony\Component\String\UnicodeString;
 
 class AuthorBookManagerTest extends AbstractTestCase
 {
-    public const LINK_IMAGE_FILE = 'http://localhost/new.jpg';
+    final public const LINK_IMAGE_FILE = 'http://localhost/new.jpg';
 
     private BookRepository $bookRepository;
 

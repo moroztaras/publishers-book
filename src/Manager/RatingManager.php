@@ -6,7 +6,7 @@ use App\Repository\ReviewRepository;
 
 class RatingManager implements RatingManagerInterface
 {
-    public function __construct(private ReviewRepository $reviewRepository)
+    public function __construct(private readonly ReviewRepository $reviewRepository)
     {
     }
 

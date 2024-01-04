@@ -23,10 +23,10 @@ class AuthorBookChapterManager
     private const SORT_STEP = 1;
 
     public function __construct(
-        private BookRepository $bookRepository,
-        private BookChapterRepository $bookChapterRepository,
-        private BookChapterManager $bookChapterManager,
-        private SluggerInterface $slugger
+        private readonly BookRepository $bookRepository,
+        private readonly BookChapterRepository $bookChapterRepository,
+        private readonly BookChapterManager $bookChapterManager,
+        private readonly SluggerInterface $slugger
     ) {
     }
 

@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class SubscribeControllerTest extends AbstractControllerTest
 {
-    public const EMAIL = 'test@test.com';
+    final public const EMAIL = 'test@test.com';
 
     // Tests for successful
     public function testSubscribe(): void

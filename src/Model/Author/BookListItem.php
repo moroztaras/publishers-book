@@ -10,7 +10,7 @@ class BookListItem
 
     private string $slug;
 
-    private ?string $image;
+    private ?string $image = null;
 
     public function getId(): int
     {
