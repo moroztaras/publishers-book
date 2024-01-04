@@ -281,32 +281,32 @@ class AuthorBookChapterManagerTest extends AbstractTestCase
         $this->assertEquals($parentChapter, $chapter->getParent());
     }
 
-    //    public function testUpdateChapterSortAsFirstOrBetween(): void
-    //    {
-    //        $book = new Book();
-    //        $parentChapter = new BookChapter();
-    //        $chapter = (new BookChapter())->setBook($book)->setParent(null);
-    //        $nearChapter = (new BookChapter())->setLevel(2)->setBook($book)->setParent($parentChapter)->setSort(8);
-    //
-    //        $this->bookChapterRepository->expects($this->exactly(2))
-    //            ->method('getById')
-    //            ->withConsecutive([1], [5])
-    //            ->willReturnOnConsecutiveCalls($chapter, $nearChapter);
-    //
-    //        $this->bookChapterRepository->expects($this->once())
-    //            ->method('increaseSortFrom')
-    //            ->with(8, $book, 2, 1);
-    //
-    //        $this->bookChapterRepository->expects($this->once())
-    //            ->method('commit');
-    //
-    //        $payload = (new UpdateBookChapterSortRequest())->setId(1)->setNextId(5)->setPreviousId(null);
-    //        $this->createManager()->updateChapterSort($payload);
-    //
-    //        $this->assertEquals(2, $chapter->getLevel());
-    //        $this->assertEquals(8, $chapter->getSort());
-    //        $this->assertEquals($parentChapter, $chapter->getParent());
-    //    }
+    public function testUpdateChapterSortAsFirstOrBetween(): void
+    {
+        $book = new Book();
+        $parentChapter = new BookChapter();
+        $chapter = (new BookChapter())->setBook($book)->setParent(null);
+        $nearChapter = (new BookChapter())->setLevel(2)->setBook($book)->setParent($parentChapter)->setSort(8);
+
+        $this->bookChapterRepository->expects($this->exactly(2))
+            ->method('getById')
+            ->withConsecutive([1], [5])
+            ->willReturnOnConsecutiveCalls($chapter, $nearChapter);
+
+        $this->bookChapterRepository->expects($this->once())
+            ->method('increaseSortFrom')
+            ->with(8, $book, 2, 1);
+
+        $this->bookChapterRepository->expects($this->once())
+            ->method('commit');
+
+        $payload = (new UpdateBookChapterSortRequest())->setId(1)->setNextId(5)->setPreviousId(null);
+        $this->createManager()->updateChapterSort($payload, 1);
+
+        $this->assertEquals(2, $chapter->getLevel());
+        $this->assertEquals(8, $chapter->getSort());
+        $this->assertEquals($parentChapter, $chapter->getParent());
+    }
 
     // Create AuthorBookChapterManager
     private function createManager(): AuthorBookChapterManager
