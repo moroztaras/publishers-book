@@ -110,67 +110,67 @@ class AuthorBookChapterControllerTest extends AbstractControllerTest
         $this->assertResponseIsSuccessful();
     }
 
-    //    public function testGetBookChapterTree(): void
-    //    {
-    //        // Create author and auth
-    //        $user = $this->createAuthorAndAuth('user@test.com', 'testtest');
-    //        // Create book
-    //        $book = MockUtils::createBook()->setUser($user);
-    //        // Create main chapter
-    //        $chapterMain = MockUtils::createBookChapter($book);
-    //        // Create nested chapter
-    //        $chapterNested = MockUtils::createBookChapter($book)
-    //            ->setLevel(2)
-    //            ->setParent($chapterMain)
-    //            ->setSort(2);
-    //
-    //        // Save
-    //        $this->em->persist($book);
-    //        $this->em->persist($chapterMain);
-    //        $this->em->persist($chapterNested);
-    //        $this->em->flush();
-    //
-    //        // Send request
-    //        $this->client->request(Request::METHOD_GET, '/api/v1/author/book/'.$book->getId().'/chapters');
-    //
-    //        // Get response
-    //        $responseContent = json_decode($this->client->getResponse()->getContent());
-    //
-    //        // Response was successful
-    //        $this->assertResponseIsSuccessful();
-    //
-    //        // Comparing the actual response content with the expected schema.
-    //        $this->assertJsonDocumentMatchesSchema($responseContent, [
-    //            'type' => 'object',
-    //            'required' => ['items'],
-    //            'properties' => [
-    //                'items' => [
-    //                    'type' => 'array',
-    //                    'items' => [
-    //                        'type' => 'object',
-    //                        'required' => ['id', 'title', 'slug', 'items'],
-    //                        'properties' => [
-    //                            'title' => ['type' => 'string'],
-    //                            'slug' => ['type' => 'string'],
-    //                            'id' => ['type' => 'integer'],
-    //                            'items' => [
-    //                                'type' => 'array',
-    //                                'items' => [
-    //                                    'type' => 'object',
-    //                                    'required' => ['id', 'title', 'slug', 'items'],
-    //                                    'properties' => [
-    //                                        'title' => ['type' => 'string'],
-    //                                        'slug' => ['type' => 'string'],
-    //                                        'id' => ['type' => 'integer'],
-    //                                    ],
-    //                                ],
-    //                            ],
-    //                        ],
-    //                    ],
-    //                ],
-    //            ],
-    //        ]);
-    //    }
+    public function testGetBookChapterTree(): void
+    {
+        // Create author and auth
+        $user = $this->createAuthorAndAuth('user@test.com', 'testtest');
+        // Create book
+        $book = MockUtils::createBook()->setUser($user);
+        // Create main chapter
+        $chapterMain = MockUtils::createBookChapter($book);
+        // Create nested chapter
+        $chapterNested = MockUtils::createBookChapter($book)
+            ->setLevel(2)
+            ->setParent($chapterMain)
+            ->setSort(2);
+
+        // Save
+        $this->em->persist($book);
+        $this->em->persist($chapterMain);
+        $this->em->persist($chapterNested);
+        $this->em->flush();
+
+        // Send request
+        $this->client->request(Request::METHOD_GET, '/api/v1/author/book/'.$book->getId().'/chapters');
+
+        // Get response
+        $responseContent = json_decode($this->client->getResponse()->getContent());
+
+        // Response was successful
+        $this->assertResponseIsSuccessful();
+
+        // Comparing the actual response content with the expected schema.
+        $this->assertJsonDocumentMatchesSchema($responseContent, [
+            'type' => 'object',
+            'required' => ['items'],
+            'properties' => [
+                'items' => [
+                    'type' => 'array',
+                    'items' => [
+                        'type' => 'object',
+                        'required' => ['id', 'title', 'slug', 'items'],
+                        'properties' => [
+                            'title' => ['type' => 'string'],
+                            'slug' => ['type' => 'string'],
+                            'id' => ['type' => 'integer'],
+                            'items' => [
+                                'type' => 'array',
+                                'items' => [
+                                    'type' => 'object',
+                                    'required' => ['id', 'title', 'slug', 'items'],
+                                    'properties' => [
+                                        'title' => ['type' => 'string'],
+                                        'slug' => ['type' => 'string'],
+                                        'id' => ['type' => 'integer'],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ]);
+    }
 
     public function testDeleteBookChapter(): void
     {
