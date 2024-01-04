@@ -72,7 +72,7 @@ class AuthorBookChapterController extends AbstractController
         return $this->json(null);
     }
 
-    #[Route(path: '/api/v1/author/book/{bookId}/chapter/sort', methods: ['POST'])]
+    #[Route(path: '/api/v1/author/book/{bookId}/chapter/{id}/sort', methods: ['POST'])]
     #[IsGranted(AuthorBookVoter::IS_AUTHOR, subject: 'bookId')]
     #[OA\Tag(name: 'Author book chapter API"')]
     #[OA\Response(response: 200, description: 'Sort a book chapter')]
