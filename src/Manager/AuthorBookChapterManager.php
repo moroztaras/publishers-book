@@ -23,10 +23,10 @@ class AuthorBookChapterManager
     private const SORT_STEP = 1;
 
     public function __construct(
-        private BookRepository $bookRepository,
-        private BookChapterRepository $bookChapterRepository,
-        private BookChapterManager $bookChapterManager,
-        private SluggerInterface $slugger
+        private readonly BookRepository $bookRepository,
+        private readonly BookChapterRepository $bookChapterRepository,
+        private readonly BookChapterManager $bookChapterManager,
+        private readonly SluggerInterface $slugger
     ) {
     }
 
@@ -79,8 +79,6 @@ class AuthorBookChapterManager
     // For sorting chapters
     public function updateChapterSort(UpdateBookChapterSortRequest $request, int $id): void
     {
-        // Get chapter by id
-        $chapter = $this->bookChapterRepository->getById($request->getId());
         $chapter = $this->bookChapterRepository->getById($id);
         $sortContext = SortContext::fromNeighbours($request->getNextId(), $request->getPreviousId());
         $nearChapter = $this->bookChapterRepository->getById($sortContext->getNearId());

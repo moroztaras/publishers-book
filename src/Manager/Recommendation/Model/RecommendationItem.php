@@ -4,7 +4,7 @@ namespace App\Manager\Recommendation\Model;
 
 class RecommendationItem
 {
-    public function __construct(private int $id)
+    public function __construct(private readonly int $id)
     {
     }
 

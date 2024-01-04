@@ -91,7 +91,7 @@ class ReviewManagerTest extends AbstractTestCase
         // Expected value
         $expected = (new ReviewPage())->setTotal(1)->setRating(4)->setPage(1)->setPages(1)
             ->setPerPage(self::PER_PAGE)->setItems([
-                (new ReviewModel())->setId(1)->setRating(4)->setCreatedAt(1602288000)
+                (new ReviewModel())->setId(1)->setRating(4)->setCreatedAt(1_602_288_000)
                     ->setContent('test content')->setAuthor('tester'),
             ]);
 

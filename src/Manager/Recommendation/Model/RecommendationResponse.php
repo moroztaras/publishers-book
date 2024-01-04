@@ -4,7 +4,7 @@ namespace App\Manager\Recommendation\Model;
 
 class RecommendationResponse
 {
-    public function __construct(private readonly int $id, private readonly int $ts, private array $recommendations)
+    public function __construct(private readonly int $id, private readonly int $ts, private readonly array $recommendations)
     {
     }
 

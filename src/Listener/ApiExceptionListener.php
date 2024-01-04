@@ -17,10 +17,10 @@ use Symfony\Component\Serializer\SerializerInterface;
 class ApiExceptionListener
 {
     public function __construct(
-        private ExceptionMappingResolver $resolver,
-        private LoggerInterface $logger,
-        private SerializerInterface $serializer,
-        private bool $isDebug)
+        private readonly ExceptionMappingResolver $resolver,
+        private readonly LoggerInterface $logger,
+        private readonly SerializerInterface $serializer,
+        private readonly bool $isDebug)
     {
     }
 
@@ -31,7 +31,7 @@ class ApiExceptionListener
             return;
         }
 
-        $mapping = $this->resolver->resolve(get_class($throwable));
+        $mapping = $this->resolver->resolve($throwable::class);
         if (null === $mapping) {
             $mapping = ExceptionMapping::fromCode(Response::HTTP_INTERNAL_SERVER_ERROR);
         }

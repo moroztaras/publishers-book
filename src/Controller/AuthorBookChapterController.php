@@ -14,10 +14,10 @@ use App\Model\IdResponse;
 use App\Security\Voter\AuthorBookVoter;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class AuthorBookChapterController extends AbstractController
 {
@@ -72,7 +72,7 @@ class AuthorBookChapterController extends AbstractController
         return $this->json(null);
     }
 
-    #[Route(path: '/api/v1/author/book/{bookId}/chapter/sort', methods: ['POST'])]
+    #[Route(path: '/api/v1/author/book/{bookId}/chapter/{id}/sort', methods: ['POST'])]
     #[IsGranted(AuthorBookVoter::IS_AUTHOR, subject: 'bookId')]
     #[OA\Tag(name: 'Author book chapter API"')]
     #[OA\Response(response: 200, description: 'Sort a book chapter')]

@@ -26,7 +26,7 @@ class BookMapperTest extends AbstractTestCase
             ->setTitle('title')
             ->setImage('123')
             ->setAuthors(['tester'])
-            ->setPublicationDate(1602288000);
+            ->setPublicationDate(1_602_288_000);
 
         $details = new BookDetails();
 

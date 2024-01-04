@@ -91,7 +91,7 @@ class MockUtils
             ->setImage('http://localhost.png')
             ->setIsbn('123321')
             ->setDescription('test')
-            ->setPublicationDate(1602288000)
+            ->setPublicationDate(1_602_288_000)
             ->setAuthors(['Tester'])
             ->setCategories([
                 new BookCategoryModel(1, 'Devices', 'devices'),

@@ -28,7 +28,7 @@ class Book
     private ?string $image = null;
 
     #[ORM\Column(type: 'simple_array', nullable: true)]
-    private ?array $authors;
+    private ?array $authors = null;
 
     #[ORM\Column(type: 'string', length: 13, nullable: true)]
     private ?string $isbn = null;
