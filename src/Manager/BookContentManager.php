@@ -6,16 +6,25 @@ namespace App\Manager;
 
 use App\Entity\BookContent;
 use App\Model\Author\CreateBookChapterContentRequest;
+use App\Model\BookChapterContent;
+use App\Model\BookChapterContentPage;
 use App\Model\IdResponse;
 use App\Repository\BookChapterRepository;
 use App\Repository\BookContentRepository;
 
 class BookContentManager
 {
+    private const PAGE_LIMIT = 30;
+
     public function __construct(
         private readonly BookContentRepository $bookContentRepository,
         private readonly BookChapterRepository $bookChapterRepository)
     {
+    }
+
+    public function getAllContent(int $chapterId, int $page): BookChapterContentPage
+    {
+        return $this->getContent($chapterId, $page, false);
     }
 
     public function createContent(CreateBookChapterContentRequest $request, int $chapterId): IdResponse
@@ -48,4 +57,32 @@ class BookContentManager
 
         $this->bookContentRepository->saveAndCommit($content);
     }
+
+    private function getContent(int $chapterId, int $page, bool $onlyPublished): BookChapterContentPage
+    {
+        $items = [];
+        $paginator = $this->bookContentRepository->getPageByChapterId(
+            $chapterId,
+            $onlyPublished,
+            PaginationUtils::calcOffset($page, self::PAGE_LIMIT),
+            self::PAGE_LIMIT
+        );
+
+        foreach ($paginator as $item) {
+            $items[] = (new BookChapterContent())
+                ->setId($item->getId())
+                ->setContent($item->getContent())
+                ->setIsPublished($item->isPublished());
+        }
+
+        $total = $this->bookContentRepository->countByChapterId($chapterId, $onlyPublished);
+
+        return (new BookChapterContentPage())
+            ->setTotal($total)
+            ->setPage($page)
+            ->setPerPage(self::PAGE_LIMIT)
+            ->setPages(PaginationUtils::calcPages($total, self::PAGE_LIMIT))
+            ->setItems($items);
+    }
+
 }
