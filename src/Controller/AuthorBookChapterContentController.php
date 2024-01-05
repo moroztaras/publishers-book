@@ -34,4 +34,16 @@ class AuthorBookChapterContentController extends AbstractController
     {
         return $this->json($this->bookContentManager->createContent($request, $chapterId));
     }
+
+    #[Route(path: '/api/v1/author/book/{bookId}/chapter/{chapterId}/content/{contentId}', methods: ['DELETE'])]
+    #[IsGranted(AuthorBookVoter::IS_AUTHOR, subject: 'bookId')]
+    #[OA\Tag(name: 'Author book chapter content API')]
+    #[OA\Response(response: 200, description: 'Remove a book chapter content')]
+    #[OA\Response(response: 404, description: 'Book chapter content not found', attachables: [new Model(type: ErrorResponse::class)])]
+    public function deleteBookChapterContent(int $id, int $bookId): Response
+    {
+        $this->bookContentManager->deleteContent($id);
+
+        return $this->json(null);
+    }
 }

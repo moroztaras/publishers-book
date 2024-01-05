@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\BookContent;
+use App\Exception\BookChapterContentNotFoundException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -21,5 +22,15 @@ class BookContentRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, BookContent::class);
+    }
+
+    public function getById(int $id): BookContent
+    {
+        $chapter = $this->find($id);
+        if (null === $chapter) {
+            throw new BookChapterContentNotFoundException();
+        }
+
+        return $chapter;
     }
 }

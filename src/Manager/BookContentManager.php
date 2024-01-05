@@ -27,6 +27,13 @@ class BookContentManager
         return new IdResponse($content->getId());
     }
 
+    public function deleteContent(int $id): void
+    {
+        $content = $this->bookContentRepository->getById($id);
+
+        $this->bookContentRepository->removeAndCommit($content);
+    }
+
     private function saveContent(CreateBookChapterContentRequest $request, BookContent $content): void
     {
         $content->setContent($request->getContent());
