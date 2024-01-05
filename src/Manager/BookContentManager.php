@@ -27,6 +27,11 @@ class BookContentManager
         return $this->getContent($chapterId, $page, false);
     }
 
+    public function getPublishedContent(int $chapterId, int $page): BookChapterContentPage
+    {
+        return $this->getContent($chapterId, $page, true);
+    }
+
     public function createContent(CreateBookChapterContentRequest $request, int $chapterId): IdResponse
     {
         $content = (new BookContent())->setChapter($this->bookChapterRepository->getById($chapterId));
@@ -84,5 +89,4 @@ class BookContentManager
             ->setPages(PaginationUtils::calcPages($total, self::PAGE_LIMIT))
             ->setItems($items);
     }
-
 }
