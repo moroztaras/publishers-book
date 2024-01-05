@@ -35,6 +35,20 @@ class AuthorBookChapterContentController extends AbstractController
         return $this->json($this->bookContentManager->createContent($request, $chapterId));
     }
 
+    #[Route(path: '/api/v1/author/book/{bookId}/chapter/{chapterId}/content/{contentId}', methods: ['PUT'])]
+    #[IsGranted(AuthorBookVoter::IS_AUTHOR, subject: 'bookId')]
+    #[OA\Tag(name: 'Author book chapter content API')]
+    #[OA\Response(response: 200, description: 'Update a book chapter content')]
+    #[OA\Response(response: 404, description: 'Book chapter content not found', attachables: [new Model(type: ErrorResponse::class)])]
+    #[OA\Response(response: 400, description: 'Validation failed', attachables: [new Model(type: ErrorResponse::class)])]
+    #[OA\RequestBody(attachables: [new Model(type: CreateBookChapterContentRequest::class)])]
+    public function updateBookChapterContent(#[RequestBody] CreateBookChapterContentRequest $request, int $bookId, int $contentId): Response
+    {
+        $this->bookContentManager->updateContent($request, $contentId);
+
+        return $this->json(null);
+    }
+
     #[Route(path: '/api/v1/author/book/{bookId}/chapter/{chapterId}/content/{contentId}', methods: ['DELETE'])]
     #[IsGranted(AuthorBookVoter::IS_AUTHOR, subject: 'bookId')]
     #[OA\Tag(name: 'Author book chapter content API')]

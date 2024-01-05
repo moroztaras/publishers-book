@@ -27,6 +27,13 @@ class BookContentManager
         return new IdResponse($content->getId());
     }
 
+    public function updateContent(CreateBookChapterContentRequest $request, int $id): void
+    {
+        $content = $this->bookContentRepository->getById($id);
+
+        $this->saveContent($request, $content);
+    }
+
     public function deleteContent(int $id): void
     {
         $content = $this->bookContentRepository->getById($id);
