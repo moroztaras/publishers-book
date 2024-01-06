@@ -55,11 +55,11 @@ class AuthorBookChapterControllerTest extends AbstractControllerTest
         $this->em->persist($chapter);
         $this->em->flush();
 
-        $url = '/api/v1/author/book/'.$book->getId().'/chapter';
-        $requestContext = json_encode(['title' => 'Updated Book Chapter', 'id' => $chapter->getId()]);
+        $url = '/api/v1/author/book/'.$book->getId().'/chapter/'.$chapter->getId();
+        $requestContext = json_encode(['title' => 'Updated Book Chapter']);
 
         // Send request with body
-        $this->client->request(Request::METHOD_POST, $url, [], [], [], $requestContext);
+        $this->client->request(Request::METHOD_PUT, $url, [], [], [], $requestContext);
 
         // Response was successful
         $this->assertResponseIsSuccessful();
