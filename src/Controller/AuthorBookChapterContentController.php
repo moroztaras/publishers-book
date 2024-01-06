@@ -68,9 +68,9 @@ class AuthorBookChapterContentController extends AbstractController
     #[OA\Tag(name: 'Author book chapter content API')]
     #[OA\Response(response: 200, description: 'Remove a book chapter content')]
     #[OA\Response(response: 404, description: 'Book chapter content not found', attachables: [new Model(type: ErrorResponse::class)])]
-    public function deleteBookChapterContent(int $id, int $bookId): Response
+    public function deleteBookChapterContent(int $bookId, int $contentId): Response
     {
-        $this->bookContentManager->deleteContent($id);
+        $this->bookContentManager->deleteContent($contentId);
 
         return $this->json(null);
     }
