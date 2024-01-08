@@ -6,6 +6,7 @@ use App\Tests\AbstractControllerTest;
 use App\Tests\MockUtils;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class BookControllerTest extends AbstractControllerTest
 {
@@ -130,6 +131,71 @@ class BookControllerTest extends AbstractControllerTest
                             'title' => ['type' => 'string'],
                             'slug' => ['type' => 'string'],
                             'id' => ['type' => 'integer'],
+                        ],
+                    ],
+                ],
+            ],
+        ]);
+    }
+
+    public function testChapterContent(): void
+    {
+        // Create user
+        $user = MockUtils::createUser();
+        $this->em->persist($user);
+
+        // Create book
+        $book = MockUtils::createBook()->setUser($user);
+        $this->em->persist($book);
+
+        // Create book chapter
+        $bookChapter = MockUtils::createBookChapter($book);
+        $this->em->persist($bookChapter);
+
+        // Create book content
+        $bookContent = MockUtils::createBookContent($bookChapter);
+        $this->em->persist($bookContent);
+
+        // Create unpublished book content
+        $unpublishedBookContent = MockUtils::createBookContent($bookChapter)->setIsPublished(false);
+        $this->em->persist($unpublishedBookContent);
+
+        // Save
+        $this->em->flush();
+
+        $url = sprintf('/api/v1/book/%d/chapter/%d/content', $book->getId(), $bookChapter->getId());
+
+        // Send request
+        $this->client->request(Request::METHOD_GET, $url);
+        // Get response content
+        $responseContent = json_decode($this->client->getResponse()->getContent(), true, 512, JSON_THROW_ON_ERROR);
+
+        // Response was successful
+        $this->assertResponseIsSuccessful();
+
+        // Comparing the expected status code with the actual returned status code.
+        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+
+        $this->assertJsonDocumentMatches($responseContent, ['$.items' => self::countOf(1)]);
+
+        // Comparing the actual response content with the expected schema.
+        $this->assertJsonDocumentMatchesSchema($responseContent, [
+            'type' => 'object',
+            'required' => ['items', 'page', 'pages', 'perPage', 'total'],
+            'properties' => [
+                'page' => ['type' => 'integer'],
+                'pages' => ['type' => 'integer'],
+                'perPage' => ['type' => 'integer'],
+                'total' => ['type' => 'integer'],
+                'items' => [
+                    'type' => 'array',
+                    'items' => [
+                        'type' => 'object',
+                        'required' => ['id', 'content', 'published'],
+                        'properties' => [
+                            'id' => ['type' => 'integer'],
+                            'content' => ['type' => 'string'],
+                            'published' => ['type' => 'boolean'],
                         ],
                     ],
                 ],
