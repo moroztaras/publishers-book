@@ -6,6 +6,7 @@ namespace App\Tests\Manager;
 
 use App\Entity\BookChapter;
 use App\Entity\BookContent;
+use App\Exception\BookChapterContentNotFoundException;
 use App\Exception\BookChapterNotFoundException;
 use App\Manager\BookContentManager;
 use App\Model\Author\CreateBookChapterContentRequest;
@@ -74,6 +75,22 @@ class BookContentManagerTest extends AbstractTestCase
 
         // Comparing the expected value with the actual returned value.
         $this->assertEquals(new IdResponse(2), $this->createManager()->createContent($payload, 1));
+    }
+
+    public function testUpdateContentException(): void
+    {
+        // Expect exception
+        $this->expectException(BookChapterContentNotFoundException::class);
+
+        // Set behavior and response for method - getById
+        $this->bookContentRepository->expects($this->once())
+            ->method('getById')
+            ->with(1)
+            ->willThrowException(new BookChapterContentNotFoundException());
+
+        // Run Book Content Manager
+        $this->createManager()->updateContent(new CreateBookChapterContentRequest(), 1);
+
     }
 
     private function createManager(): BookContentManager
