@@ -166,6 +166,10 @@ class BookContentManagerTest extends AbstractTestCase
     {
         $this->testGetContent(false);
     }
+    public function testGetPublishedContent(): void
+    {
+        $this->testGetContent(true);
+    }
 
     private function testGetContent(bool $onlyPublished): void
     {
