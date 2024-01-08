@@ -125,6 +125,21 @@ class BookContentManagerTest extends AbstractTestCase
         $this->createManager()->updateContent($payload, 2);
     }
 
+    public function testDeleteContentException(): void
+    {
+        // Expect exception
+        $this->expectException(BookChapterContentNotFoundException::class);
+
+        // Set behavior and response for method - getById
+        $this->bookContentRepository->expects($this->once())
+            ->method('getById')
+            ->with(1)
+            ->willThrowException(new BookChapterContentNotFoundException());
+
+        // Run manager
+        $this->createManager()->deleteContent(1);
+    }
+
     private function createManager(): BookContentManager
     {
         return new BookContentManager($this->bookContentRepository, $this->bookChapterRepository);
