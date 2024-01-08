@@ -140,6 +140,26 @@ class BookContentManagerTest extends AbstractTestCase
         $this->createManager()->deleteContent(1);
     }
 
+    public function testDeleteContent(): void
+    {
+        // Create book context
+        $content = new BookContent();
+
+        // Set behavior and response for method - getById
+        $this->bookContentRepository->expects($this->once())
+            ->method('getById')
+            ->with(1)
+            ->willReturn($content);
+
+        // Set behavior for method - removeAndCommit
+        $this->bookContentRepository->expects($this->once())
+            ->method('removeAndCommit')
+            ->with($content);
+
+        // Run manager
+        $this->createManager()->deleteContent(1);
+    }
+
     private function createManager(): BookContentManager
     {
         return new BookContentManager($this->bookContentRepository, $this->bookChapterRepository);
