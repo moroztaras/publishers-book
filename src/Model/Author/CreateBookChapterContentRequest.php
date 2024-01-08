@@ -18,9 +18,11 @@ class CreateBookChapterContentRequest
         return $this->content;
     }
 
-    public function setContent(string $content): void
+    public function setContent(string $content): self
     {
         $this->content = $content;
+
+        return $this;
     }
 
     public function isPublished(): ?bool
@@ -28,8 +30,10 @@ class CreateBookChapterContentRequest
         return $this->isPublished;
     }
 
-    public function setIsPublished(?bool $isPublished): void
+    public function setIsPublished(?bool $isPublished): self
     {
         $this->isPublished = $isPublished;
+
+        return $this;
     }
 }
