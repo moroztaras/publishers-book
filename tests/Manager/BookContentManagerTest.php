@@ -48,9 +48,9 @@ class BookContentManagerTest extends AbstractTestCase
     public function testCreateContent(): void
     {
         // Create request
-        $payload = new CreateBookChapterContentRequest();
-        $payload->setContent('testing');
-        $payload->setIsPublished(true);
+        $payload = (new CreateBookChapterContentRequest())
+            ->setContent('testing')
+            ->setIsPublished(true);
 
         // Create chapter
         $chapter = new BookChapter();
@@ -91,6 +91,38 @@ class BookContentManagerTest extends AbstractTestCase
         // Run Book Content Manager
         $this->createManager()->updateContent(new CreateBookChapterContentRequest(), 1);
 
+    }
+
+    public function testUpdateContent(): void
+    {
+        // Request
+        $payload = (new CreateBookChapterContentRequest())
+            ->setContent('initial')
+            ->setIsPublished(false);
+
+        // Create chapter
+        $chapter = new BookChapter();
+        // Create chapter content
+        $content = (new BookContent())->setChapter($chapter);
+
+        $expectedContent = (new BookContent())
+            ->setContent('initial')
+            ->setIsPublished(false)
+            ->setChapter($chapter);
+
+        // Set behavior and response for method - getById
+        $this->bookContentRepository->expects($this->once())
+            ->method('getById')
+            ->with(2)
+            ->willReturn($content);
+
+        // Set behavior for method - saveAndCommit
+        $this->bookContentRepository->expects($this->once())
+            ->method('saveAndCommit')
+            ->with($expectedContent);
+
+        // Run manager
+        $this->createManager()->updateContent($payload, 2);
     }
 
     private function createManager(): BookContentManager
