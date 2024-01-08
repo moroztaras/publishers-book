@@ -10,6 +10,8 @@ use App\Exception\BookChapterContentNotFoundException;
 use App\Exception\BookChapterNotFoundException;
 use App\Manager\BookContentManager;
 use App\Model\Author\CreateBookChapterContentRequest;
+use App\Model\BookChapterContent;
+use App\Model\BookChapterContentPage;
 use App\Model\IdResponse;
 use App\Repository\BookChapterRepository;
 use App\Repository\BookContentRepository;
@@ -158,6 +160,52 @@ class BookContentManagerTest extends AbstractTestCase
 
         // Run manager
         $this->createManager()->deleteContent(1);
+    }
+
+    public function testGetAllContent(): void
+    {
+        $this->testGetContent(false);
+    }
+
+    private function testGetContent(bool $onlyPublished): void
+    {
+        // Create chapter
+        $chapter = new BookChapter();
+        // Create content
+        $content = (new BookContent())
+            ->setContent('testing')
+            ->setIsPublished($onlyPublished)
+            ->setChapter($chapter);
+
+        $this->setEntityId($content, 1);
+
+        // Set behavior and response for method - getPageByChapterId
+        $this->bookContentRepository->expects($this->once())
+            ->method('getPageByChapterId')
+            ->with(1, $onlyPublished, 0, self::PER_PAGE)
+            ->willReturn(new \ArrayIterator([$content]));
+
+        // Set behavior and response for method - countByChapterId
+        $this->bookContentRepository->expects($this->once())
+            ->method('countByChapterId')
+            ->with(1, $onlyPublished)
+            ->willReturn(1);
+
+        $manager = $this->createManager();
+        $result = $onlyPublished
+            ? $manager->getPublishedContent(1, 1)
+            : $manager->getAllContent(1, 1);
+
+        $expected = (new BookChapterContentPage())
+            ->setTotal(1)
+            ->setPages(1)
+            ->setPage(1)
+            ->setPerPage(self::PER_PAGE)
+            ->setItems([
+                (new BookChapterContent())->setContent('testing')->setIsPublished($onlyPublished)->setId(1),
+            ]);
+
+        $this->assertEquals($expected, $result);
     }
 
     private function createManager(): BookContentManager
