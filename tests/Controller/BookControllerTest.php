@@ -2,13 +2,13 @@
 
 namespace App\Tests\Controller;
 
-use App\Tests\AbstractControllerTest;
+use App\Tests\AbstractTestController;
 use App\Tests\MockUtils;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class BookControllerTest extends AbstractControllerTest
+class BookControllerTest extends AbstractTestController
 {
     public function testBooksByCategory(): void
     {

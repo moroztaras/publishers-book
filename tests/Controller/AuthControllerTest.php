@@ -2,10 +2,10 @@
 
 namespace App\Tests\Controller;
 
-use App\Tests\AbstractControllerTest;
+use App\Tests\AbstractTestController;
 use Symfony\Component\HttpFoundation\Request;
 
-class AuthControllerTest extends AbstractControllerTest
+class AuthControllerTest extends AbstractTestController
 {
     public function testSignUp(): void
     {

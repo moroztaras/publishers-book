@@ -2,11 +2,11 @@
 
 namespace App\Tests\Controller;
 
-use App\Tests\AbstractControllerTest;
+use App\Tests\AbstractTestController;
 use App\Tests\MockUtils;
 use Symfony\Component\HttpFoundation\Request;
 
-class AdminControllerTest extends AbstractControllerTest
+class AdminControllerTest extends AbstractTestController
 {
     public function testGrantAuthor(): void
     {
