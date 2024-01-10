@@ -57,8 +57,7 @@ class BookContentManager
 
     private function saveContent(CreateBookChapterContentRequest $request, BookContent $content): void
     {
-        $content->setContent($request->getContent());
-        $content->setIsPublished($request->isPublished());
+        $content->setContent($request->getContent())->setIsPublished($request->isPublished());
 
         $this->bookContentRepository->saveAndCommit($content);
     }
@@ -66,6 +65,7 @@ class BookContentManager
     private function getContent(int $chapterId, int $page, bool $onlyPublished): BookChapterContentPage
     {
         $items = [];
+        // Get paginator
         $paginator = $this->bookContentRepository->getPageByChapterId(
             $chapterId,
             $onlyPublished,
@@ -74,6 +74,7 @@ class BookContentManager
         );
 
         foreach ($paginator as $item) {
+            // Remap item into BookChapterContent model
             $items[] = (new BookChapterContent())
                 ->setId($item->getId())
                 ->setContent($item->getContent())
