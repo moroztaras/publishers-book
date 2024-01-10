@@ -92,7 +92,6 @@ class BookContentManagerTest extends AbstractTestCase
 
         // Run Book Content Manager
         $this->createManager()->updateContent(new CreateBookChapterContentRequest(), 1);
-
     }
 
     public function testUpdateContent(): void
@@ -166,6 +165,7 @@ class BookContentManagerTest extends AbstractTestCase
     {
         $this->testGetContent(false);
     }
+
     public function testGetPublishedContent(): void
     {
         $this->testGetContent(true);
