@@ -10,7 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-abstract class AbstractControllerTest extends WebTestCase
+abstract class AbstractTestController extends WebTestCase
 {
     use JsonAssertions;
 

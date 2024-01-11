@@ -2,14 +2,15 @@
 
 namespace App\Tests\Controller;
 
-use App\Tests\AbstractControllerTest;
+use App\Tests\AbstractTestController;
 use App\Tests\MockUtils;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
-class AuthorControllerTest extends AbstractControllerTest
+class AuthorControllerTest extends AbstractTestController
 {
     public function testCreateBook(): void
     {
@@ -34,6 +35,8 @@ class AuthorControllerTest extends AbstractControllerTest
                 'id' => ['type' => 'integer'],
             ],
         ]);
+        // Comparing the expected value with the actual returned value.
+        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
     }
 
     public function testUpdateBook(): void
@@ -53,18 +56,24 @@ class AuthorControllerTest extends AbstractControllerTest
         $this->em->persist($category);
         $this->em->flush();
 
-        // Send request
-        $this->client->request(Request::METHOD_PUT, '/api/v1/author/book/'.$book->getId(), [], [], [], json_encode([
+        $url = sprintf('/api/v1/author/book/%d', $book->getId());
+        $content = json_encode([
             'title' => 'Updated Book',
             'authors' => ['Taras'],
             'isbn' => 'testing',
             'description' => 'testing update',
             'categories' => [$category->getId()],
             'formats' => [['id' => $format->getId(), 'price' => 123.5, 'discountPercent' => 5]],
-        ]));
+        ]);
+
+        // Send request
+        $this->client->request(Request::METHOD_PUT, $url, [], [], [], $content);
 
         // Response was successful
         $this->assertResponseIsSuccessful();
+
+        // Comparing the expected value with the actual returned value.
+        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
     }
 
     public function testPublishBook(): void
@@ -78,12 +87,17 @@ class AuthorControllerTest extends AbstractControllerTest
         $this->em->persist($book);
         $this->em->flush();
 
+        $url = sprintf('/api/v1/author/book/%d/publish', $book->getId());
+        $content = json_encode(['date' => '22.02.2010']);
+
         // Send request
-        $this->client->request(Request::METHOD_POST, '/api/v1/author/book/'.$book->getId().'/publish', [], [], [],
-            json_encode(['date' => '22.02.2010']));
+        $this->client->request(Request::METHOD_POST, $url, [], [], [], $content);
 
         // Response was successful
         $this->assertResponseIsSuccessful();
+
+        // Comparing the expected value with the actual returned value.
+        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
     }
 
     public function testUnPublishBook(): void
@@ -97,11 +111,15 @@ class AuthorControllerTest extends AbstractControllerTest
         $this->em->persist($book);
         $this->em->flush();
 
+        $url = sprintf('/api/v1/author/book/%d/unpublish', $book->getId());
         // Send request
-        $this->client->request(Request::METHOD_POST, '/api/v1/author/book/'.$book->getId().'/unpublish');
+        $this->client->request(Request::METHOD_POST, $url);
 
         // Response was successful
         $this->assertResponseIsSuccessful();
+
+        // Comparing the expected value with the actual returned value.
+        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
     }
 
     public function testBooks(): void
@@ -143,6 +161,9 @@ class AuthorControllerTest extends AbstractControllerTest
                 ],
             ],
         ]);
+
+        // Comparing the expected value with the actual returned value.
+        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
     }
 
     public function testBook(): void
@@ -220,6 +241,9 @@ class AuthorControllerTest extends AbstractControllerTest
                 ],
             ],
         ]);
+
+        // Comparing the expected value with the actual returned value.
+        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
     }
 
     public function testUploadBookCover(): void
@@ -246,10 +270,9 @@ class AuthorControllerTest extends AbstractControllerTest
             true,
         );
 
+        $url = sprintf('/api/v1/author/book/%d/cover', $book->getId());
         // Send request
-        $this->client->request(Request::METHOD_POST, '/api/v1/author/book/'.$book->getId().'/cover', [], [
-            'cover' => $uploadedFile,
-        ]);
+        $this->client->request(Request::METHOD_POST, $url, [], ['cover' => $uploadedFile]);
 
         // Get response
         $responseContent = json_decode($this->client->getResponse()->getContent());
@@ -265,6 +288,9 @@ class AuthorControllerTest extends AbstractControllerTest
                 'link' => ['type' => 'string'],
             ],
         ]);
+
+        // Comparing the expected value with the actual returned value.
+        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
     }
 
     public function testDeleteBook(): void
@@ -283,5 +309,8 @@ class AuthorControllerTest extends AbstractControllerTest
 
         // Response was successful
         $this->assertResponseIsSuccessful();
+
+        // Comparing the expected value with the actual returned value.
+        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
     }
 }

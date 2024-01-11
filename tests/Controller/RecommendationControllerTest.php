@@ -2,14 +2,14 @@
 
 namespace App\Tests\Controller;
 
-use App\Tests\AbstractControllerTest;
+use App\Tests\AbstractTestController;
 use App\Tests\MockUtils;
 use Hoverfly\Client as HoverflyClient;
 use Hoverfly\Model\RequestFieldMatcher;
 use Hoverfly\Model\Response;
 use Symfony\Component\HttpFoundation\Request;
 
-class RecommendationControllerTest extends AbstractControllerTest
+class RecommendationControllerTest extends AbstractTestController
 {
     private HoverflyClient $hoverfly;
 

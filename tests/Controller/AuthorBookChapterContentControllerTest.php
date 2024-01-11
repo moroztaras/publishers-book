@@ -2,12 +2,12 @@
 
 namespace App\Tests\Controller;
 
-use App\Tests\AbstractControllerTest;
+use App\Tests\AbstractTestController;
 use App\Tests\MockUtils;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class AuthorBookChapterContentControllerTest extends AbstractControllerTest
+class AuthorBookChapterContentControllerTest extends AbstractTestController
 {
     public function testChapterContent(): void
     {
