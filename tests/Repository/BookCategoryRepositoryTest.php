@@ -4,9 +4,9 @@ namespace App\Tests\Repository;
 
 use App\Entity\BookCategory;
 use App\Repository\BookCategoryRepository;
-use App\Tests\AbstractRepositoryTest;
+use App\Tests\AbstractTestRepository;
 
-class BookCategoryRepositoryTest extends AbstractRepositoryTest
+class BookCategoryRepositoryTest extends AbstractTestRepository
 {
     private BookCategoryRepository $bookCategoryRepository;
 

@@ -4,11 +4,11 @@ namespace App\Tests\Repository;
 
 use App\Entity\Book;
 use App\Repository\BookRepository;
-use App\Tests\AbstractRepositoryTest;
+use App\Tests\AbstractTestRepository;
 use App\Tests\MockUtils;
 use Doctrine\Common\Collections\ArrayCollection;
 
-class BookRepositoryTest extends AbstractRepositoryTest
+class BookRepositoryTest extends AbstractTestRepository
 {
     private BookRepository $bookRepository;
 

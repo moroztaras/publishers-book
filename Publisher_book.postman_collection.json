@@ -760,7 +760,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"date\": \"2025-01-06\"\n}"
+							"raw": "{\n  \"date\": \"2025-01-10\"\n}"
 						},
 						"url": {
 							"raw": "{{host}}/api/v1/author/book/{{id_book}}/publish",

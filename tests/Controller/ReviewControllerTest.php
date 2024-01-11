@@ -2,11 +2,11 @@
 
 namespace App\Tests\Controller;
 
-use App\Tests\AbstractControllerTest;
+use App\Tests\AbstractTestController;
 use App\Tests\MockUtils;
 use Symfony\Component\HttpFoundation\Request;
 
-class ReviewControllerTest extends AbstractControllerTest
+class ReviewControllerTest extends AbstractTestController
 {
     public function testReviews(): void
     {
