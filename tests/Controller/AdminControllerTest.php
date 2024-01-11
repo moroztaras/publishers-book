@@ -5,6 +5,7 @@ namespace App\Tests\Controller;
 use App\Tests\AbstractTestController;
 use App\Tests\MockUtils;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class AdminControllerTest extends AbstractTestController
 {
@@ -21,6 +22,9 @@ class AdminControllerTest extends AbstractTestController
 
         // The request was successful.
         $this->assertResponseIsSuccessful();
+
+        // Comparing the expected value with the actual returned value.
+        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
     }
 
     public function testCreateCategory(): void
@@ -28,10 +32,10 @@ class AdminControllerTest extends AbstractTestController
         // Create admin and auth
         $this->createAdminAndAuth('user@test.com', 'testtest');
 
+        $url = '/api/v1/admin/bookCategory';
+        $content = json_encode(['title' => 'Test Chapter']);
         // Send request with request body
-        $this->client->request(Request::METHOD_POST, '/api/v1/admin/bookCategory', [], [], [], json_encode([
-            'title' => 'Test Chapter',
-        ]));
+        $this->client->request(Request::METHOD_POST, $url, [], [], [], $content);
 
         // Get response
         $responseContent = json_decode($this->client->getResponse()->getContent());
@@ -47,6 +51,9 @@ class AdminControllerTest extends AbstractTestController
                 'id' => ['type' => 'integer'],
             ],
         ]);
+
+        // Comparing the expected value with the actual returned value.
+        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
     }
 
     public function testUpdateCategory(): void
@@ -66,6 +73,9 @@ class AdminControllerTest extends AbstractTestController
 
         // The request was successful.
         $this->assertResponseIsSuccessful();
+
+        // Comparing the expected value with the actual returned value.
+        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
     }
 
     public function testDeleteCategory(): void
@@ -83,5 +93,8 @@ class AdminControllerTest extends AbstractTestController
 
         // The request was successful.
         $this->assertResponseIsSuccessful();
+
+        // Comparing the expected value with the actual returned value.
+        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
     }
 }

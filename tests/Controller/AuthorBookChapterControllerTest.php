@@ -19,11 +19,11 @@ class AuthorBookChapterControllerTest extends AbstractTestController
         $this->em->persist($book);
         $this->em->flush();
 
-        $url = '/api/v1/author/book/'.$book->getId().'/chapter';
-        $requestContext = json_encode(['title' => 'Test Book']);
+        $url = sprintf('/api/v1/author/book/%d/chapter', $book->getId());
+        $requestContent = json_encode(['title' => 'Test Book']);
 
         // Send request with body
-        $this->client->request(Request::METHOD_POST, $url, [], [], [], $requestContext);
+        $this->client->request(Request::METHOD_POST, $url, [], [], [], $requestContent);
 
         // Get response
         $responseContent = json_decode($this->client->getResponse()->getContent());
@@ -55,11 +55,11 @@ class AuthorBookChapterControllerTest extends AbstractTestController
         $this->em->persist($chapter);
         $this->em->flush();
 
-        $url = '/api/v1/author/book/'.$book->getId().'/chapter/'.$chapter->getId();
-        $requestContext = json_encode(['title' => 'Updated Book Chapter']);
+        $url = sprintf('/api/v1/author/book/%d/chapter/%d', $book->getId(), $chapter->getId());
+        $requestContent = json_encode(['title' => 'Updated Book Chapter']);
 
         // Send request with body
-        $this->client->request(Request::METHOD_PUT, $url, [], [], [], $requestContext);
+        $this->client->request(Request::METHOD_PUT, $url, [], [], [], $requestContent);
 
         // Response was successful
         $this->assertResponseIsSuccessful();
@@ -85,11 +85,11 @@ class AuthorBookChapterControllerTest extends AbstractTestController
         $this->em->persist($chapterThird);
         $this->em->flush();
 
-        $url = '/api/v1/author/book/'.$book->getId().'/chapter/'.$chapterFirst->getId().'/sort';
-        $requestContext = json_encode(['nextId' => $chapterThird->getId(), 'previousId' => $chapterSecond->getId()]);
+        $url = sprintf('/api/v1/author/book/%d/chapter/%d/sort', $book->getId(), $chapterFirst->getId());
+        $requestContent = json_encode(['nextId' => $chapterThird->getId(), 'previousId' => $chapterSecond->getId()]);
 
         // Get response with body
-        $this->client->request(Request::METHOD_POST, $url, [], [], [], $requestContext);
+        $this->client->request(Request::METHOD_POST, $url, [], [], [], $requestContent);
 
         // Response was successful
         $this->assertResponseIsSuccessful();
