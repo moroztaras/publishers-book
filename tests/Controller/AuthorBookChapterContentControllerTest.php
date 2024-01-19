@@ -179,6 +179,32 @@ class AuthorBookChapterContentControllerTest extends AbstractTestController
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
     }
 
+    public function testUpdateBookContentBadContent(): void
+    {
+        // Create user
+        $user = $this->createAuthorAndAuth('user@test.com', 'testtest');
+        // Create book
+        $book = MockUtils::createBook()->setUser($user);
+        // Create chapter
+        $chapter = MockUtils::createBookChapter($book);
+        // Create content
+        $content = MockUtils::createBookContent($chapter);
+
+        // Save
+        $this->em->persist($book);
+        $this->em->persist($chapter);
+        $this->em->persist($content);
+        $this->em->flush();
+
+        $url = sprintf('/api/v1/author/book/%d/chapter/%d/content/%d', $book->getId(), $chapter->getId(), $content->getId());
+
+        // Send request
+        $this->client->request(Request::METHOD_PUT, $url, [], [], [], json_encode([]));
+
+        // Comparing the expected value with the actual returned value.
+        $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
+    }
+
     public function testDeleteBookContent(): void
     {
         // Create user
