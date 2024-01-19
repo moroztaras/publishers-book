@@ -102,6 +102,25 @@ class AdminControllerTest extends AbstractTestController
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
     }
 
+    public function testUpdateCategoryBadRequest(): void
+    {
+        // Create category
+        $bookCategory = MockUtils::createBookCategory();
+        // Save category
+        $this->em->persist($bookCategory);
+        $this->em->flush();
+
+        // Create admin and auth
+        $this->createAdminAndAuth('user@test.com', 'testtest');
+
+        $url = '/api/v1/admin/bookCategory/'.$bookCategory->getId();
+        // Send request with request body
+        $this->client->request(Request::METHOD_PUT, $url, [], [], [], json_encode([]));
+
+        // Comparing the expected value with the actual returned value.
+        $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
+    }
+
     public function testUpdateCategoryNotFoundException(): void
     {
         // Create admin and auth
