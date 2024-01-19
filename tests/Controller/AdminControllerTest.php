@@ -102,6 +102,19 @@ class AdminControllerTest extends AbstractTestController
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
     }
 
+    public function testUpdateCategoryNotFoundException(): void
+    {
+        // Create admin and auth
+        $this->createAdminAndAuth('user@test.com', 'testtest');
+        // Send request with request body
+        $this->client->request(Request::METHOD_PUT, '/api/v1/admin/bookCategory/1', [], [], [],
+            json_encode(['title' => 'Test Chapter 2'])
+        );
+
+        // Comparing the expected value with the actual returned value.
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
+    }
+
     public function testDeleteCategory(): void
     {
         // Create book category
