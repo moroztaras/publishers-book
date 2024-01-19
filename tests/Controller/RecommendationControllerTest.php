@@ -8,6 +8,7 @@ use Hoverfly\Client as HoverflyClient;
 use Hoverfly\Model\RequestFieldMatcher;
 use Hoverfly\Model\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response as HttpResponse;
 
 class RecommendationControllerTest extends AbstractTestController
 {
@@ -50,10 +51,15 @@ class RecommendationControllerTest extends AbstractTestController
                 ]))
         );
 
-        $this->client->request(Request::METHOD_GET, '/api/v1/book/123/recommendations');
+        $this->client->request(Request::METHOD_GET, '/api/v1/book/'.$requestedId.'/recommendations');
         $responseContent = json_decode($this->client->getResponse()->getContent(), true);
 
         $this->assertResponseIsSuccessful();
+
+        // Comparing the expected status code with the actual returned status code.
+        $this->assertEquals(HttpResponse::HTTP_OK, $this->client->getResponse()->getStatusCode());
+
+        // Comparing the actual response content with the expected schema.
         $this->assertJsonDocumentMatchesSchema($responseContent, [
             'type' => 'object',
             'required' => ['items'],
