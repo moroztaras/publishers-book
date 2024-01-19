@@ -109,4 +109,15 @@ class AdminControllerTest extends AbstractTestController
         // Comparing the expected value with the actual returned value.
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
     }
+
+    public function testDeleteCategoryNotFoundException(): void
+    {
+        // Create admin and auth
+        $this->createAdminAndAuth('user@test.com', 'testtest');
+        // Request
+        $this->client->request(Request::METHOD_DELETE, '/api/v1/admin/bookCategory/1');
+
+        // Comparing the expected value with the actual returned value.
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
+    }
 }
