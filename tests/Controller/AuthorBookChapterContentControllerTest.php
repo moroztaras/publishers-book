@@ -107,6 +107,26 @@ class AuthorBookChapterContentControllerTest extends AbstractTestController
         ]);
     }
 
+    public function testCreateBookContentChapterNotFound(): void
+    {
+        // Create user
+        $user = $this->createAuthorAndAuth('user@test.com', 'testtest');
+        // Create book
+        $book = MockUtils::createBook()->setUser($user);
+
+        // Save
+        $this->em->persist($book);
+        $this->em->flush();
+
+        $url = sprintf('/api/v1/author/book/%d/chapter/%d/content', $book->getId(), 1);
+        $requestContent = json_encode(['content' => 'New Test Content', 'published' => true]);
+
+        $this->client->request(Request::METHOD_POST, $url, [], [], [], $requestContent);
+
+        // Comparing the expected value with the actual returned value.
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
+    }
+
     public function testCreateBookContentBadContent(): void
     {
         // Create user
