@@ -94,7 +94,7 @@ class AdminControllerTest extends AbstractTestController
         $url = '/api/v1/admin/bookCategory/'.$bookCategory->getId();
         $content = json_encode(['title' => 'Test Chapter 2']);
         // Send request with request body
-        $this->client->request(Request::METHOD_PUT, $url, [], [], [],$content);
+        $this->client->request(Request::METHOD_PUT, $url, [], [], [], $content);
 
         // The request was successful.
         $this->assertResponseIsSuccessful();
