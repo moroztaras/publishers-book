@@ -38,4 +38,13 @@ class AuthControllerTest extends AbstractTestController
         // Comparing the expected value with the actual returned value.
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
     }
+
+    public function testSignUpBadRequest(): void
+    {
+        // Send request with body
+        $this->client->request(Request::METHOD_POST, '/api/v1/auth/signUp', [], [], [], json_encode([]));
+
+        // Comparing the expected value with the actual returned value.
+        $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
+    }
 }
