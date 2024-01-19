@@ -127,7 +127,7 @@ class AuthorBookChapterContentControllerTest extends AbstractTestController
         $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
     }
 
-    public function testCreateBookContentBadContent(): void
+    public function testCreateBookBadContent(): void
     {
         // Create user
         $user = $this->createAuthorAndAuth('user@test.com', 'testtest');
