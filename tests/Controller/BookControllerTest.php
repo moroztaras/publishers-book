@@ -60,6 +60,17 @@ class BookControllerTest extends AbstractTestController
                 ],
             ],
         ]);
+        // Comparing the expected value with the actual returned value.
+        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+    }
+
+    public function testBooksByCategoryNotFound(): void
+    {
+        // Create request
+        $this->client->request(Request::METHOD_GET, '/api/v1/category/1/books');
+
+        // Comparing the expected value with the actual returned value.
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
     }
 
     public function testBookById(): void
