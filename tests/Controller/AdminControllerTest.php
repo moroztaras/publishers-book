@@ -27,6 +27,18 @@ class AdminControllerTest extends AbstractTestController
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
     }
 
+    public function testGrantAuthorUserNotFoundException(): void
+    {
+        // Create admin and auth
+        $this->createAdminAndAuth('admin@test.com', 'testtest');
+
+        // Send request
+        $this->client->request(Request::METHOD_POST, '/api/v1/admin/grantAuthor/3');
+
+        // Comparing the expected value with the actual returned value.
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
+    }
+
     public function testCreateCategory(): void
     {
         // Create admin and auth
