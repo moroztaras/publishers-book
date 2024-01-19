@@ -4,6 +4,7 @@ namespace App\Tests\Controller;
 
 use App\Tests\AbstractTestController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class AuthControllerTest extends AbstractTestController
 {
@@ -33,5 +34,8 @@ class AuthControllerTest extends AbstractTestController
                 'refresh_token' => ['type' => 'string'],
             ],
         ]);
+
+        // Comparing the expected value with the actual returned value.
+        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
     }
 }
