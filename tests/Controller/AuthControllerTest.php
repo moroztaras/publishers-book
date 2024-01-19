@@ -47,4 +47,21 @@ class AuthControllerTest extends AbstractTestController
         // Comparing the expected value with the actual returned value.
         $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
     }
+
+    public function testSignUpUserAlreadyExists(): void
+    {
+        // Create user
+        $this->createUser('test@test.com', '1234567854');
+        // Send request with body
+        $this->client->request(Request::METHOD_POST, '/api/v1/auth/signUp', [], [], [], json_encode([
+            'firstName' => 'Taras',
+            'lastName' => 'Moroz',
+            'email' => 'test@test.com',
+            'password' => '1234567854',
+            'confirmPassword' => '1234567854',
+        ]));
+
+        // Comparing the expected value with the actual returned value.
+        $this->assertEquals(Response::HTTP_CONFLICT, $this->client->getResponse()->getStatusCode());
+    }
 }
