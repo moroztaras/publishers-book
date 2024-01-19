@@ -39,6 +39,18 @@ class AuthorControllerTest extends AbstractTestController
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
     }
 
+    public function testCreateBookBadRequest(): void
+    {
+        // Create admin and auth
+        $this->createAuthorAndAuth('user@test.com', 'testtest');
+
+        // Send request with body
+        $this->client->request(Request::METHOD_POST, '/api/v1/author/book', [], [], [], json_encode([]));
+
+        // Comparing the expected value with the actual returned value.
+        $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
+    }
+
     public function testUpdateBook(): void
     {
         // Create admin and auth
@@ -98,6 +110,26 @@ class AuthorControllerTest extends AbstractTestController
 
         // Comparing the expected value with the actual returned value.
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+    }
+
+    public function testPublishBookBadRequest(): void
+    {
+        // Create and auth user
+        $user = $this->createAuthorAndAuth('user@test.com', 'testtest');
+        // Create book
+        $book = MockUtils::createBook()->setUser($user);
+
+        // Save
+        $this->em->persist($book);
+        $this->em->flush();
+
+        $url = sprintf('/api/v1/author/book/%d/publish', $book->getId());
+
+        // Send request
+        $this->client->request(Request::METHOD_POST, $url, [], [], [], json_encode([]));
+
+        // Comparing the expected value with the actual returned value.
+        $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
     }
 
     public function testUnPublishBook(): void
