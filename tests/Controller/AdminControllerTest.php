@@ -27,6 +27,18 @@ class AdminControllerTest extends AbstractTestController
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
     }
 
+    public function testGrantAuthorUserNotFoundException(): void
+    {
+        // Create admin and auth
+        $this->createAdminAndAuth('admin@test.com', 'testtest');
+
+        // Send request
+        $this->client->request(Request::METHOD_POST, '/api/v1/admin/grantAuthor/3');
+
+        // Comparing the expected value with the actual returned value.
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
+    }
+
     public function testCreateCategory(): void
     {
         // Create admin and auth
@@ -56,6 +68,18 @@ class AdminControllerTest extends AbstractTestController
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
     }
 
+    public function testCreateCategoryBadContent(): void
+    {
+        // Create admin and auth
+        $this->createAdminAndAuth('user@test.com', 'testtest');
+
+        // Send request with request body
+        $this->client->request(Request::METHOD_POST, '/api/v1/admin/bookCategory', [], [], [], json_encode([]));
+
+        // Comparing the expected value with the actual returned value.
+        $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
+    }
+
     public function testUpdateCategory(): void
     {
         // Create category
@@ -66,16 +90,49 @@ class AdminControllerTest extends AbstractTestController
 
         // Create admin and auth
         $this->createAdminAndAuth('user@test.com', 'testtest');
+
+        $url = '/api/v1/admin/bookCategory/'.$bookCategory->getId();
+        $content = json_encode(['title' => 'Test Chapter 2']);
         // Send request with request body
-        $this->client->request(Request::METHOD_PUT, '/api/v1/admin/bookCategory/'.$bookCategory->getId(), [], [], [],
-            json_encode(['title' => 'Test Chapter 2'])
-        );
+        $this->client->request(Request::METHOD_PUT, $url, [], [], [], $content);
 
         // The request was successful.
         $this->assertResponseIsSuccessful();
 
         // Comparing the expected value with the actual returned value.
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+    }
+
+    public function testUpdateCategoryBadRequest(): void
+    {
+        // Create category
+        $bookCategory = MockUtils::createBookCategory();
+        // Save category
+        $this->em->persist($bookCategory);
+        $this->em->flush();
+
+        // Create admin and auth
+        $this->createAdminAndAuth('user@test.com', 'testtest');
+
+        $url = '/api/v1/admin/bookCategory/'.$bookCategory->getId();
+        // Send request with request body
+        $this->client->request(Request::METHOD_PUT, $url, [], [], [], json_encode([]));
+
+        // Comparing the expected value with the actual returned value.
+        $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
+    }
+
+    public function testUpdateCategoryNotFoundException(): void
+    {
+        // Create admin and auth
+        $this->createAdminAndAuth('user@test.com', 'testtest');
+        // Send request with request body
+        $this->client->request(Request::METHOD_PUT, '/api/v1/admin/bookCategory/1', [], [], [],
+            json_encode(['title' => 'Test Chapter 2'])
+        );
+
+        // Comparing the expected value with the actual returned value.
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
     }
 
     public function testDeleteCategory(): void
@@ -96,5 +153,16 @@ class AdminControllerTest extends AbstractTestController
 
         // Comparing the expected value with the actual returned value.
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+    }
+
+    public function testDeleteCategoryNotFoundException(): void
+    {
+        // Create admin and auth
+        $this->createAdminAndAuth('user@test.com', 'testtest');
+        // Request
+        $this->client->request(Request::METHOD_DELETE, '/api/v1/admin/bookCategory/1');
+
+        // Comparing the expected value with the actual returned value.
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
     }
 }

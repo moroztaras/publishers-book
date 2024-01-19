@@ -107,6 +107,48 @@ class AuthorBookChapterContentControllerTest extends AbstractTestController
         ]);
     }
 
+    public function testCreateBookContentChapterNotFound(): void
+    {
+        // Create user
+        $user = $this->createAuthorAndAuth('user@test.com', 'testtest');
+        // Create book
+        $book = MockUtils::createBook()->setUser($user);
+
+        // Save
+        $this->em->persist($book);
+        $this->em->flush();
+
+        $url = sprintf('/api/v1/author/book/%d/chapter/%d/content', $book->getId(), 1);
+        $requestContent = json_encode(['content' => 'New Test Content', 'published' => true]);
+
+        $this->client->request(Request::METHOD_POST, $url, [], [], [], $requestContent);
+
+        // Comparing the expected value with the actual returned value.
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
+    }
+
+    public function testCreateBookBadContent(): void
+    {
+        // Create user
+        $user = $this->createAuthorAndAuth('user@test.com', 'testtest');
+        // Create book
+        $book = MockUtils::createBook()->setUser($user);
+        // Create book chapter
+        $chapter = MockUtils::createBookChapter($book);
+
+        // Save
+        $this->em->persist($book);
+        $this->em->persist($chapter);
+        $this->em->flush();
+
+        $url = sprintf('/api/v1/author/book/%d/chapter/%d/content', $book->getId(), $chapter->getId());
+
+        $this->client->request(Request::METHOD_POST, $url, [], [], [], json_encode([]));
+
+        // Comparing the expected value with the actual returned value.
+        $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
+    }
+
     public function testUpdateBookContent(): void
     {
         // Create user
@@ -135,6 +177,32 @@ class AuthorBookChapterContentControllerTest extends AbstractTestController
 
         // Comparing the expected value with the actual returned value.
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+    }
+
+    public function testUpdateBookContentBadContent(): void
+    {
+        // Create user
+        $user = $this->createAuthorAndAuth('user@test.com', 'testtest');
+        // Create book
+        $book = MockUtils::createBook()->setUser($user);
+        // Create chapter
+        $chapter = MockUtils::createBookChapter($book);
+        // Create content
+        $content = MockUtils::createBookContent($chapter);
+
+        // Save
+        $this->em->persist($book);
+        $this->em->persist($chapter);
+        $this->em->persist($content);
+        $this->em->flush();
+
+        $url = sprintf('/api/v1/author/book/%d/chapter/%d/content/%d', $book->getId(), $chapter->getId(), $content->getId());
+
+        // Send request
+        $this->client->request(Request::METHOD_PUT, $url, [], [], [], json_encode([]));
+
+        // Comparing the expected value with the actual returned value.
+        $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
     }
 
     public function testDeleteBookContent(): void

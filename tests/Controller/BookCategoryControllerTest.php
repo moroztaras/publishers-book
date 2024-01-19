@@ -5,6 +5,7 @@ namespace App\Tests\Controller;
 use App\Tests\AbstractTestController;
 use App\Tests\MockUtils;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class BookCategoryControllerTest extends AbstractTestController
 {
@@ -41,5 +42,8 @@ class BookCategoryControllerTest extends AbstractTestController
                 ],
             ],
         ]);
+
+        // Comparing the expected value with the actual returned value.
+        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
     }
 }
