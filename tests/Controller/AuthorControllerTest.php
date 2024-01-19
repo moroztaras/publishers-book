@@ -39,6 +39,18 @@ class AuthorControllerTest extends AbstractTestController
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
     }
 
+    public function testCreateBookBadRequest(): void
+    {
+        // Create admin and auth
+        $this->createAuthorAndAuth('user@test.com', 'testtest');
+
+        // Send request with body
+        $this->client->request(Request::METHOD_POST, '/api/v1/author/book', [], [], [], json_encode([]));
+
+        // Comparing the expected value with the actual returned value.
+        $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
+    }
+
     public function testUpdateBook(): void
     {
         // Create admin and auth
