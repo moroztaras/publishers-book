@@ -3,6 +3,7 @@
 namespace App\Tests\Repository;
 
 use App\Entity\Book;
+use App\Exception\BookNotFoundException;
 use App\Repository\BookRepository;
 use App\Tests\AbstractTestRepository;
 use App\Tests\MockUtils;
@@ -60,6 +61,14 @@ class BookRepositoryTest extends AbstractTestRepository
 
         // Comparing the expected value with the actual returned value.
         $this->assertEquals($book->getTitle(), $this->bookRepository->getPublishedById($book->getId())->getTitle());
+    }
+
+    public function testGetPublishedByIdBookNotFound()
+    {
+        // Expect exception
+        $this->expectException(BookNotFoundException::class);
+        // Ren method
+        $this->bookRepository->getPublishedById(1);
     }
 
     public function testFindBooksByIds()
