@@ -41,4 +41,24 @@ class BookRepositoryTest extends AbstractTestRepository
         // Comparing the expected value with the actual returned value.
         $this->assertCount(5, $this->bookRepository->findPublishedBooksByCategoryId($devicesCategory->getId()));
     }
+
+    public function testGetPublishedById()
+    {
+        // Create user
+        $user = MockUtils::createUser();
+        $this->em->persist($user);
+        // Create category
+        $devicesCategory = MockUtils::createBookCategory();
+        $this->em->persist($devicesCategory);
+
+        // Create book
+        $book = MockUtils::createBook()->setUser($user)
+            ->setCategories(new ArrayCollection([$devicesCategory]));
+        $this->em->persist($book);
+
+        $this->em->flush();
+
+        // Comparing the expected value with the actual returned value.
+        $this->assertEquals($book->getTitle(), $this->bookRepository->getPublishedById($book->getId())->getTitle());
+    }
 }
