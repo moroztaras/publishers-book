@@ -9,6 +9,7 @@ use App\Entity\BookContent;
 use App\Entity\BookFormat;
 use App\Entity\BookToBookFormat;
 use App\Entity\Review;
+use App\Entity\Subscriber;
 use App\Entity\User;
 use App\Model\Author\BookDetails;
 use App\Model\BookCategory as BookCategoryModel;
@@ -20,7 +21,7 @@ class MockUtils
     public static function createUser(): User
     {
         return (new User())
-            ->setEmail('vasya@localhost.local')
+            ->setEmail('test@localhost.local')
             ->setFirstName('Vasya')
             ->setLastName('Testerov')
             ->setRoles((array) User::ROLE_AUTHOR)
@@ -89,6 +90,13 @@ class MockUtils
             ->setCreatedAt(new \DateTimeImmutable())
             ->setRating(5)
             ->setBook($book);
+    }
+
+    public static function createSubscriber(): Subscriber
+    {
+        return (new Subscriber())
+            ->setEmail('test@localhost.local')
+            ->setCreatedAt(new \DateTimeImmutable());
     }
 
     // Create BookDetails
