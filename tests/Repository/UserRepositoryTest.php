@@ -3,6 +3,7 @@
 namespace App\Tests\Repository;
 
 use App\Entity\User;
+use App\Exception\UserNotFoundException;
 use App\Repository\UserRepository;
 use App\Tests\AbstractTestRepository;
 use App\Tests\MockUtils;
@@ -42,5 +43,14 @@ class UserRepositoryTest extends AbstractTestRepository
 
         // Comparing the expected value with the actual returned value
         $this->assertEquals($user->getEmail(), $this->userRepository->getUser($user->getId())->getEmail());
+    }
+
+    public function testGetUserNotFound()
+    {
+        // Expect exception
+        $this->expectException(UserNotFoundException::class);
+
+        // Run method of user repository
+        $this->userRepository->getUser(1);
     }
 }
