@@ -3,6 +3,7 @@
 namespace App\Tests\Repository;
 
 use App\Entity\BookChapter;
+use App\Exception\BookChapterNotFoundException;
 use App\Repository\BookChapterRepository;
 use App\Tests\AbstractTestController;
 use App\Tests\AbstractTestRepository;
@@ -20,6 +21,7 @@ class BookChapterRepositoryTest extends AbstractTestRepository
 
         $this->bookChapterRepository = $this->getRepositoryForEntity(BookChapter::class);
     }
+
     public function testGetById()
     {
         // Create user
@@ -37,5 +39,12 @@ class BookChapterRepositoryTest extends AbstractTestRepository
 
         // Comparing the expected value with the actual returned value.
         $this->assertEquals($chapter->getTitle(), $this->bookChapterRepository->getById($chapter->getId())->getTitle());
+    }
+
+    public function testGetByIdNotFound()
+    {
+        $this->expectException(BookChapterNotFoundException::class);
+
+        $this->bookChapterRepository->getById(1);
     }
 }
