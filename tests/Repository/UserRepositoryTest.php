@@ -30,4 +30,17 @@ class UserRepositoryTest extends AbstractTestRepository
         // Comparing true with the actual returned value.
         $this->assertTrue($this->userRepository->existsByEmail($user->getEmail()));
     }
+
+    public function testGetUser()
+    {
+        // Create user
+        $user = MockUtils::createUser();
+        $this->em->persist($user);
+
+        // Save
+        $this->em->flush();
+
+        // Comparing the expected value with the actual returned value
+        $this->assertEquals($user->getEmail(), $this->userRepository->getUser($user->getId())->getEmail());
+    }
 }
