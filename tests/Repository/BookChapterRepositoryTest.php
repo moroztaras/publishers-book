@@ -5,11 +5,8 @@ namespace App\Tests\Repository;
 use App\Entity\BookChapter;
 use App\Exception\BookChapterNotFoundException;
 use App\Repository\BookChapterRepository;
-use App\Tests\AbstractTestController;
 use App\Tests\AbstractTestRepository;
 use App\Tests\MockUtils;
-use PHPUnit\Framework\TestCase;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class BookChapterRepositoryTest extends AbstractTestRepository
 {
@@ -73,5 +70,28 @@ class BookChapterRepositoryTest extends AbstractTestRepository
         $this->assertCount(3, $expectedChapters);
         $this->assertEquals($firstChapter, $expectedChapters[0]);
         $this->assertEquals($secondChapter, $expectedChapters[2]);
+    }
+
+    public function testGetMaxSort()
+    {
+        // Create user
+        $user = MockUtils::createUser();
+        $this->em->persist($user);
+        // Create book
+        $book = MockUtils::createBook()->setUser($user);
+        $this->em->persist($book);
+        // Create chapters
+        $firstChapter = MockUtils::createBookChapter($book);
+        $this->em->persist($firstChapter);
+        $secondChapter = MockUtils::createBookChapter($book)->setLevel(2);
+        $this->em->persist($secondChapter);
+        $secondChapter = MockUtils::createBookChapter($book)->setLevel(3);
+        $this->em->persist($secondChapter);
+
+        // Save
+        $this->em->flush();
+
+        // Comparing the expected value with the actual returned value.
+        $this->assertEquals(1, $this->bookChapterRepository->getMaxSort($book, 3));
     }
 }
