@@ -47,4 +47,31 @@ class BookChapterRepositoryTest extends AbstractTestRepository
 
         $this->bookChapterRepository->getById(1);
     }
+
+    public function testFindSortedChaptersByBook()
+    {
+        // Create user
+        $user = MockUtils::createUser();
+        $this->em->persist($user);
+        // Create book
+        $book = MockUtils::createBook()->setUser($user);
+        $this->em->persist($book);
+        // Create chapters
+        $firstChapter = MockUtils::createBookChapter($book);
+        $this->em->persist($firstChapter);
+        $secondChapter = MockUtils::createBookChapter($book)->setLevel(2);
+        $this->em->persist($secondChapter);
+        $secondChapter = MockUtils::createBookChapter($book)->setLevel(3);
+        $this->em->persist($secondChapter);
+
+        // Save
+        $this->em->flush();
+
+        $expectedChapters = $this->bookChapterRepository->findSortedChaptersByBook($book);
+
+        // Comparing the expected value with the actual returned value.
+        $this->assertCount(3, $expectedChapters);
+        $this->assertEquals($firstChapter, $expectedChapters[0]);
+        $this->assertEquals($secondChapter, $expectedChapters[2]);
+    }
 }
