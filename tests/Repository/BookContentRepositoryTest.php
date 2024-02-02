@@ -3,6 +3,7 @@
 namespace App\Tests\Repository;
 
 use App\Entity\BookContent;
+use App\Exception\BookChapterContentNotFoundException;
 use App\Repository\BookContentRepository;
 use App\Tests\AbstractTestRepository;
 use App\Tests\MockUtils;
@@ -37,5 +38,12 @@ class BookContentRepositoryTest extends AbstractTestRepository
 
         // Comparing the expected value with the actual returned value.
         $this->assertEquals($content->getContent(), $this->bookContentRepository->getById($content->getId())->getContent());
+    }
+
+    public function testGetByIdNotFound()
+    {
+        $this->expectException(BookChapterContentNotFoundException::class);
+
+        $this->bookContentRepository->getById(1);
     }
 }
