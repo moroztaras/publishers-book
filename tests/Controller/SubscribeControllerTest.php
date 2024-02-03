@@ -3,12 +3,13 @@
 namespace App\Tests\Controller;
 
 use App\Tests\AbstractTestController;
+use App\Tests\MockUtils;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class SubscribeControllerTest extends AbstractTestController
 {
-    final public const EMAIL = 'test@test.com';
+    final public const EMAIL = 'test@localhost.local';
 
     // Tests for successful
     public function testSubscribe(): void
@@ -21,6 +22,20 @@ class SubscribeControllerTest extends AbstractTestController
 
         // Comparing the expected value with the actual returned value.
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+    }
+
+    public function testSubscriberAlreadyExistsException(): void
+    {
+        // Create subscribe
+        $subscribe = MockUtils::createSubscriber();
+        $this->em->persist($subscribe);
+        $this->em->flush();
+
+        $content = json_encode(['email' => self::EMAIL, 'agreed' => true]);
+        $this->client->request(Request::METHOD_POST, '/api/v1/subscribe', [], [], [], $content);
+
+        // Comparing the expected value with the actual returned value.
+        $this->assertEquals(Response::HTTP_CONFLICT, $this->client->getResponse()->getStatusCode());
     }
 
     public function testSubscribeNotAgreed(): void
