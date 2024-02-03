@@ -95,4 +95,28 @@ class BookRepositoryTest extends AbstractTestRepository
         // Comparing the expected value with the actual returned value.
         $this->assertCount(5, $this->bookRepository->findBooksByIds($ids ?? []));
     }
+
+    public function testFindUserBooks()
+    {
+        // Create user
+        $user = MockUtils::createUser();
+        $this->em->persist($user);
+        // Create category
+        $devicesCategory = MockUtils::createBookCategory();
+        $this->em->persist($devicesCategory);
+
+        for ($i = 0; $i < 5; ++$i) {
+            // Create book
+            $book = MockUtils::createBook()->setUser($user)
+                ->setCategories(new ArrayCollection([$devicesCategory]));
+
+            $this->em->persist($book);
+        }
+
+        $this->em->flush();
+
+        // Comparing the expected value with the actual returned value.
+        $this->assertIsArray($this->bookRepository->findUserBooks($user));
+        $this->assertCount(5, $this->bookRepository->findUserBooks($user));
+    }
 }
