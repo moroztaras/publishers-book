@@ -137,4 +137,12 @@ class BookRepositoryTest extends AbstractTestRepository
         // Comparing the expected value with the actual returned value.
         $this->assertEquals($book, $this->bookRepository->getBookById($book->getId()));
     }
+
+    public function testGetBookByIdNotFound()
+    {
+        // Expect exception
+        $this->expectException(BookNotFoundException::class);
+
+        $this->bookRepository->getBookById(1);
+    }
 }
