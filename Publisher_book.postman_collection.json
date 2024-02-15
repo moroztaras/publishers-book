@@ -517,7 +517,13 @@
 					},
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwt_aut_token}}",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n  \"firstName\": \"Taras\",\n  \"lastName\": \"Moroz\",\n  \"email\": \"admin@publisher.com\",\n  \"password\": \"qwerty123\",\n  \"confirmPassword\": \"qwerty123\"\n}"
