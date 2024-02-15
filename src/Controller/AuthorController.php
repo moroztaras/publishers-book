@@ -54,7 +54,7 @@ class AuthorController extends AbstractController
     #[Route(path: '/api/v1/author/book/{id}/cover', methods: ['DELETE'])]
     #[IsGranted(AuthorBookVoter::IS_AUTHOR, subject: 'id')]
     #[OA\Tag(name: 'Author API')]
-    #[OA\Response(response: 200, description: 'Remove book cove')]
+    #[OA\Response(response: 200, description: 'Remove book cover.')]
     #[OA\Response(response: 404, description: 'Book cover not found.')]
     public function removeCover(int $id): Response
     {
@@ -94,7 +94,6 @@ class AuthorController extends AbstractController
     }
 
     // TODO Need add ' attachables: [new Model(type: BookDetails::class)]' to response 200
-
     #[Route(path: '/api/v1/author/book/{id}', methods: ['GET'])]
     #[IsGranted(AuthorBookVoter::IS_AUTHOR, subject: 'id')]
     #[OA\Tag(name: 'Author API')]
