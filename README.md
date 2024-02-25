@@ -29,7 +29,10 @@ It's credentials to database.
 
 ### Run a project with the docker
 ```bash
-docker-compose -f docker/docker-compose.yaml up -d
+make build
+```
+```bash
+make up
 ```
 
 ### Execute a migration to the latest available version
@@ -66,4 +69,4 @@ php bin/console doctrine:migrations:migrate -e test
 php bin/phpunit
 ```
 
-© 2023
+© 2023-2024
