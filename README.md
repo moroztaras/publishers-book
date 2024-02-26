@@ -27,6 +27,12 @@ Adjust .env.local.
 
 It's credentials to database.
 
+### Generate the SSL keys
+```bash
+php bin/console lexik:jwt:generate-keypair
+```
+Your keys will land in config/secret/private.pem and config/secret/public.pem
+
 ### Run a project with the docker
 ```bash
 make build
